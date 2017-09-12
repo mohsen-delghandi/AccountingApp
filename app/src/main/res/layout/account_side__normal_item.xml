@@ -9,11 +9,12 @@
     android:background="@drawable/shape_underline_dashed">
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_weight="3"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/padding_large">
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -24,13 +25,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/font_large"
-                android:text="نوید مندیس "
+                android:text="نوید مندیس"
+                android:textColor="@color/primary_text"
+                android:gravity="center_vertical"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_large"
+                android:text=" _ "
                 android:gravity="center_vertical"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/font_small"
                 android:text="زاگ استادیو"
+                android:textColor="#ccc"
                 android:gravity="center_vertical"/>
         </LinearLayout>
         <LinearLayout
@@ -40,14 +49,22 @@
             android:gravity="center_vertical"
             android:padding="@dimen/padding_bit">
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/padding_large"
+                android:layout_height="@dimen/padding_large"
                 android:src="@drawable/shape_arrow_down"
                 android:gravity="center_vertical"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="بدهکار "
+                android:text=" بدهکار "
+                android:textSize="@dimen/font_xsmall"
+                android:textColor="@color/red"
+                android:gravity="center_vertical"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" - "
+                android:textSize="@dimen/font_xsmall"
                 android:textColor="@color/red"
                 android:gravity="center_vertical"/>
             <TextView
@@ -55,12 +72,14 @@
                 android:layout_height="wrap_content"
                 android:text="15,000,000 "
                 android:lines="1"
+                android:textSize="@dimen/font_xsmall"
                 android:textColor="@color/red"
                 android:gravity="center_vertical"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="ریال"
+                android:textSize="@dimen/font_xsmall"
                 android:textColor="@color/red"
                 android:gravity="center_vertical"/>
         </LinearLayout>
