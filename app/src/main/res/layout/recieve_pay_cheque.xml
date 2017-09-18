@@ -1,0 +1,611 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layoutDirection="rtl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/padding_bit">
+
+    <LinearLayout
+        android:id="@+id/linearLayout_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:paddingRight="@dimen/padding_medium"
+        android:paddingLeft="@dimen/padding_medium">
+
+        <!--<android.support.v7.widget.Toolbar-->
+        <!--android:id="@+id/toolbar"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="?attr/actionBarSize"-->
+        <!--android:background="@android:color/transparent"-->
+        <!--app:popupTheme="@style/AppTheme.PopupOverlay">-->
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/padding_large"
+            android:gravity="center_vertical"
+            android:background="@drawable/shape_underline">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_circle"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/shape_hamburger"
+                    android:padding="@dimen/padding_large"/>
+                <TextView
+                    android:layout_width="1px"
+                    android:layout_height="wrap_content"
+                    android:background="@color/icons"
+                    android:alpha=".5"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/shape_home"
+                    android:padding="@dimen/padding_medium"/>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_weight="4"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_vertical"
+                android:paddingRight="@dimen/padding_medium">
+                <TextView
+                    android:id="@+id/t"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="طرف حساب"
+                    app:fontPath="fonts/IRANSansWeb_Bold.ttf"
+                    android:textSize="@dimen/font_xmedium"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/primary_text"/>
+                <LinearLayout
+                    android:layout_marginTop="-8dp"
+                    android:layout_below="@id/t"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SIDE"
+                        android:textSize="@dimen/font_xmedium"
+                        android:gravity="center_vertical"
+                        app:fontPath="fonts/IRANSansWeb_Bold.ttf"
+                        android:textColor="@color/primary_text" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ACCOUNT "
+                        android:textSize="@dimen/font_xmedium"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/primary_text" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                >
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_circle"
+                    android:padding="@dimen/padding_large"
+                    app:srcCompat="@drawable/shape_search" />
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+        <!--</android.support.v7.widget.Toolbar>-->
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_below="@+id/linearLayout_1"
+        android:id="@+id/linearLayout_2"
+        android:paddingTop="@dimen/padding_medium"
+        android:paddingBottom="@dimen/padding_large"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:background="@drawable/shape_circle"
+        android:backgroundTint="@color/primary"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/textView_recieve_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="دریافت"
+            android:textSize="@dimen/font_xmedium"
+            android:gravity="center"
+            android:paddingBottom="@dimen/padding_medium"
+            android:paddingTop="@dimen/padding_medium"
+            android:paddingRight="@dimen/padding_spinner"
+            android:paddingLeft="@dimen/padding_spinner"
+            android:textColor="@color/icons"/>
+        <TextView
+            android:id="@+id/textView_pay_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="پرداخت"
+            android:textSize="@dimen/font_xmedium"
+            android:gravity="center"
+            android:paddingBottom="@dimen/padding_medium"
+            android:paddingTop="@dimen/padding_medium"
+            android:paddingRight="@dimen/padding_spinner"
+            android:paddingLeft="@dimen/padding_spinner"
+            android:textColor="@color/icons"/>
+        <TextView
+            android:id="@+id/textView_all_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="همه"
+            android:textSize="@dimen/font_xmedium"
+            android:gravity="center"
+            android:paddingBottom="@dimen/padding_medium"
+            android:paddingTop="@dimen/padding_medium"
+            android:paddingRight="@dimen/padding_spinner"
+            android:paddingLeft="@dimen/padding_spinner"
+            android:background="@drawable/shape_circle"
+            android:backgroundTint="@color/primary_dark"
+            android:textColor="@color/icons"/>
+    </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_below="@+id/linearLayout_2"
+        android:id="@+id/linearLayout_3"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layoutDirection="rtl"
+        android:gravity="center_vertical"
+        android:padding="@dimen/padding_large"
+        android:layout_margin="@dimen/padding_small"
+        android:background="@drawable/shape_underline_dashed">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:layout_marginLeft="@dimen/padding_large">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:background="@drawable/naqdi"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_underline"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:paddingRight="@dimen/padding_bit"
+                        android:text="150,000,000"
+                        android:textColor="@color/green"
+                        android:textSize="@dimen/font_medium" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/padding_bit"
+                        android:gravity="center_vertical"
+                        android:text="ریال"
+                        android:textStyle="bold"
+                        android:textColor="@color/green"
+                        android:textSize="@dimen/font_medium" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:background="@drawable/shape_circle"
+                    android:backgroundTint="@android:color/transparent"
+                    android:paddingRight="@dimen/padding_large"
+                    android:paddingLeft="@dimen/padding_large"
+                    android:paddingTop="@dimen/padding_bit"
+                    android:paddingBottom="@dimen/padding_bit">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="نوید مندیس"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/font_medium" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:paddingRight="@dimen/padding_bit"
+                        android:text="-"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/font_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/padding_bit"
+                        android:gravity="center_vertical"
+                        android:text="1396/07/24"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/font_small" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/padding_large"
+                android:gravity="left">
+
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/shape_arrow_drop_down"
+                    android:backgroundTint="@color/primary_dark"
+                    android:padding="@dimen/padding_medium"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout_4"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layoutDirection="rtl"
+        android:gravity="center_vertical"
+        android:padding="@dimen/padding_large"
+        android:background="@drawable/shape_gradient_background"
+        android:layout_below="@+id/linearLayout_3"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|top"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:layout_marginLeft="@dimen/padding_large">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/naqdi"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="4"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/linearLayout_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_underline"
+                    android:backgroundTint="@color/icons"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:paddingRight="@dimen/padding_bit"
+                        android:text="150,000,000"
+                        android:textColor="@color/green"
+                        android:textSize="@dimen/font_medium" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/padding_bit"
+                        android:gravity="center_vertical"
+                        android:textStyle="bold"
+                        android:text="ریال"
+                        android:textColor="@color/green"
+                        android:textSize="@dimen/font_medium" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:background="@drawable/shape_circle"
+                    android:backgroundTint="@android:color/transparent"
+                    android:paddingRight="@dimen/padding_large"
+                    android:paddingLeft="@dimen/padding_large"
+                    android:paddingTop="@dimen/padding_bit"
+                    android:paddingBottom="@dimen/padding_bit">
+
+                    <TextView
+                        android:id="@+id/textView_collapsed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="نوید مندیس"
+                        android:textColor="@color/icons"
+                        android:textSize="@dimen/font_medium" />
+
+                    <TextView
+                        android:id="@+id/textView_collapsed2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:paddingRight="@dimen/padding_bit"
+                        android:text="-"
+                        android:textColor="@color/icons"
+                        android:textSize="@dimen/font_small" />
+
+                    <TextView
+                        android:id="@+id/textView_collapsed3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/padding_bit"
+                        android:gravity="center_vertical"
+                        android:text="1396/07/24"
+                        android:textColor="@color/icons"
+                        android:textSize="@dimen/font_small" />
+                </LinearLayout>
+
+                </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="left|center_vertical">
+
+                    <ImageView
+                        android:id="@+id/iv_up"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/shape_arrow_drop_up"/>
+
+                        <ImageView
+                            android:visibility="gone"
+                            android:id="@+id/iv_down"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/shape_arrow_drop_down"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayout_extra"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingBottom="@dimen/padding_bit"
+                        android:paddingLeft="@dimen/padding_large"
+                        android:paddingRight="@dimen/padding_large"
+                        android:paddingTop="@dimen/padding_bit">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:text="نام بانک :"
+                            android:textColor="@color/icons"
+                            android:textSize="@dimen/font_small" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:paddingRight="@dimen/padding_bit"
+                            android:text="صادرات"
+                            android:textColor="@color/icons"
+                            android:textSize="@dimen/font_small"
+                            android:layout_marginLeft="@dimen/padding_large"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/padding_bit"
+                            android:gravity="center_vertical"
+                            android:text="شماره چک :"
+                            android:textColor="@color/icons"
+                            android:textSize="@dimen/font_small" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/padding_bit"
+                            android:gravity="center_vertical"
+                            android:text="25633595"
+                            android:textColor="@color/icons"
+                            android:textSize="@dimen/font_small" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                    android:paddingBottom="@dimen/padding_bit"
+                    android:paddingLeft="@dimen/padding_large"
+                    android:paddingRight="@dimen/padding_large"
+                    android:paddingTop="@dimen/padding_bit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/icons"
+                        android:gravity="center"
+                        android:textSize="@dimen/font_small"
+                        android:text="توضیحات :"/>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/icons"
+                        android:gravity="center"
+                        android:textSize="@dimen/font_small"
+                        android:text="این چک جهت آخرین خرید بوده است."/>
+
+
+                </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:layout_marginBottom="@dimen/fab_margin"
+        app:backgroundTint="@color/primary"
+        app:srcCompat="@drawable/ic_pluspsd"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"/>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_above="@id/fab"
+        android:layout_marginBottom="@dimen/fab_margin"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:id="@+id/linearLayout_cheque"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@drawable/shape_circle"
+        android:backgroundTint="@color/primary_dark"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="چکی"
+            android:paddingBottom="@dimen/padding_medium"
+            android:paddingTop="@dimen/padding_medium"
+            android:paddingRight="@dimen/padding_spinner"
+            android:paddingLeft="@dimen/padding_spinner"
+            android:textColor="@color/icons"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_above="@id/linearLayout_cheque"
+        android:layout_marginBottom="@dimen/fab_margin"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:id="@+id/linearLayout_cash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@drawable/shape_circle"
+        android:backgroundTint="@color/primary_dark">
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="نقدی"
+            android:paddingBottom="@dimen/padding_medium"
+            android:paddingTop="@dimen/padding_medium"
+            android:paddingRight="@dimen/padding_spinner"
+            android:paddingLeft="@dimen/padding_spinner"
+            android:textColor="@color/icons"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

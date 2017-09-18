@@ -8,8 +8,9 @@
     tools:context="com.example.mohsen.myaccountingapp.MainActivity">
 
     <LinearLayout
+        android:id="@+id/linearLayout_titleBar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:paddingRight="@dimen/padding_medium"
         android:paddingLeft="@dimen/padding_medium">
@@ -53,41 +54,52 @@
                         android:padding="@dimen/padding_medium"/>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="4"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:gravity="center_vertical"
                     android:paddingRight="@dimen/padding_medium">
                     <TextView
+                        android:id="@+id/textView_title_farsi"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="طرف حساب"
+                        android:text="عنوان فارسی"
+                        app:fontPath="fonts/IRANSansWeb_Bold.ttf"
+                        android:textSize="@dimen/font_xmedium"
                         android:gravity="center_vertical"
                         android:textColor="@color/primary_text"/>
                     <LinearLayout
+                        android:layout_marginTop="-8dp"
+                        android:layout_below="@id/textView_title_farsi"
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical">
                         <TextView
+                            android:id="@+id/textView_title_english_bold"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="SIDE"
+                            android:text="TITLE"
+                            android:textSize="@dimen/font_xmedium"
                             android:gravity="center_vertical"
-                            android:textStyle="bold"
+                            app:fontPath="fonts/IRANSansWeb_Bold.ttf"
                             android:textColor="@color/primary_text" />
                         <TextView
+                            android:id="@+id/textView_title_english_normal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="ACCOUNT "
+                            android:text="ENGLISH "
+                            android:textSize="@dimen/font_xmedium"
                             android:gravity="center_vertical"
                             android:textColor="@color/primary_text" />
                     </LinearLayout>
-                </LinearLayout>
+                </RelativeLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:gravity="left">
                     <ImageView
@@ -99,14 +111,23 @@
                         />
                 </LinearLayout>
 
-
-
             </LinearLayout>
 
             <!--</android.support.v7.widget.Toolbar>-->
 
 
     </LinearLayout>
+
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:background="#fff"
+        android:fillViewport="true"
+        android:id="@+id/nestedscrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -116,7 +137,5 @@
         android:layout_margin="@dimen/fab_margin"
         app:backgroundTint="@color/primary"
         app:srcCompat="@drawable/shape_plus" />
-
-    <include layout="@layout/content_main" />
 
 </android.support.design.widget.CoordinatorLayout>

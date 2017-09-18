@@ -9,6 +9,7 @@ android {
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
+        vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -28,4 +29,8 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:design:26.+'
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
+    compile 'com.github.imangazalievm:circlemenu:1.1.1'
+    compile 'com.github.szugyi:Android-CircleMenu:2.0.0'
+    compile 'com.android.support:appcompat-v7:23.2.0'
+    compile 'com.readystatesoftware.sqliteasset:sqliteassethelper:+'
 }
