@@ -41,14 +41,6 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class MainActivity extends AppCompatActivity {
 
 
-    LinearLayout llExtra;
-    LinearLayout ll3;
-    LinearLayout llPrice;
-    TextView tvCollapsed;
-    TextView tvCollapsed2;
-    TextView tvCollapsed3;
-    ImageView ivCollapse;
-    ImageView ivExpand;
 
     TextView tvFarsiTitle,tvEnglishBoldTitle,tvEngliashNormalTitle;
     LinearLayout llTitleBar;
@@ -72,37 +64,6 @@ public class MainActivity extends AppCompatActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-    View.OnClickListener oclCollapse = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            llExtra.setVisibility(View.GONE);
-            ll3.setBackground(getResources().getDrawable(R.drawable.shape_underline_dashed));
-            llPrice.getBackground().setTint(getResources().getColor(R.color.primary_text));
-            tvCollapsed.setTextColor(getResources().getColor(R.color.primary_text));
-            tvCollapsed2.setTextColor(getResources().getColor(R.color.primary_text));
-            tvCollapsed3.setTextColor(getResources().getColor(R.color.primary_text));
-            ivExpand.setVisibility(View.VISIBLE);
-            ivCollapse.setVisibility(View.GONE);
-            ll3.setOnClickListener(oclExpand);
-
-        }
-    };
-
-    View.OnClickListener oclExpand = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            llExtra.setVisibility(View.VISIBLE);
-            ll3.setBackground(getResources().getDrawable(R.drawable.shape_gradient_background));
-            llPrice.getBackground().setTint(getResources().getColor(R.color.icons));
-            tvCollapsed.setTextColor(getResources().getColor(R.color.icons));
-            tvCollapsed2.setTextColor(getResources().getColor(R.color.icons));
-            tvCollapsed3.setTextColor(getResources().getColor(R.color.icons));
-            ivExpand.setVisibility(View.GONE);
-            ivCollapse.setVisibility(View.VISIBLE);
-            ll3.setOnClickListener(oclCollapse);
-
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,15 +108,6 @@ public class MainActivity extends AppCompatActivity {
         mNavigationRecycler.setAdapter(mRecyclerAdapter);
 
 
-//        llExtra = (LinearLayout)findViewById(R.id.linearLayout_extra);
-//        ll3 = (LinearLayout)findViewById(R.id.linearLayout_4);
-//        llPrice = (LinearLayout)findViewById(R.id.linearLayout_price);
-//        tvCollapsed = (TextView)findViewById(R.id.textView_collapsed);
-//        tvCollapsed2 = (TextView)findViewById(R.id.textView_collapsed2);
-//        tvCollapsed3 = (TextView)findViewById(R.id.textView_collapsed3);
-//        ivCollapse = (ImageView) findViewById(R.id.iv_up);
-//        ivExpand = (ImageView) findViewById(R.id.iv_down);
-//
 //        final TextView tvReceiveSelect,tvPaySelect,tvAllSelect;
 //        tvReceiveSelect = (TextView)findViewById(R.id.textView_recieve_select);
 //        tvPaySelect = (TextView)findViewById(R.id.textView_pay_select);
@@ -199,25 +151,13 @@ public class MainActivity extends AppCompatActivity {
 //                }
 //            }
 //        });
-//
-//        ll3.setOnClickListener(oclCollapse);
 
 
-
-
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
 
 
 
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 
         final LinearLayout layout =(LinearLayout)findViewById(R.id.linearLayout_cheque);
         final LinearLayout layout2 =(LinearLayout)findViewById(R.id.linearLayout_cash);
@@ -268,26 +208,4 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.main, menu);
-//        return true;
-//    }
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
 }

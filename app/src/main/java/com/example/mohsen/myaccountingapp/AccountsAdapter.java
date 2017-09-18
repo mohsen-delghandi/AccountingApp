@@ -21,10 +21,12 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
     static Context mContext;
     View v;
     List<String> mAccountFullName;
+    View.OnClickListener mOclCollapse;
 
-    public AccountsAdapter(Context context, List<String> accountFullName) {
+    public AccountsAdapter(Context context, List<String> accountFullName, View.OnClickListener oclCollapse) {
         mContext = context;
         mAccountFullName = accountFullName;
+        mOclCollapse = oclCollapse;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -47,18 +49,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
         holder.tv.setText(mAccountFullName.get(position));
         holder.setIsRecyclable(false);
 
-//        v.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                try {
-//                    Intent intent = new Intent(mContext, mClasses.get(position));
-//                    mContext.startActivity(intent);
-//                }catch (Exception e){
-//                    Toast.makeText(mContext, "ERROR.", Toast.LENGTH_SHORT).show();
-//                }
-//                mDrawer.closeDrawer(Gravity.START);
-//            }
-//        });
+        v.setOnClickListener(mOclCollapse);
     }
 
 
