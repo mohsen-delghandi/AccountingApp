@@ -7,8 +7,8 @@ android:layout_width="match_parent"
 android:layout_height="wrap_content"
 android:layoutDirection="rtl"
 android:gravity="center_vertical"
-android:padding="@dimen/padding_large"
-android:layout_margin="@dimen/padding_small"
+android:padding="@dimen/padding_small"
+android:layout_marginTop="@dimen/padding_small"
 android:background="@drawable/shape_underline_dashed">
 
     <LinearLayout
@@ -39,24 +39,28 @@ android:background="@drawable/shape_underline_dashed">
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:text="نوید مندیس"
+                    android:maxLines="1"
                     android:textColor="@color/primary_text"
-                    android:textSize="@dimen/font_large" />
+                    android:textSize="@dimen/font_medium" />
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/textView_acount_side_dash"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:text=" _ "
+                    android:text=" - "
                     android:textColor="@color/primary_text"
-                    android:textSize="@dimen/font_large" />
+                    android:textSize="@dimen/font_medium" />
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/textView_acount_side_company_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:text="زاگ استادیو"
+                    android:maxLines="1"
                     android:textColor="@color/primary_text"
                     android:textSize="@dimen/font_small" />
             </LinearLayout>
@@ -70,8 +74,8 @@ android:background="@drawable/shape_underline_dashed">
 
                 <ImageView
                     android:id="@+id/imageView_acount_side_bedehi"
-                    android:layout_width="@dimen/padding_large"
-                    android:layout_height="@dimen/padding_large"
+                    android:layout_width="@dimen/padding_medium"
+                    android:layout_height="@dimen/padding_medium"
                     android:gravity="center_vertical"
                     android:src="@drawable/shape_arrow_down"
                     android:tint="@color/green" />
@@ -82,8 +86,9 @@ android:background="@drawable/shape_underline_dashed">
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:text=" بدهکار "
+                    android:maxLines="1"
                     android:textColor="@color/green"
-                    android:textSize="@dimen/font_xsmall" />
+                    android:textSize="@dimen/font_small" />
 
                 <TextView
                     android:id="@+id/textView_acount_side_bedehi_dash"
@@ -92,7 +97,7 @@ android:background="@drawable/shape_underline_dashed">
                     android:gravity="center_vertical"
                     android:text=" - "
                     android:textColor="@color/green"
-                    android:textSize="@dimen/font_xsmall" />
+                    android:textSize="@dimen/font_small" />
 
                 <TextView
                     android:id="@+id/textView_acount_side_bedehi_mablagh"
@@ -101,8 +106,9 @@ android:background="@drawable/shape_underline_dashed">
                     android:gravity="center_vertical"
                     android:paddingRight="@dimen/padding_bit"
                     android:text="150,000,000"
+                    android:maxLines="1"
                     android:textColor="@color/green"
-                    android:textSize="@dimen/font_xsmall" />
+                    android:textSize="@dimen/font_small" />
 
                 <TextView
                     android:id="@+id/textView_acount_side_bedehi_vahed"
@@ -128,7 +134,7 @@ android:background="@drawable/shape_underline_dashed">
                 android:layout_marginLeft="@dimen/padding_medium"
                 android:background="@drawable/shape_circle"
                 android:backgroundTint="@color/primary_dark"
-                android:padding="@dimen/padding_medium"
+                android:padding="@dimen/padding_small"
                 android:src="@drawable/shape_call_collapsed" />
 
             <ImageView
@@ -137,7 +143,7 @@ android:background="@drawable/shape_underline_dashed">
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_circle"
                 android:backgroundTint="@color/primary_dark"
-                android:padding="@dimen/padding_medium"
+                android:padding="@dimen/padding_small"
                 android:src="@drawable/shape_arrow_drop_down" />
 
         </LinearLayout>
@@ -165,6 +171,7 @@ android:background="@drawable/shape_underline_dashed">
         android:textColor="@color/icons"
         android:gravity="center_vertical"/>
     <TextView
+        android:id="@+id/textView_acount_side_phone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/font_small"
@@ -182,6 +189,7 @@ android:background="@drawable/shape_underline_dashed">
         android:textColor="@color/icons"
         android:gravity="center_vertical"/>
     <TextView
+        android:id="@+id/textView_acount_side_mobile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/font_small"
@@ -207,6 +215,7 @@ android:background="@drawable/shape_underline_dashed">
         android:gravity="center_vertical"/>
 
     <TextView
+        android:id="@+id/textView_acount_side_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/font_small"

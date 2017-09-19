@@ -25,14 +25,17 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
 
     static Context mContext;
     View v;
-    List<String> mAccountFullName;
+    List<String> mAccountFullName,mAccountPhones,mAccountMobiles,mAccountAddresses;
     View.OnClickListener oclCollapse,oclExpand;
     boolean isCollapsed;
 
 
-    public AccountsAdapter(Context context, List<String> accountFullName) {
+    public AccountsAdapter(Context context, List<String> accountFullName, List<String> accountPhone, List<String> accountMobile, List<String> accountAddress) {
         mContext = context;
         mAccountFullName = accountFullName;
+        mAccountAddresses = accountAddress;
+        mAccountMobiles = accountMobile;
+        mAccountPhones = accountPhone;
     }
 
     @Override
@@ -46,7 +49,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
         LinearLayout llExtra;
         LinearLayout llMain;
         LinearLayout llName;
-        TextView tvFullName,tvDash,tvCompanyName,tvBedehiDash,tvBedehiMablagh,tvBedehiText,tvBedehiVahed;
+        TextView tvFullName,tvDash,tvCompanyName,tvBedehiDash,tvBedehiMablagh,tvBedehiText,tvBedehiVahed,tvPhone,tvMobile,tvAddress;
         ImageView ivCall,ivArrow,ivBedehi;
         public ViewHolder(View v) {
             super(v);
@@ -54,6 +57,9 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
             llMain = (LinearLayout)v.findViewById(R.id.linearLayout_account_side_main);
             llName = (LinearLayout)v.findViewById(R.id.linearLayout_acount_side_main_information);
             tvFullName = (TextView)v.findViewById(R.id.textView_acount_side_fullName);
+            tvPhone = (TextView)v.findViewById(R.id.textView_acount_side_phone);
+            tvMobile = (TextView)v.findViewById(R.id.textView_acount_side_mobile);
+            tvAddress = (TextView)v.findViewById(R.id.textView_acount_side_address);
             tvCompanyName = (TextView)v.findViewById(R.id.textView_acount_side_company_name);
             tvDash = (TextView)v.findViewById(R.id.textView_acount_side_dash);
             tvBedehiDash = (TextView)v.findViewById(R.id.textView_acount_side_bedehi_dash);
@@ -69,6 +75,9 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
     @Override
     public void onBindViewHolder(final AccountsAdapter.ViewHolder  holder, final int position) {
         holder.tvFullName.setText(mAccountFullName.get(position));
+        holder.tvPhone.setText(mAccountPhones.get(position));
+        holder.tvMobile.setText(mAccountMobiles.get(position));
+        holder.tvAddress.setText(mAccountAddresses.get(position));
         holder.setIsRecyclable(false);
 //        oclExpand = new View.OnClickListener() {
 //            @Override

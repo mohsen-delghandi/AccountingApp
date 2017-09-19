@@ -45,28 +45,6 @@
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
-        android:visibility="gone"
-        android:paddingRight="@dimen/padding_spinner"
-        android:paddingLeft="@dimen/padding_spinner"
-        android:paddingTop="@dimen/padding_large"
-        android:paddingBottom="@dimen/padding_large"
-        android:layout_marginTop="@dimen/padding_large"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:background="@drawable/shape_border">
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/font_small"
-            android:hint="عنوان"
-            android:textColorHint="#ababab"
-            android:textColor="#ababab"
-            android:background="@android:color/transparent"
-            />
-    </LinearLayout>
-    <LinearLayout
         android:layout_marginTop="@dimen/padding_large"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -88,6 +66,29 @@
             android:background="@android:color/transparent"
             />
     </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="@dimen/padding_large"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/shape_border">
+        <EditText
+            android:id="@+id/editText_add_account_codeMelli"
+            android:paddingRight="@dimen/padding_spinner"
+            android:paddingLeft="@dimen/padding_spinner"
+            android:paddingTop="@dimen/padding_large"
+            android:paddingBottom="@dimen/padding_large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_small"
+            android:hint="کد ملی"
+            android:textColorHint="#ababab"
+            android:textColor="#ababab"
+            android:background="@android:color/transparent"
+            />
+    </LinearLayout>
+
     <LinearLayout
         android:layout_marginTop="@dimen/padding_large"
         android:layout_width="match_parent"
@@ -158,23 +159,22 @@
             />
     </LinearLayout>
     <LinearLayout
+        android:paddingRight="@dimen/padding_spinner"
+        android:paddingLeft="@dimen/padding_spinner"
+        android:paddingTop="@dimen/padding_large"
+        android:paddingBottom="@dimen/padding_large"
         android:layout_marginTop="@dimen/padding_large"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:background="@drawable/shape_border">
-        <EditText
-            android:id="@+id/editText_add_account_contacts_list"
-            android:paddingRight="@dimen/padding_spinner"
-            android:paddingLeft="@dimen/padding_spinner"
-            android:paddingTop="@dimen/padding_large"
-            android:paddingBottom="@dimen/padding_large"
+        <Spinner
+            android:id="@+id/spinner_add_account_contacts_list"
             android:layout_width="0dp"
             android:layout_weight="5"
             android:layout_height="wrap_content"
             android:textSize="@dimen/font_small"
-            android:hint="گروه مخاطبین"
             android:textColorHint="#ababab"
             android:textColor="#ababab"
             android:background="@android:color/transparent"

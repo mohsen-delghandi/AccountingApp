@@ -29,7 +29,10 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="@dimen/padding_large"
+                android:paddingTop="@dimen/padding_medium"
+                android:paddingBottom="@dimen/padding_medium"
+                android:paddingRight="@dimen/padding_bit"
+                android:paddingLeft="@dimen/padding_bit"
                 android:gravity="center_vertical"
                 android:background="@drawable/shape_underline">
 
@@ -43,7 +46,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/shape_hamburger"
-                        android:padding="@dimen/padding_medium"/>
+                        android:paddingRight="@dimen/padding_medium"
+                        android:paddingLeft="@dimen/padding_medium"
+                        android:paddingTop="@dimen/padding_bit"
+                        android:paddingBottom="@dimen/padding_bit"
+                        />
                     <TextView
                         android:layout_width="1px"
                         android:layout_height="wrap_content"
@@ -53,7 +60,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/shape_home"
-                        android:padding="@dimen/padding_medium"/>
+                        android:paddingRight="@dimen/padding_medium"
+                        android:paddingLeft="@dimen/padding_medium"
+                        android:paddingTop="@dimen/padding_bit"
+                        android:paddingBottom="@dimen/padding_bit"
+                        />
                 </LinearLayout>
 
                 <RelativeLayout
@@ -69,11 +80,11 @@
                         android:layout_height="wrap_content"
                         android:text="عنوان فارسی"
                         app:fontPath="fonts/IRANSansWeb_Bold.ttf"
-                        android:textSize="@dimen/font_xmedium"
+                        android:textSize="@dimen/font_small"
                         android:gravity="center_vertical"
                         android:textColor="@color/primary_text"/>
                     <LinearLayout
-                        android:layout_marginTop="-8dp"
+                        android:layout_marginTop="-5dp"
                         android:layout_below="@id/textView_title_farsi"
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
@@ -84,7 +95,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="TITLE"
-                            android:textSize="@dimen/font_xmedium"
+                            android:textSize="@dimen/font_small"
                             android:gravity="center_vertical"
                             app:fontPath="fonts/IRANSansWeb_Bold.ttf"
                             android:textColor="@color/primary_text" />
@@ -93,7 +104,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="ENGLISH "
-                            android:textSize="@dimen/font_xmedium"
+                            android:textSize="@dimen/font_small"
                             android:gravity="center_vertical"
                             android:textColor="@color/primary_text" />
                     </LinearLayout>
@@ -109,7 +120,7 @@
                         android:layout_height="wrap_content"
                         android:src="@drawable/shape_search"
                         android:background="@drawable/shape_circle"
-                        android:padding="@dimen/padding_small"
+                        android:padding="@dimen/padding_bit"
                         />
                 </LinearLayout>
 
