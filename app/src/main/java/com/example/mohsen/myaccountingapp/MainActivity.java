@@ -47,16 +47,19 @@ public class MainActivity extends AppCompatActivity {
 
     int width;
 
-    private LayoutInflater inflater;
-    private NestedScrollView ns;
+    LayoutInflater inflater;
+    NestedScrollView ns;
 
     RecyclerView mNavigationRecycler;
     RecyclerView.LayoutManager mRecyclerManager;
     RecyclerView.Adapter mRecyclerAdapter;
 
+    FloatingActionButton fab;
 
     DrawerLayout drawer;
     ArrayList<Class> classes;
+
+    LinearLayout llAddLayer;
 
 
     @Override
@@ -75,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
         tvEngliashNormalTitle = (TextView)findViewById(R.id.textView_title_english_normal);
         tvEnglishBoldTitle = (TextView)findViewById(R.id.textView_title_english_bold);
 
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        llAddLayer = (LinearLayout) findViewById(R.id.linearLayout_add_layer);
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -157,29 +162,29 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
-        final LinearLayout layout =(LinearLayout)findViewById(R.id.linearLayout_cheque);
-        final LinearLayout layout2 =(LinearLayout)findViewById(R.id.linearLayout_cash);
-        fab.setOnClickListener(new View.OnClickListener(){
 
-            @Override
-            public void onClick(View arg0) {
-                Animation slideUp = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up);
-                Animation slideLeft = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_left);
-                if (layout.getVisibility() == View.GONE) {
-                    layout.startAnimation(slideUp);
-                    layout.setVisibility(View.VISIBLE);
-                    layout2.startAnimation(slideLeft);
-                    layout2.setVisibility(View.VISIBLE);
-                    fab.setImageDrawable(getResources().getDrawable(R.drawable.shape_close));
-                }else{
-                    layout.setVisibility(View.GONE);
-                    layout2.setVisibility(View.GONE);
-                    fab.setImageDrawable(getResources().getDrawable(R.drawable.shape_plus));
-                }
-            }
-            });
+//        final LinearLayout layout =(LinearLayout)findViewById(R.id.linearLayout_cheque);
+//        final LinearLayout layout2 =(LinearLayout)findViewById(R.id.linearLayout_cash);
+//        fab.setOnClickListener(new View.OnClickListener(){
+//
+//            @Override
+//            public void onClick(View arg0) {
+//                Animation slideUp = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up);
+//                Animation slideLeft = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_left);
+//                if (layout.getVisibility() == View.GONE) {
+//                    layout.startAnimation(slideUp);
+//                    layout.setVisibility(View.VISIBLE);
+//                    layout2.startAnimation(slideLeft);
+//                    layout2.setVisibility(View.VISIBLE);
+//                    fab.setImageDrawable(getResources().getDrawable(R.drawable.shape_close));
+//                }else{
+//                    layout.setVisibility(View.GONE);
+//                    layout2.setVisibility(View.GONE);
+//                    fab.setImageDrawable(getResources().getDrawable(R.drawable.shape_plus));
+//                }
+//            }
+//            });
 
 //        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 //        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

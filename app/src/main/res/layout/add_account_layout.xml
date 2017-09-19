@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
     android:padding="@dimen/padding_box"
-    android:background="@color/primary_dark">
+    android:background="#E6242E42">
 
     <LinearLayout
         android:layout_marginBottom="@dimen/padding_large"
@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
+            android:id="@+id/textView_add_account_contact_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_circle"
@@ -29,6 +30,7 @@
             android:layout_height="wrap_content"
             android:gravity="left">
         <TextView
+            android:id="@+id/textView_add_account_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_circle"
@@ -43,6 +45,7 @@
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
+        android:visibility="gone"
         android:paddingRight="@dimen/padding_spinner"
         android:paddingLeft="@dimen/padding_spinner"
         android:paddingTop="@dimen/padding_large"
@@ -64,10 +67,6 @@
             />
     </LinearLayout>
     <LinearLayout
-        android:paddingRight="@dimen/padding_spinner"
-        android:paddingLeft="@dimen/padding_spinner"
-        android:paddingTop="@dimen/padding_large"
-        android:paddingBottom="@dimen/padding_large"
         android:layout_marginTop="@dimen/padding_large"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -75,6 +74,11 @@
         android:gravity="center_vertical"
         android:background="@drawable/shape_border">
         <EditText
+            android:id="@+id/editText_add_account_fullName"
+            android:paddingRight="@dimen/padding_spinner"
+            android:paddingLeft="@dimen/padding_spinner"
+            android:paddingTop="@dimen/padding_large"
+            android:paddingBottom="@dimen/padding_large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/font_small"
@@ -85,10 +89,6 @@
             />
     </LinearLayout>
     <LinearLayout
-        android:paddingRight="@dimen/padding_spinner"
-        android:paddingLeft="@dimen/padding_spinner"
-        android:paddingTop="@dimen/padding_large"
-        android:paddingBottom="@dimen/padding_large"
         android:layout_marginTop="@dimen/padding_large"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -96,6 +96,11 @@
         android:gravity="center_vertical"
         android:background="@drawable/shape_border">
         <EditText
+            android:id="@+id/editText_add_account_phone"
+            android:paddingRight="@dimen/padding_spinner"
+            android:paddingLeft="@dimen/padding_spinner"
+            android:paddingTop="@dimen/padding_large"
+            android:paddingBottom="@dimen/padding_large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/font_small"
@@ -106,10 +111,6 @@
             />
     </LinearLayout>
     <LinearLayout
-        android:paddingRight="@dimen/padding_spinner"
-        android:paddingLeft="@dimen/padding_spinner"
-        android:paddingTop="@dimen/padding_large"
-        android:paddingBottom="@dimen/padding_large"
         android:layout_marginTop="@dimen/padding_large"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -117,6 +118,11 @@
         android:gravity="center_vertical"
         android:background="@drawable/shape_border">
         <EditText
+            android:id="@+id/editText_add_account_mobile"
+            android:paddingRight="@dimen/padding_spinner"
+            android:paddingLeft="@dimen/padding_spinner"
+            android:paddingTop="@dimen/padding_large"
+            android:paddingBottom="@dimen/padding_large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/font_small"
@@ -127,10 +133,6 @@
             />
     </LinearLayout>
     <LinearLayout
-        android:paddingRight="@dimen/padding_spinner"
-        android:paddingLeft="@dimen/padding_spinner"
-        android:paddingTop="@dimen/padding_large"
-        android:paddingBottom="@dimen/padding_large"
         android:layout_marginTop="@dimen/padding_large"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -139,6 +141,11 @@
         android:background="@drawable/shape_border">
 
         <EditText
+            android:id="@+id/editText_add_account_address"
+            android:paddingRight="@dimen/padding_spinner"
+            android:paddingLeft="@dimen/padding_spinner"
+            android:paddingTop="@dimen/padding_large"
+            android:paddingBottom="@dimen/padding_large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/font_small"
@@ -151,10 +158,6 @@
             />
     </LinearLayout>
     <LinearLayout
-        android:paddingRight="@dimen/padding_spinner"
-        android:paddingLeft="@dimen/padding_spinner"
-        android:paddingTop="@dimen/padding_large"
-        android:paddingBottom="@dimen/padding_large"
         android:layout_marginTop="@dimen/padding_large"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -162,7 +165,13 @@
         android:gravity="center_vertical"
         android:background="@drawable/shape_border">
         <EditText
-            android:layout_width="wrap_content"
+            android:id="@+id/editText_add_account_contacts_list"
+            android:paddingRight="@dimen/padding_spinner"
+            android:paddingLeft="@dimen/padding_spinner"
+            android:paddingTop="@dimen/padding_large"
+            android:paddingBottom="@dimen/padding_large"
+            android:layout_width="0dp"
+            android:layout_weight="5"
             android:layout_height="wrap_content"
             android:textSize="@dimen/font_small"
             android:hint="گروه مخاطبین"
@@ -171,10 +180,13 @@
             android:background="@android:color/transparent"
             />
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:gravity="left">
+            android:gravity="left"
+            android:paddingLeft="@dimen/padding_large">
         <ImageView
+            android:id="@+id/image_add_account_contact_list_plus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/shape_plus"
@@ -185,41 +197,45 @@
 
 
     <LinearLayout
-        android:paddingRight="@dimen/padding_spinner"
-        android:paddingTop="@dimen/padding_large"
-        android:paddingBottom="@dimen/padding_large"
-        android:layout_marginTop="@dimen/padding_large"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_large"
+        android:gravity="left|center_vertical"
         android:orientation="horizontal"
-        android:gravity="left|center_vertical">
+        android:paddingBottom="@dimen/padding_large"
+        android:paddingRight="@dimen/padding_spinner"
+        android:paddingTop="@dimen/padding_large">
+
         <TextView
+            android:id="@+id/textView_add_account_clean"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_circle"
             android:backgroundTint="@color/orange"
-            android:textColor="@color/icons"
             android:gravity="center"
-            android:textSize="@dimen/font_small"
-            android:paddingRight="@dimen/padding_large"
-            android:paddingLeft="@dimen/padding_large"
-            android:paddingTop="@dimen/padding_medium"
             android:paddingBottom="@dimen/padding_medium"
-            android:text="نوسازی"/>
+            android:paddingLeft="@dimen/padding_large"
+            android:paddingRight="@dimen/padding_large"
+            android:paddingTop="@dimen/padding_medium"
+            android:text="نوسازی"
+            android:textColor="@color/icons"
+            android:textSize="@dimen/font_small" />
+
         <TextView
-            android:layout_marginRight="@dimen/padding_medium"
+            android:id="@+id/textView_add_account_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/padding_medium"
             android:background="@drawable/shape_circle"
             android:backgroundTint="@color/green"
-            android:textColor="@color/icons"
             android:gravity="center"
-            android:textSize="@dimen/font_small"
-            android:paddingRight="@dimen/padding_spinner"
-            android:paddingLeft="@dimen/padding_spinner"
-            android:paddingTop="@dimen/padding_medium"
             android:paddingBottom="@dimen/padding_medium"
-            android:text="ثبت"/>
+            android:paddingLeft="@dimen/padding_spinner"
+            android:paddingRight="@dimen/padding_spinner"
+            android:paddingTop="@dimen/padding_medium"
+            android:text="ثبت"
+            android:textColor="@color/icons"
+            android:textSize="@dimen/font_small" />
     </LinearLayout>
 
 </LinearLayout>
