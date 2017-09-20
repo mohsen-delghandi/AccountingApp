@@ -38,7 +38,7 @@ import java.util.ArrayList;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
 
 
@@ -61,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
 
     LinearLayout llAddLayer;
 
+    ImageView ivNav;
+
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -82,6 +84,18 @@ public class MainActivity extends AppCompatActivity {
         llAddLayer = (LinearLayout) findViewById(R.id.linearLayout_add_layer);
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        ivNav = (ImageView)findViewById(R.id.imageView_navigation_menu);
+        ivNav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (drawer.isDrawerOpen(GravityCompat.START)) {
+                    drawer.closeDrawer(GravityCompat.START);
+                } else {
+                    drawer.openDrawer(GravityCompat.START);
+                }
+            }
+        });
 
         ns = (NestedScrollView)findViewById(R.id.nestedscrollview);
         llTitleBar = (LinearLayout)findViewById(R.id.linearLayout_titleBar);
@@ -206,7 +220,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {

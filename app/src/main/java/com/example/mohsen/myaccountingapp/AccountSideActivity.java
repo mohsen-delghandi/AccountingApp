@@ -1,11 +1,16 @@
 package com.example.mohsen.myaccountingapp;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,6 +30,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.security.AccessController.getContext;
+
 /**
  * Created by Mohsen on 2017-09-18.
  */
@@ -36,6 +43,74 @@ public class AccountSideActivity extends MainActivity {
     RecyclerView.Adapter recyclerAdapter;
 
     LayoutInflater inflaterInclude;
+
+    TextView tvContacts,tvClose,tvClean,tvSave;
+    EditText etFullName,etPhone,etMobile,etAddress,etContactList,etCodeMelli;
+    ImageView ivContactListPlus;
+    Spinner spContactsList;
+
+
+    // Declare
+    final int PICK_CONTACT=1;
+
+    //code
+    @Override
+    public void onActivityResult(int reqCode, int resultCode, Intent data) {
+        super.onActivityResult(reqCode, resultCode, data);
+
+        switch (reqCode) {
+            case (PICK_CONTACT) :
+                if (resultCode == Activity.RESULT_OK) {
+
+                    Uri contactData = data.getData();
+                    Cursor c =  getContentResolver().query(contactData, null, null, null, null);
+                    if (c.moveToFirst()) {
+                        String id =c.getString(c.getColumnIndexOrThrow(ContactsContract.Contacts._ID));
+                        String hasPhone = c.getString(c.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
+
+                        if (hasPhone.equalsIgnoreCase("1")) {
+                            Cursor phones = getContentResolver().query(
+                                    ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                                    null,
+                                    ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = "+ id,
+                                    null,
+                                    null);
+                            phones.moveToFirst();
+                            String cNumber = phones.getString(phones.getColumnIndex("data1"));
+                            String cName = phones.getString(phones.getColumnIndex("display_name"));
+                            etMobile.setText(cNumber);
+//                            etFullName.setText(cName);
+                        }
+                        String name = c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                        etFullName.setText(name);
+                    }
+
+//                    Cursor cursor = null;
+//                    try {
+//                        String phoneNo = null ;
+//                        String name = null;
+//                        // getData() method will have the Content Uri of the selected contact
+//                        Uri uri = data.getData();
+//                        //Query the content uri
+//                        cursor = getContentResolver().query(uri, null, null, null, null);
+//                        cursor.moveToFirst();
+//                        // column index of the phone number
+//                        int  phoneIndex =cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+//                        // column index of the contact name
+//                        int  nameIndex =cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
+//                        phoneNo = cursor.getString(phoneIndex);
+//                        name = cursor.getString(nameIndex);
+//                        // Set the value to the textviews
+//                        etFullName.setText(name);
+//                        etMobile.setText(phoneNo);
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+
+                }
+                break;
+        }
+    }
 
 
     @Override
@@ -60,10 +135,6 @@ public class AccountSideActivity extends MainActivity {
                     }
                 });
                 View addAccountLayer = inflaterInclude.inflate(R.layout.add_account_layout,llAddLayer);
-                TextView tvContacts,tvClose,tvClean,tvSave;
-                final EditText etFullName,etPhone,etMobile,etAddress,etContactList,etCodeMelli;
-                ImageView ivContactListPlus;
-                final Spinner spContactsList;
 
                 tvContacts = (TextView)findViewById(R.id.textView_add_account_contact_list);
                 tvClean = (TextView)findViewById(R.id.textView_add_account_clean);
@@ -141,6 +212,25 @@ public class AccountSideActivity extends MainActivity {
                         cursor.close();
                         db.close();
 
+                    }
+                });
+
+                tvContacts.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String[] permissions = {Manifest.permission.READ_CONTACTS};
+                        new PermissionHandler().checkPermission(AccountSideActivity.this, permissions, new PermissionHandler.OnPermissionResponse() {
+                            @Override
+                            public void onPermissionGranted() {
+                                Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+                                startActivityForResult(intent, PICK_CONTACT);
+                            }
+
+                            @Override
+                            public void onPermissionDenied() {
+                                Toast.makeText(AccountSideActivity.this, "NO Permission.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 });
             }
