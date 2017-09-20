@@ -21,20 +21,60 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true" >
         <LinearLayout
-            android:layout_marginTop="@dimen/dimen_item_height"
+            android:paddingTop="@dimen/padding_spinner"
             android:id="@+id/rlMain"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
+            android:background="@color/primary_dark"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="@drawable/shape_underline"
+                android:backgroundTint="@color/icons"
+                android:paddingBottom="@dimen/padding_spinner">
+                <TextView
+                    android:padding="@dimen/padding_box"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="نوید مندیس"
+                    android:textColor="@color/icons"
+                    android:textSize="@dimen/font_xlarge"
+                    android:background="@drawable/shape_underline"
+                    android:backgroundTint="@color/icons"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="امروز سه شنبه 28 شهریور 1396"
+                    android:textColor="@color/icons"
+                    android:layout_marginTop="@dimen/padding_large"
+                    android:textSize="@dimen/font_small"/>
+            </LinearLayout>
 
             <!--<include layout="@layout/nav_header_main"/>-->
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/nav_recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:scrollbars="vertical"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="bottom|center_horizontal"
+                android:paddingBottom="@dimen/padding_medium">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_small"
+                android:text="version 1.0"
+                android:textColor="#ababab"
+                />
+            </LinearLayout>
         </LinearLayout>
     </android.support.design.widget.NavigationView>
 

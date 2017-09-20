@@ -60,9 +60,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/font_small"
+            android:nextFocusForward="@+id/editText_add_account_codeMelli"
             android:hint="نام و نام خانوادگی"
             android:textColorHint="#ababab"
-            android:textColor="#ababab"
+            android:inputType="textPersonName"
+            android:textColor="@color/icons"
             android:background="@android:color/transparent"
             />
     </LinearLayout>
@@ -83,8 +85,10 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/font_small"
             android:hint="کد ملی"
+            android:nextFocusForward="@+id/editText_add_account_phone"
+            android:inputType="phone"
             android:textColorHint="#ababab"
-            android:textColor="#ababab"
+            android:textColor="@color/icons"
             android:background="@android:color/transparent"
             />
     </LinearLayout>
@@ -106,8 +110,10 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/font_small"
             android:hint="تلفن"
+            android:nextFocusForward="@+id/editText_add_account_mobile"
+            android:inputType="phone"
             android:textColorHint="#ababab"
-            android:textColor="#ababab"
+            android:textColor="@color/icons"
             android:background="@android:color/transparent"
             />
     </LinearLayout>
@@ -128,8 +134,10 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/font_small"
             android:hint="همراه"
+            android:nextFocusForward="@+id/editText_add_account_address"
+            android:inputType="phone"
             android:textColorHint="#ababab"
-            android:textColor="#ababab"
+            android:textColor="@color/icons"
             android:background="@android:color/transparent"
             />
     </LinearLayout>
@@ -153,8 +161,9 @@
             android:hint="آدرس"
             android:lines="5"
             android:gravity="top"
+            android:inputType="text"
             android:textColorHint="#ababab"
-            android:textColor="#ababab"
+            android:textColor="@color/icons"
             android:background="@android:color/transparent"
             />
     </LinearLayout>
@@ -176,7 +185,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/font_small"
             android:textColorHint="#ababab"
-            android:textColor="#ababab"
+            android:textColor="@color/icons"
             android:background="@android:color/transparent"
             />
         <LinearLayout

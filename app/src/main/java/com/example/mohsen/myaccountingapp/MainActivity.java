@@ -63,6 +63,8 @@ public class MainActivity extends BaseActivity {
 
     ImageView ivNav;
 
+    NavigationView navigationView;
+
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -84,6 +86,8 @@ public class MainActivity extends BaseActivity {
         llAddLayer = (LinearLayout) findViewById(R.id.linearLayout_add_layer);
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        navigationView = (NavigationView)findViewById(R.id.nav_view);
 
         ivNav = (ImageView)findViewById(R.id.imageView_navigation_menu);
         ivNav.setOnClickListener(new View.OnClickListener() {
@@ -109,6 +113,11 @@ public class MainActivity extends BaseActivity {
         Point size = new Point();
         display.getSize(size);
         width = size.x;
+
+        navigationView = (NavigationView)findViewById(R.id.nav_view);
+        DrawerLayout.LayoutParams layoutParams1 = (DrawerLayout.LayoutParams) navigationView.getLayoutParams();
+        layoutParams1.width = width*2/3;
+        navigationView.setLayoutParams(layoutParams1);
 
         classes = new ArrayList<>();
 

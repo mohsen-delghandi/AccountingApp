@@ -4,6 +4,7 @@
     android:maxLines="1"
     android:textSize="@dimen/font_small"
     android:textColor="#ababab"
+    android:padding="@dimen/padding_bit"
     android:background="@android:color/transparent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"

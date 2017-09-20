@@ -49,8 +49,8 @@
                         android:src="@drawable/shape_hamburger"
                         android:paddingRight="@dimen/padding_medium"
                         android:paddingLeft="@dimen/padding_medium"
-                        android:paddingTop="@dimen/padding_bit"
-                        android:paddingBottom="@dimen/padding_bit"
+                        android:paddingTop="@dimen/padding_small"
+                        android:paddingBottom="@dimen/padding_small"
                         />
                     <TextView
                         android:layout_width="1px"
@@ -63,8 +63,8 @@
                         android:src="@drawable/shape_home"
                         android:paddingRight="@dimen/padding_medium"
                         android:paddingLeft="@dimen/padding_medium"
-                        android:paddingTop="@dimen/padding_bit"
-                        android:paddingBottom="@dimen/padding_bit"
+                        android:paddingTop="@dimen/padding_small"
+                        android:paddingBottom="@dimen/padding_small"
                         />
                 </LinearLayout>
 
@@ -121,7 +121,7 @@
                         android:layout_height="wrap_content"
                         android:src="@drawable/shape_search"
                         android:background="@drawable/shape_circle"
-                        android:padding="@dimen/padding_bit"
+                        android:padding="@dimen/padding_small"
                         />
                 </LinearLayout>
 
@@ -138,6 +138,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="@dimen/fab_margin"
+        android:scaleType="center"
         app:backgroundTint="@color/primary"
         app:srcCompat="@drawable/shape_plus" />
 

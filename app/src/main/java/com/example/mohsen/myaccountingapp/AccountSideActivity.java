@@ -49,6 +49,9 @@ public class AccountSideActivity extends MainActivity {
     ImageView ivContactListPlus;
     Spinner spContactsList;
 
+    List<String> accountFullName,accountPhone,accountMobile,accountAddress;
+    List<Integer> accountIDs;
+
 
     // Declare
     final int PICK_CONTACT=1;
@@ -111,7 +114,6 @@ public class AccountSideActivity extends MainActivity {
                 break;
         }
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -212,6 +214,12 @@ public class AccountSideActivity extends MainActivity {
                         cursor.close();
                         db.close();
 
+                        Toast.makeText(AccountSideActivity.this, "با موفقیت ذخیره شد.", Toast.LENGTH_SHORT).show();
+                        cleanFrom();
+                        readAccountsFromDatabase();
+                        recyclerAdapter.notifyItemInserted(accountFullName.size()-1);
+//                        recyclerAdapter.notifyItemRangeChanged(accountFullName.size()-1,accountFullName.size());
+//                        recyclerAdapter.notifyDataSetChanged();
                     }
                 });
 
@@ -233,6 +241,21 @@ public class AccountSideActivity extends MainActivity {
                         });
                     }
                 });
+
+                tvClean.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        cleanFrom();
+                    }
+                });
+
+                tvClose.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        llAddLayer.setVisibility(View.GONE);
+                        fab.setVisibility(View.VISIBLE);
+                    }
+                });
             }
         });
 
@@ -241,23 +264,38 @@ public class AccountSideActivity extends MainActivity {
         accountRecyclerView.setNestedScrollingEnabled(false);
         recyclerManager = new LinearLayoutManager(this);
         accountRecyclerView.setLayoutManager(recyclerManager);
-        List<String> accountFullName = new ArrayList<String>();
-        List<String> accountPhone = new ArrayList<String>();
-        List<String> accountMobile = new ArrayList<String>();
-        List<String> accountAddress = new ArrayList<String>();
+        readAccountsFromDatabase();
+        recyclerAdapter = new AccountsAdapter(this,accountFullName,accountPhone,accountMobile,accountAddress,accountIDs);
+        accountRecyclerView.setAdapter(recyclerAdapter);
+    }
+
+    public void cleanFrom(){
+        etFullName.setText("");
+        etCodeMelli.setText("");
+        etPhone.setText("");
+        etMobile.setText("");
+        etAddress.setText("");
+        etFullName.setText("");
+    }
+
+    public void readAccountsFromDatabase(){
+        accountFullName = new ArrayList<String>();
+        accountPhone = new ArrayList<String>();
+        accountMobile = new ArrayList<String>();
+        accountAddress = new ArrayList<String>();
+        accountIDs = new ArrayList<Integer>();
         SQLiteDatabase mydb = new MyDatabase(this).getReadableDatabase();
-        Cursor cursor2 = mydb.query("tblContacts",new String[]{"FullName","Phone","Mobile","AdressContacts"},null,null,null,null,null);
+        Cursor cursor2 = mydb.query("tblContacts",new String[]{"FullName","Phone","Mobile","AdressContacts","Contacts_ID"},null,null,null,null,null);
         if(cursor2.moveToFirst()){
             do{
                 accountFullName.add(cursor2.getString(0));
                 accountPhone.add(cursor2.getString(1));
                 accountMobile.add(cursor2.getString(2));
                 accountAddress.add(cursor2.getString(3));
+                accountIDs.add(cursor2.getInt(4));
             }while ((cursor2.moveToNext()));
         }
         cursor2.close();
         mydb.close();
-        recyclerAdapter = new AccountsAdapter(this,accountFullName,accountPhone,accountMobile,accountAddress);
-        accountRecyclerView.setAdapter(recyclerAdapter);
     }
 }

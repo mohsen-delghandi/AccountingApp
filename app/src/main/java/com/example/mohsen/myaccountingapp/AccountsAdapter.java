@@ -2,6 +2,7 @@ package com.example.mohsen.myaccountingapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.transition.ChangeBounds;
@@ -26,16 +27,18 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
     static Context mContext;
     View v;
     List<String> mAccountFullName,mAccountPhones,mAccountMobiles,mAccountAddresses;
+    List<Integer> mAccountIDs;
     View.OnClickListener oclCollapse,oclExpand;
     boolean isCollapsed;
 
 
-    public AccountsAdapter(Context context, List<String> accountFullName, List<String> accountPhone, List<String> accountMobile, List<String> accountAddress) {
+    public AccountsAdapter(Context context, List<String> accountFullName, List<String> accountPhone, List<String> accountMobile, List<String> accountAddress, List<Integer> accountIDs) {
         mContext = context;
         mAccountFullName = accountFullName;
         mAccountAddresses = accountAddress;
         mAccountMobiles = accountMobile;
         mAccountPhones = accountPhone;
+        mAccountIDs = accountIDs;
     }
 
     @Override
@@ -49,7 +52,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
         LinearLayout llExtra;
         LinearLayout llMain;
         LinearLayout llName;
-        TextView tvFullName,tvDash,tvCompanyName,tvBedehiDash,tvBedehiMablagh,tvBedehiText,tvBedehiVahed,tvPhone,tvMobile,tvAddress;
+        TextView tvFullName,tvDash,tvCompanyName,tvBedehiDash,tvBedehiMablagh,tvBedehiText,tvBedehiVahed,tvPhone,tvMobile,tvAddress,tvEdit,tvDelete;
         ImageView ivCall,ivArrow,ivBedehi;
         public ViewHolder(View v) {
             super(v);
@@ -66,6 +69,8 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
             tvBedehiMablagh = (TextView)v.findViewById(R.id.textView_acount_side_bedehi_mablagh);
             tvBedehiText = (TextView)v.findViewById(R.id.textView_acount_side_bedehi_text);
             tvBedehiVahed = (TextView)v.findViewById(R.id.textView_acount_side_bedehi_vahed);
+            tvEdit = (TextView)v.findViewById(R.id.textView_acount_side_edit);
+            tvDelete = (TextView)v.findViewById(R.id.textView_acount_side_delete);
             ivCall = (ImageView) v.findViewById(R.id.imageView_acount_side_call);
             ivArrow = (ImageView) v.findViewById(R.id.imageView_acount_side_arrow);
             ivBedehi = (ImageView)v. findViewById(R.id.imageView_acount_side_bedehi);
@@ -160,6 +165,20 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
                     holder.ivArrow.getBackground().setTint(mContext.getResources().getColor(R.color.primary_dark));
                     holder.ivArrow.setImageResource(R.drawable.shape_arrow_drop_down);
                 }
+            }
+        });
+
+        holder.tvDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SQLiteDatabase dbb = new MyDatabase(mContext).getWritableDatabase();
+                dbb.execSQL("DELETE FROM tblContacts WHERE Contacts_ID = " + mAccountIDs.get(position));
+                dbb.close();
+
+                mAccountFullName.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position,mAccountFullName.size());
+                notifyDataSetChanged();
             }
         });
     }
