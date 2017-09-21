@@ -173,7 +173,7 @@ public class AccountSideActivity extends MainActivity {
 //                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.travelreasons, R.layout.simple_spinner_item);
                 final int[] groupContactID = new int[1];
 
-                ArrayAdapter adapter = new ArrayAdapter(AccountSideActivity.this,R.layout.simple_spinner_item,groupNames);
+                final ArrayAdapter adapter = new ArrayAdapter(AccountSideActivity.this,R.layout.simple_spinner_item,groupNames);
                 adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
                 final int[] finalGroupIDs = groupIDs;
                 spContactsList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -216,10 +216,7 @@ public class AccountSideActivity extends MainActivity {
 
                         Toast.makeText(AccountSideActivity.this, "با موفقیت ذخیره شد.", Toast.LENGTH_SHORT).show();
                         cleanFrom();
-                        readAccountsFromDatabase();
-                        recyclerAdapter.notifyItemInserted(accountFullName.size()-1);
-//                        recyclerAdapter.notifyItemRangeChanged(accountFullName.size()-1,accountFullName.size());
-//                        recyclerAdapter.notifyDataSetChanged();
+//                        accountRecyclerView.setAdapter(recyclerAdapter);
                     }
                 });
 
@@ -236,7 +233,7 @@ public class AccountSideActivity extends MainActivity {
 
                             @Override
                             public void onPermissionDenied() {
-                                Toast.makeText(AccountSideActivity.this, "NO Permission.", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(AccountSideActivity.this, "NO Permission.", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -278,12 +275,14 @@ public class AccountSideActivity extends MainActivity {
         etFullName.setText("");
     }
 
-    public void readAccountsFromDatabase(){
+    public List<List> readAccountsFromDatabase(){
         accountFullName = new ArrayList<String>();
         accountPhone = new ArrayList<String>();
         accountMobile = new ArrayList<String>();
         accountAddress = new ArrayList<String>();
         accountIDs = new ArrayList<Integer>();
+        List<List> accountList = new ArrayList<List>();
+
         SQLiteDatabase mydb = new MyDatabase(this).getReadableDatabase();
         Cursor cursor2 = mydb.query("tblContacts",new String[]{"FullName","Phone","Mobile","AdressContacts","Contacts_ID"},null,null,null,null,null);
         if(cursor2.moveToFirst()){
@@ -297,5 +296,13 @@ public class AccountSideActivity extends MainActivity {
         }
         cursor2.close();
         mydb.close();
+
+        accountList.add(accountFullName);
+        accountList.add(accountPhone);
+        accountList.add(accountMobile);
+        accountList.add(accountAddress);
+        accountList.add(accountIDs);
+
+        return accountList;
     }
 }

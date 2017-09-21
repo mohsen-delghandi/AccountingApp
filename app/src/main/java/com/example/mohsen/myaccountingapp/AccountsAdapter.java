@@ -1,8 +1,14 @@
 package com.example.mohsen.myaccountingapp;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
+import android.provider.ContactsContract;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.transition.ChangeBounds;
@@ -15,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,11 +31,11 @@ import java.util.List;
 
 public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHolder> {
 
-    static Context mContext;
+    Context mContext;
     View v;
-    List<String> mAccountFullName,mAccountPhones,mAccountMobiles,mAccountAddresses;
+    List<String> mAccountFullName, mAccountPhones, mAccountMobiles, mAccountAddresses;
     List<Integer> mAccountIDs;
-    View.OnClickListener oclCollapse,oclExpand;
+    View.OnClickListener oclCollapse, oclExpand;
     boolean isCollapsed;
 
 
@@ -48,37 +55,38 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
         return holder;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         LinearLayout llExtra;
         LinearLayout llMain;
         LinearLayout llName;
-        TextView tvFullName,tvDash,tvCompanyName,tvBedehiDash,tvBedehiMablagh,tvBedehiText,tvBedehiVahed,tvPhone,tvMobile,tvAddress,tvEdit,tvDelete;
-        ImageView ivCall,ivArrow,ivBedehi;
+        TextView tvFullName, tvDash, tvCompanyName, tvBedehiDash, tvBedehiMablagh, tvBedehiText, tvBedehiVahed, tvPhone, tvMobile, tvAddress, tvEdit, tvDelete;
+        ImageView ivCall, ivArrow, ivBedehi;
+
         public ViewHolder(View v) {
             super(v);
-            llExtra = (LinearLayout)v.findViewById(R.id.linearLayout_account_side_extra_information);
-            llMain = (LinearLayout)v.findViewById(R.id.linearLayout_account_side_main);
-            llName = (LinearLayout)v.findViewById(R.id.linearLayout_acount_side_main_information);
-            tvFullName = (TextView)v.findViewById(R.id.textView_acount_side_fullName);
-            tvPhone = (TextView)v.findViewById(R.id.textView_acount_side_phone);
-            tvMobile = (TextView)v.findViewById(R.id.textView_acount_side_mobile);
-            tvAddress = (TextView)v.findViewById(R.id.textView_acount_side_address);
-            tvCompanyName = (TextView)v.findViewById(R.id.textView_acount_side_company_name);
-            tvDash = (TextView)v.findViewById(R.id.textView_acount_side_dash);
-            tvBedehiDash = (TextView)v.findViewById(R.id.textView_acount_side_bedehi_dash);
-            tvBedehiMablagh = (TextView)v.findViewById(R.id.textView_acount_side_bedehi_mablagh);
-            tvBedehiText = (TextView)v.findViewById(R.id.textView_acount_side_bedehi_text);
-            tvBedehiVahed = (TextView)v.findViewById(R.id.textView_acount_side_bedehi_vahed);
-            tvEdit = (TextView)v.findViewById(R.id.textView_acount_side_edit);
-            tvDelete = (TextView)v.findViewById(R.id.textView_acount_side_delete);
+            llExtra = (LinearLayout) v.findViewById(R.id.linearLayout_account_side_extra_information);
+            llMain = (LinearLayout) v.findViewById(R.id.linearLayout_account_side_main);
+            llName = (LinearLayout) v.findViewById(R.id.linearLayout_acount_side_main_information);
+            tvFullName = (TextView) v.findViewById(R.id.textView_acount_side_fullName);
+            tvPhone = (TextView) v.findViewById(R.id.textView_acount_side_phone);
+            tvMobile = (TextView) v.findViewById(R.id.textView_acount_side_mobile);
+            tvAddress = (TextView) v.findViewById(R.id.textView_acount_side_address);
+            tvCompanyName = (TextView) v.findViewById(R.id.textView_acount_side_company_name);
+            tvDash = (TextView) v.findViewById(R.id.textView_acount_side_dash);
+            tvBedehiDash = (TextView) v.findViewById(R.id.textView_acount_side_bedehi_dash);
+            tvBedehiMablagh = (TextView) v.findViewById(R.id.textView_acount_side_bedehi_mablagh);
+            tvBedehiText = (TextView) v.findViewById(R.id.textView_acount_side_bedehi_text);
+            tvBedehiVahed = (TextView) v.findViewById(R.id.textView_acount_side_bedehi_vahed);
+            tvEdit = (TextView) v.findViewById(R.id.textView_acount_side_edit);
+            tvDelete = (TextView) v.findViewById(R.id.textView_acount_side_delete);
             ivCall = (ImageView) v.findViewById(R.id.imageView_acount_side_call);
             ivArrow = (ImageView) v.findViewById(R.id.imageView_acount_side_arrow);
-            ivBedehi = (ImageView)v. findViewById(R.id.imageView_acount_side_bedehi);
+            ivBedehi = (ImageView) v.findViewById(R.id.imageView_acount_side_bedehi);
         }
     }
 
     @Override
-    public void onBindViewHolder(final AccountsAdapter.ViewHolder  holder, final int position) {
+    public void onBindViewHolder(final AccountsAdapter.ViewHolder holder, final int position) {
         holder.tvFullName.setText(mAccountFullName.get(position));
         holder.tvPhone.setText(mAccountPhones.get(position));
         holder.tvMobile.setText(mAccountMobiles.get(position));
@@ -127,12 +135,11 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
 //                holder.llMain.setOnClickListener(oclExpand);
 //            }
 //        };
-
         holder.llMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 isCollapsed = holder.llExtra.getVisibility() == View.GONE;
-                if(isCollapsed){
+                if (isCollapsed) {
                     holder.llExtra.setVisibility(View.VISIBLE);
                     holder.llMain.setBackground(mContext.getResources().getDrawable(R.drawable.shape_gradient_background));
                     holder.llName.getBackground().setTint(mContext.getResources().getColor(R.color.icons));
@@ -147,7 +154,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
                     holder.ivCall.setImageResource(R.drawable.shape_call_expanded);
                     holder.ivArrow.setBackground(null);
                     holder.ivArrow.setImageResource(R.drawable.shape_arrow_drop_up);
-                }else{
+                } else {
                     holder.llExtra.setVisibility(View.GONE);
                     holder.llMain.setBackground(mContext.getResources().getDrawable(R.drawable.shape_underline_dashed));
                     holder.llName.getBackground().setTint(mContext.getResources().getColor(R.color.primary_text));
@@ -177,17 +184,64 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
 
                 mAccountFullName.remove(position);
                 notifyItemRemoved(position);
-                notifyItemRangeChanged(position,mAccountFullName.size());
+                notifyItemRangeChanged(position, mAccountFullName.size());
                 notifyDataSetChanged();
             }
         });
-    }
 
+//        holder.ivCall.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                String[] permissions = {Manifest.permission.CALL_PHONE};
+//                new PermissionHandler().checkPermission(mContext, permissions, new PermissionHandler.OnPermissionResponse() {
+//                    @Override
+//                    public void onPermissionGranted() {
+//                        Intent intent = new Intent(Intent.ACTION_CALL);
+//                        intent.setData(Uri.parse(holder.tvMobile.getText().toString()));
+//                        mContext.this.startActivity(intent);
+//                    }
+//
+//                    @Override
+//                    public void onPermissionDenied() {
+////                                Toast.makeText(AccountSideActivity.this, "NO Permission.", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//            }
+//        });
+
+        holder.ivCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String[] permissions = {Manifest.permission.CALL_PHONE};
+                new PermissionHandler().checkPermission((Activity) mContext, permissions, new PermissionHandler.OnPermissionResponse() {
+                    @Override
+                    public void onPermissionGranted() {
+                        Intent callIntent = new Intent(Intent.ACTION_CALL);
+                        callIntent.setData(Uri.parse("tel:"+holder.tvMobile.getText().toString().trim()));
+                        if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                            // TODO: Consider calling
+                            //    ActivityCompat#requestPermissions
+                            // here to request the missing permissions, and then overriding
+                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                            //                                          int[] grantResults)
+                            // to handle the case where the user grants the permission. See the documentation
+                            // for ActivityCompat#requestPermissions for more details.
+                            return;
+                        }
+                        mContext.startActivity(callIntent);
+                    }
+
+                    @Override
+                    public void onPermissionDenied() {
+                        Toast.makeText(mContext, "No Permission.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+    }
 
     @Override
     public int getItemCount() {
         return mAccountFullName.size();
     }
-
-
 }
