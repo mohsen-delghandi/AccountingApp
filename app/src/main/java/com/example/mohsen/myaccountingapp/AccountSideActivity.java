@@ -47,7 +47,7 @@ public class AccountSideActivity extends MainActivity {
     TextView tvContacts,tvClose,tvClean,tvSave;
     EditText etFullName,etPhone,etMobile,etAddress,etContactList,etCodeMelli;
     ImageView ivContactListPlus;
-    Spinner spContactsList;
+    Spinner spContactsList,spPishvand;
 
     List<String> accountFullName,accountPhone,accountMobile,accountAddress;
     List<Integer> accountIDs;
@@ -149,9 +149,10 @@ public class AccountSideActivity extends MainActivity {
                 etAddress = (EditText)findViewById(R.id.editText_add_account_address);
                 etCodeMelli = (EditText)findViewById(R.id.editText_add_account_codeMelli);
 
-                ivContactListPlus = (ImageView)findViewById(R.id.image_add_account_contact_list_plus);
+//                ivContactListPlus = (ImageView)findViewById(R.id.image_add_account_contact_list_plus);
 
                 spContactsList = (Spinner)findViewById(R.id.spinner_add_account_contacts_list);
+                spPishvand = (Spinner)findViewById(R.id.spinner_add_account_pishvand);
 
                 SQLiteDatabase db2 = new MyDatabase(AccountSideActivity.this).getReadableDatabase();
                 Cursor c = db2.query("tblGroupContact",new String[]{"GroupContactName","GroupContact"},null,null,null,null,null,null);
@@ -168,6 +169,22 @@ public class AccountSideActivity extends MainActivity {
                     }while (c.moveToNext());
                 }
                 c.close();
+
+                Cursor c2 = db2.query("tblPishvand",new String[]{"Pishvand_ID","Pishvand"},null,null,null,null,null,null);
+                int[] pishvandIDs = null;
+                String[] pishvandNames = null;
+                if(c2.moveToFirst()){
+                    pishvandIDs = new int[c2.getCount()];
+                    pishvandNames = new String[c2.getCount()];
+                    int i = 0;
+                    do{
+                        pishvandIDs[i] = c2.getInt(0);
+                        pishvandNames[i] = c2.getString(1);
+                        i++;
+                    }while (c2.moveToNext());
+                }
+                c2.close();
+
                 db2.close();
 
 //                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.travelreasons, R.layout.simple_spinner_item);
@@ -188,6 +205,24 @@ public class AccountSideActivity extends MainActivity {
                     }
                 });
                 spContactsList.setAdapter(adapter);
+
+                final int[] pishvandID = new int[1];
+
+                final ArrayAdapter adapter2 = new ArrayAdapter(AccountSideActivity.this,R.layout.simple_spinner_item,pishvandNames);
+                adapter2.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
+                final int[] finalpishvandIDs = pishvandIDs;
+                spPishvand.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        pishvandID[0] = finalpishvandIDs[i];
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+                        pishvandID[0] = finalpishvandIDs[0];
+                    }
+                });
+                spPishvand.setAdapter(adapter2);
 
                 tvSave.setOnClickListener(new View.OnClickListener() {
                     @Override

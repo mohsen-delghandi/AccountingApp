@@ -122,7 +122,7 @@ public class MainActivity extends BaseActivity {
         classes = new ArrayList<>();
 
         classes.add(AccountSideActivity.class);
-//        classes.add(FormActivity.class);
+        classes.add(ProductsActivity.class);
 //        classes.add(SettingsActivity2.class);
 //        classes.add(DatabaseAcitivity.class);
 

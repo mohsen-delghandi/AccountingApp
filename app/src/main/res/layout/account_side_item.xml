@@ -29,7 +29,6 @@ android:background="@drawable/shape_underline_dashed">
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_underline"
-                android:backgroundTint="@color/primary_text"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -122,6 +121,9 @@ android:background="@drawable/shape_underline_dashed">
             </LinearLayout>
         </LinearLayout>
 
+        <Space
+            android:layout_weight="1"/>
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -132,7 +134,6 @@ android:background="@drawable/shape_underline_dashed">
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/padding_medium"
-                android:background="@drawable/shape_circle"
                 android:backgroundTint="@color/primary_dark"
                 android:padding="@dimen/padding_small"
                 android:src="@drawable/shape_call_collapsed" />
@@ -141,7 +142,6 @@ android:background="@drawable/shape_underline_dashed">
                 android:id="@+id/imageView_acount_side_arrow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/shape_circle"
                 android:backgroundTint="@color/primary_dark"
                 android:padding="@dimen/padding_small"
                 android:src="@drawable/shape_arrow_drop_down" />

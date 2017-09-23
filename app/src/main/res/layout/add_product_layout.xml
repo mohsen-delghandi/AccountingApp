@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"
             android:gravity="left">
             <TextView
+                android:id="@+id/textView_add_product_close"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_circle"
@@ -30,10 +31,6 @@
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
-        android:paddingRight="@dimen/padding_spinner"
-        android:paddingLeft="@dimen/padding_spinner"
-        android:paddingTop="@dimen/padding_large"
-        android:paddingBottom="@dimen/padding_large"
         android:layout_marginTop="@dimen/padding_large"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,6 +38,11 @@
         android:gravity="center_vertical"
         android:background="@drawable/shape_border">
         <EditText
+            android:id="@+id/editText_add_product_name"
+            android:paddingRight="@dimen/padding_spinner"
+            android:paddingLeft="@dimen/padding_spinner"
+            android:paddingTop="@dimen/padding_large"
+            android:paddingBottom="@dimen/padding_large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/font_small"
@@ -51,43 +53,35 @@
             />
     </LinearLayout>
     <LinearLayout
-        android:paddingRight="@dimen/padding_spinner"
-        android:paddingLeft="@dimen/padding_spinner"
-        android:paddingTop="@dimen/padding_large"
-        android:paddingBottom="@dimen/padding_large"
         android:layout_marginTop="@dimen/padding_large"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:background="@drawable/shape_border">
-        <EditText
+        <TextView
+            android:paddingRight="@dimen/padding_spinner"
+            android:paddingLeft="@dimen/padding_spinner"
+            android:paddingTop="@dimen/padding_large"
+            android:paddingBottom="@dimen/padding_large"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/font_small"
-            android:hint="واحد"
-            android:textColorHint="#ababab"
+            android:text="واحد :"
             android:textColor="#ababab"
             android:background="@android:color/transparent"
             />
-        <LinearLayout
+        <Spinner
+            android:id="@+id/spinner_add_product_units_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="left">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/shape_plus"
-                android:tint="@color/primary"
-                android:backgroundTint="@android:color/transparent"
-                android:background="@drawable/shape_circle"/>
-        </LinearLayout>
+            android:textSize="@dimen/font_small"
+            android:textColorHint="#ababab"
+            android:textColor="@color/icons"
+            android:background="@android:color/transparent"
+            />
     </LinearLayout>
     <LinearLayout
-        android:paddingRight="@dimen/padding_spinner"
-        android:paddingLeft="@dimen/padding_spinner"
-        android:paddingTop="@dimen/padding_large"
-        android:paddingBottom="@dimen/padding_large"
         android:layout_marginTop="@dimen/padding_large"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -95,6 +89,11 @@
         android:gravity="center_vertical"
         android:background="@drawable/shape_border">
         <EditText
+            android:id="@+id/editText_add_product_buy_price"
+            android:paddingRight="@dimen/padding_spinner"
+            android:paddingLeft="@dimen/padding_spinner"
+            android:paddingTop="@dimen/padding_large"
+            android:paddingBottom="@dimen/padding_large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/font_small"
@@ -105,10 +104,6 @@
             />
     </LinearLayout>
     <LinearLayout
-        android:paddingRight="@dimen/padding_spinner"
-        android:paddingLeft="@dimen/padding_spinner"
-        android:paddingTop="@dimen/padding_large"
-        android:paddingBottom="@dimen/padding_large"
         android:layout_marginTop="@dimen/padding_large"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -116,6 +111,11 @@
         android:gravity="center_vertical"
         android:background="@drawable/shape_border">
         <EditText
+            android:id="@+id/editText_add_product_sell_price"
+            android:paddingRight="@dimen/padding_spinner"
+            android:paddingLeft="@dimen/padding_spinner"
+            android:paddingTop="@dimen/padding_large"
+            android:paddingBottom="@dimen/padding_large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/font_small"
@@ -132,13 +132,14 @@
         android:layout_marginTop="@dimen/padding_large"
         android:background="@drawable/shape_border"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingBottom="@dimen/padding_large"
-        android:paddingLeft="@dimen/padding_spinner"
-        android:paddingRight="@dimen/padding_spinner"
-        android:paddingTop="@dimen/padding_large">
+        android:orientation="horizontal">
 
         <EditText
+            android:id="@+id/editText_add_product_mojoodi"
+            android:paddingBottom="@dimen/padding_large"
+            android:paddingLeft="@dimen/padding_spinner"
+            android:paddingRight="@dimen/padding_spinner"
+            android:paddingTop="@dimen/padding_large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
@@ -150,10 +151,6 @@
     </LinearLayout>
 
     <LinearLayout
-        android:paddingRight="@dimen/padding_spinner"
-        android:paddingLeft="@dimen/padding_spinner"
-        android:paddingTop="@dimen/padding_large"
-        android:paddingBottom="@dimen/padding_large"
         android:layout_marginTop="@dimen/padding_large"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -161,7 +158,12 @@
         android:gravity="center_vertical"
         android:background="@drawable/shape_border">
         <EditText
-            android:layout_width="wrap_content"
+            android:id="@+id/editText_add_product_average_price"
+            android:paddingRight="@dimen/padding_spinner"
+            android:paddingLeft="@dimen/padding_spinner"
+            android:paddingTop="@dimen/padding_large"
+            android:paddingBottom="@dimen/padding_large"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/font_small"
             android:hint="میانگین قیمت"
@@ -183,6 +185,7 @@
         android:orientation="horizontal"
         android:gravity="left|center_vertical">
         <TextView
+            android:id="@+id/textView_add_product_clean"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_circle"
@@ -196,6 +199,7 @@
             android:paddingBottom="@dimen/padding_medium"
             android:text="نوسازی"/>
         <TextView
+            android:id="@+id/textView_add_product_save"
             android:layout_marginRight="@dimen/padding_medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

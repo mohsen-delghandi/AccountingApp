@@ -1,11 +1,8 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/text1"
-    style="@style/spinnerItemStyle"
     android:maxLines="1"
     android:textSize="@dimen/font_small"
-    android:textColor="#ababab"
-    android:padding="@dimen/padding_bit"
+    android:textColor="@color/icons"
     android:background="@android:color/transparent"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:ellipsize="marquee" />
+    android:layout_height="match_parent" />

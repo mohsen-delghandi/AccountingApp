@@ -7,5 +7,7 @@
     <color name="red">#b80628</color>
     <color name="green">#26b26f</color>
     <color name="orange">#f7941d</color>
+    <color name="divider">#ccc</color>
+    <color name="A6">#a6a6a6</color>
 </resources>
 

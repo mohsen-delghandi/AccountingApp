@@ -44,30 +44,56 @@
             android:text="بستن"/>
         </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
         android:layout_marginTop="@dimen/padding_large"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:background="@drawable/shape_border">
-        <EditText
-            android:id="@+id/editText_add_account_fullName"
+        <Spinner
             android:paddingRight="@dimen/padding_spinner"
             android:paddingLeft="@dimen/padding_spinner"
             android:paddingTop="@dimen/padding_large"
             android:paddingBottom="@dimen/padding_large"
+            android:id="@+id/spinner_add_account_pishvand"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:textSize="@dimen/font_small"
-            android:nextFocusForward="@+id/editText_add_account_codeMelli"
-            android:hint="نام و نام خانوادگی"
             android:textColorHint="#ababab"
-            android:inputType="textPersonName"
             android:textColor="@color/icons"
+            android:spinnerMode="dropdown"
+            android:popupBackground="@color/primary_dark"
             android:background="@android:color/transparent"
             />
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_large"
+        android:background="@drawable/shape_border"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/editText_add_account_fullName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:hint="نام و نام خانوادگی"
+            android:inputType="textPersonName"
+            android:nextFocusForward="@+id/editText_add_account_codeMelli"
+            android:paddingBottom="@dimen/padding_large"
+            android:paddingLeft="@dimen/padding_spinner"
+            android:paddingRight="@dimen/padding_spinner"
+            android:paddingTop="@dimen/padding_large"
+            android:textColor="@color/icons"
+            android:textColorHint="#ababab"
+            android:textSize="@dimen/font_small" />
+    </LinearLayout>
+
     <LinearLayout
         android:layout_marginTop="@dimen/padding_large"
         android:layout_width="match_parent"
@@ -168,40 +194,33 @@
             />
     </LinearLayout>
     <LinearLayout
-        android:paddingRight="@dimen/padding_spinner"
-        android:paddingLeft="@dimen/padding_spinner"
-        android:paddingTop="@dimen/padding_large"
-        android:paddingBottom="@dimen/padding_large"
         android:layout_marginTop="@dimen/padding_large"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:background="@drawable/shape_border">
+        <TextView
+            android:paddingRight="@dimen/padding_spinner"
+            android:paddingLeft="@dimen/padding_spinner"
+            android:paddingTop="@dimen/padding_large"
+            android:paddingBottom="@dimen/padding_large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_small"
+            android:text="ثبت در گروه :"
+            android:textColor="#ababab"
+            android:background="@android:color/transparent"
+            />
         <Spinner
             android:id="@+id/spinner_add_account_contacts_list"
-            android:layout_width="0dp"
-            android:layout_weight="5"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/font_small"
             android:textColorHint="#ababab"
             android:textColor="@color/icons"
             android:background="@android:color/transparent"
             />
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:gravity="left"
-            android:paddingLeft="@dimen/padding_large">
-        <ImageView
-            android:id="@+id/image_add_account_contact_list_plus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/shape_plus"
-            android:backgroundTint="@color/primary"
-            android:background="@drawable/shape_circle"/>
-        </LinearLayout>
     </LinearLayout>
 
 

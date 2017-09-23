@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout
+    android:id="@+id/linearLayout_product_main"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -9,112 +10,187 @@
     android:gravity="center_vertical"
     android:padding="@dimen/padding_large"
     android:layout_margin="@dimen/padding_small"
-    android:background="@drawable/shape_gradient_background">
+    android:background="@drawable/shape_underline_dashed">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical|top"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="@dimen/dimen_xxlarge"
+            android:layout_height="@dimen/dimen_xxlarge"
+            android:src="@drawable/crm" />
 
         <LinearLayout
+            android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="top"
-            android:layout_marginLeft="@dimen/padding_large"
-            android:background="@drawable/shape_border"
-            android:backgroundTint="@color/primary_dark">
+            android:paddingRight="@dimen/padding_large"
+            android:paddingLeft="@dimen/padding_large">
 
-            <ImageView
-                android:layout_width="@dimen/dimen_xxlarge"
-                android:layout_height="@dimen/dimen_xxlarge"
-                android:src="@drawable/crm" />
+            <LinearLayout
+                android:id="@+id/linearLayout_product_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_underline"
+                android:backgroundTint="@color/divider"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView_product_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="BOTAX COSMATIC"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/font_medium" />
+            </LinearLayout>
+
+            <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:background="@drawable/shape_circle"
+            android:backgroundTint="@android:color/transparent"
+            android:paddingRight="@dimen/padding_large"
+            android:paddingLeft="@dimen/padding_large"
+            android:paddingTop="@dimen/padding_bit"
+            android:paddingBottom="@dimen/padding_bit">
+
+            <TextView
+                android:id="@+id/textView_product_sell_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="قیمت فروش :"
+                android:textColor="@color/A6"
+                android:textSize="@dimen/font_small" />
+
+            <TextView
+                android:id="@+id/textView_product_sell_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingRight="@dimen/padding_bit"
+                android:text="150,000,000"
+                android:textColor="@color/green"
+                android:textSize="@dimen/font_small" />
+
+            <TextView
+                android:id="@+id/textView_product_rial"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/padding_bit"
+                android:gravity="center_vertical"
+                android:text="ریال"
+                android:textColor="@color/green"
+                android:textSize="@dimen/font_small" />
+        </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/padding_large"
+            android:gravity="center">
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView_product_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="کیلو"
+                    android:textColor="@color/A6"
+                    android:textSize="@dimen/font_medium" />
+
+                <TextView
+                    android:id="@+id/textView_product_mojodi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="01"
+                    android:textColor="@color/A6"
+                    android:textSize="@dimen/font_medium"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:id="@+id/imageView_product_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_medium"
+                android:src="@drawable/shape_arrow_drop_down"
+                android:tint="@color/primary" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout_product_extra"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:visibility="invisible"
+            android:layout_width="@dimen/dimen_xxlarge"
+            android:layout_height="@dimen/dimen_xxlarge"
+            android:src="@drawable/crm" />
+
+
+        <LinearLayout
+            android:paddingRight="@dimen/padding_large"
+            android:paddingLeft="@dimen/padding_large"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_underline"
-                android:backgroundTint="@color/icons"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text="BOTAX COSMATIC"
-                    android:textColor="@color/icons"
-                    android:textSize="@dimen/font_medium" />
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:background="@drawable/shape_circle"
-                android:backgroundTint="@android:color/transparent"
-                android:paddingRight="@dimen/padding_large"
-                android:paddingLeft="@dimen/padding_large"
-                android:paddingTop="@dimen/padding_bit"
-                android:paddingBottom="@dimen/padding_bit">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text="قیمت فروش :"
-                    android:textColor="@color/icons"
-                    android:textSize="@dimen/font_small" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:paddingRight="@dimen/padding_bit"
-                    android:text="150,000,000"
-                    android:textColor="@color/icons"
-                    android:textSize="@dimen/font_small" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/padding_bit"
-                    android:gravity="center_vertical"
-                    android:text="ریال"
-                    android:textColor="@color/icons"
-                    android:textSize="@dimen/font_small" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
+                android:gravity="center"
                 android:orientation="horizontal"
                 android:background="@drawable/shape_circle"
                 android:backgroundTint="@color/primary_dark"
                 android:paddingRight="@dimen/padding_large"
                 android:paddingLeft="@dimen/padding_large"
                 android:paddingTop="@dimen/padding_bit"
-                android:paddingBottom="@dimen/padding_bit">
+                android:paddingBottom="@dimen/padding_bit"
+                >
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:text="قیمت فروش :"
+                    android:text="قیمت خرید :"
                     android:textColor="@color/icons"
                     android:textSize="@dimen/font_small" />
 
                 <TextView
+                    android:id="@+id/textView_product_buy_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -143,6 +219,7 @@
 
 
                 <TextView
+                    android:id="@+id/textView_product_edit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/shape_circle"
@@ -159,6 +236,7 @@
 
 
                 <TextView
+                    android:id="@+id/textView_product_delete"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/shape_circle"
@@ -177,52 +255,9 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/padding_large"
-            android:gravity="center">
-
-            <Space
-                android:layout_weight="1"/>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text="کیلو"
-                    android:textColor="@color/icons"
-                    android:textSize="@dimen/font_medium" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text="01"
-                    android:textColor="@color/icons"
-                    android:textSize="@dimen/font_medium"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <Space
-                android:layout_weight="1"/>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/padding_medium"
-                android:src="@drawable/shape_arrow_drop_up"
-                android:tint="@color/primary_dark" />
-
-        </LinearLayout>
-
     </LinearLayout>
+
+
 
 
 </LinearLayout>
