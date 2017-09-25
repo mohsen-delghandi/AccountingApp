@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    android:id="@+id/linearLayout_product_main"
+<LinearLayout android:id="@+id/linearLayout_product_main"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -10,7 +9,8 @@
     android:gravity="center_vertical"
     android:padding="@dimen/padding_large"
     android:layout_margin="@dimen/padding_small"
-    android:background="@drawable/shape_underline_dashed">
+    android:background="@drawable/shape_underline_dashed"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,7 +25,8 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="3"
             android:layout_height="wrap_content"
             android:paddingRight="@dimen/padding_large"
             android:paddingLeft="@dimen/padding_large">
@@ -45,6 +46,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:text="BOTAX COSMATIC"
+                    android:maxLines="1"
                     android:textColor="@color/primary_text"
                     android:textSize="@dimen/font_medium" />
             </LinearLayout>
@@ -77,6 +79,7 @@
                 android:gravity="center_vertical"
                 android:paddingRight="@dimen/padding_bit"
                 android:text="150,000,000"
+                android:maxLines="1"
                 android:textColor="@color/green"
                 android:textSize="@dimen/font_small" />
 
@@ -94,14 +97,15 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1.5"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/padding_large"
-            android:gravity="center">
+            android:gravity="left">
 
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="vertical">
@@ -110,26 +114,26 @@
                     android:id="@+id/textView_product_unit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:text="کیلو"
+                    android:maxLines="1"
                     android:textColor="@color/A6"
-                    android:textSize="@dimen/font_medium" />
+                    android:textSize="@dimen/font_large" />
 
                 <TextView
+                    android:layout_below="@id/textView_product_unit"
                     android:id="@+id/textView_product_mojodi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:text="01"
+                    android:maxLines="1"
+                    android:layout_marginTop="-10dp"
                     android:textColor="@color/A6"
-                    android:textSize="@dimen/font_medium"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/font_large"
+                    app:fontPath="fonts/IRANSansWeb_Bold.ttf"
+                    />
             </LinearLayout>
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"/>
 
             <ImageView
                 android:id="@+id/imageView_product_arrow"

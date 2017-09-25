@@ -17,6 +17,21 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="etStyle">
+        <item name="android:paddingRight">@dimen/padding_spinner</item>
+        <item name="android:paddingLeft">@dimen/padding_spinner</item>
+        <item name="android:paddingTop">@dimen/padding_large</item>
+        <item name="android:paddingBottom">@dimen/padding_large</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/font_small</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:textColorHint">#ababab</item>
+        <item name="android:textColor">@color/icons</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+
     <!--<style name="spinnerDropDownItemStyle" parent="android:TextAppearance.Widget.TextView.SpinnerItem">-->
 
     <!--</style>-->

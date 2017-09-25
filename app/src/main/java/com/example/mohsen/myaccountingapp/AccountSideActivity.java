@@ -129,6 +129,7 @@ public class AccountSideActivity extends MainActivity {
             public void onClick(View view) {
                 inflaterInclude = (LayoutInflater)AccountSideActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 fab.setVisibility(View.GONE);
+                llAddLayer.removeAllViews();
                 llAddLayer.setVisibility(View.VISIBLE);
                 llAddLayer.setOnTouchListener(new View.OnTouchListener() {
                     @Override
@@ -136,7 +137,7 @@ public class AccountSideActivity extends MainActivity {
                         return true;
                     }
                 });
-                View addAccountLayer = inflaterInclude.inflate(R.layout.add_account_layout,llAddLayer);
+                inflaterInclude.inflate(R.layout.add_account_layout,llAddLayer);
 
                 tvContacts = (TextView)findViewById(R.id.textView_add_account_contact_list);
                 tvClean = (TextView)findViewById(R.id.textView_add_account_clean);
@@ -244,6 +245,7 @@ public class AccountSideActivity extends MainActivity {
                         cv2.put("AdressContacts",etAddress.getText().toString().trim());
                         cv2.put("Code_Melli",etCodeMelli.getText().toString().trim());
                         cv2.put("GroupContact",groupContactID[0]);
+                        cv2.put("Pishvand_ID",pishvandID[0]);
                         db.insert("tblContacts",null,cv2);
 //                        Toast.makeText(AccountSideActivity.this, db.insert("tblContacts",null,cv2)+"", Toast.LENGTH_SHORT).show();
                         cursor.close();
@@ -297,7 +299,7 @@ public class AccountSideActivity extends MainActivity {
         recyclerManager = new LinearLayoutManager(this);
         accountRecyclerView.setLayoutManager(recyclerManager);
         readAccountsFromDatabase();
-        recyclerAdapter = new AccountsAdapter(this,accountFullName,accountPhone,accountMobile,accountAddress,accountIDs);
+        recyclerAdapter = new AccountsAdapter(this,accountFullName,accountPhone,accountMobile,accountAddress,accountIDs,llAddLayer,fab);
         accountRecyclerView.setAdapter(recyclerAdapter);
     }
 

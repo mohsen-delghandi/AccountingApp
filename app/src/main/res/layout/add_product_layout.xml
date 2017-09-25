@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
     android:padding="@dimen/padding_box"
-    android:background="@color/primary_dark">
+    android:background="#E6242E42">
 
     <LinearLayout
         android:layout_marginBottom="@dimen/padding_large"
@@ -38,18 +38,11 @@
         android:gravity="center_vertical"
         android:background="@drawable/shape_border">
         <EditText
+            style="@style/etStyle"
             android:id="@+id/editText_add_product_name"
-            android:paddingRight="@dimen/padding_spinner"
-            android:paddingLeft="@dimen/padding_spinner"
-            android:paddingTop="@dimen/padding_large"
-            android:paddingBottom="@dimen/padding_large"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/font_small"
             android:hint="نام محصول"
-            android:textColorHint="#ababab"
-            android:textColor="#ababab"
-            android:background="@android:color/transparent"
+            android:inputType="text"
+            android:nextFocusForward="@+id/spinner_add_product_units_list"
             />
     </LinearLayout>
     <LinearLayout
@@ -78,6 +71,7 @@
             android:textSize="@dimen/font_small"
             android:textColorHint="#ababab"
             android:textColor="@color/icons"
+            android:nextFocusForward="@+id/editText_add_product_buy_price"
             android:background="@android:color/transparent"
             />
     </LinearLayout>
@@ -88,20 +82,13 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:background="@drawable/shape_border">
+
         <EditText
+            style="@style/etStyle"
             android:id="@+id/editText_add_product_buy_price"
-            android:paddingRight="@dimen/padding_spinner"
-            android:paddingLeft="@dimen/padding_spinner"
-            android:paddingTop="@dimen/padding_large"
-            android:paddingBottom="@dimen/padding_large"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/font_small"
             android:hint="قیمت خرید"
-            android:textColorHint="#ababab"
-            android:textColor="#ababab"
-            android:background="@android:color/transparent"
-            />
+            android:inputType="number"
+            android:nextFocusForward="@+id/editText_add_product_sell_price" />
     </LinearLayout>
     <LinearLayout
         android:layout_marginTop="@dimen/padding_large"
@@ -111,18 +98,11 @@
         android:gravity="center_vertical"
         android:background="@drawable/shape_border">
         <EditText
+            style="@style/etStyle"
             android:id="@+id/editText_add_product_sell_price"
-            android:paddingRight="@dimen/padding_spinner"
-            android:paddingLeft="@dimen/padding_spinner"
-            android:paddingTop="@dimen/padding_large"
-            android:paddingBottom="@dimen/padding_large"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/font_small"
             android:hint="قیمت فروش"
-            android:textColorHint="#ababab"
-            android:textColor="#ababab"
-            android:background="@android:color/transparent"
+            android:inputType="number"
+            android:nextFocusForward="@+id/editText_add_product_mojoodi"
             />
     </LinearLayout>
 
@@ -135,19 +115,11 @@
         android:orientation="horizontal">
 
         <EditText
+            style="@style/etStyle"
             android:id="@+id/editText_add_product_mojoodi"
-            android:paddingBottom="@dimen/padding_large"
-            android:paddingLeft="@dimen/padding_spinner"
-            android:paddingRight="@dimen/padding_spinner"
-            android:paddingTop="@dimen/padding_large"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:gravity="top"
             android:hint="موجودی اول دوره"
-            android:textColor="#ababab"
-            android:textColorHint="#ababab"
-            android:textSize="@dimen/font_small" />
+            android:inputType="number"
+            android:nextFocusForward="@+id/editText_add_product_average_price"/>
     </LinearLayout>
 
     <LinearLayout
@@ -158,18 +130,10 @@
         android:gravity="center_vertical"
         android:background="@drawable/shape_border">
         <EditText
+            style="@style/etStyle"
             android:id="@+id/editText_add_product_average_price"
-            android:paddingRight="@dimen/padding_spinner"
-            android:paddingLeft="@dimen/padding_spinner"
-            android:paddingTop="@dimen/padding_large"
-            android:paddingBottom="@dimen/padding_large"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/font_small"
             android:hint="میانگین قیمت"
-            android:textColorHint="#ababab"
-            android:textColor="#ababab"
-            android:background="@android:color/transparent"
+            android:inputType="number"
             />
     </LinearLayout>
 

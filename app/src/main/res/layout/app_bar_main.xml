@@ -142,6 +142,17 @@
         app:backgroundTint="@color/primary"
         app:srcCompat="@drawable/shape_plus" />
 
+    <!--<TextView-->
+        <!--android:layout_marginBottom="40dp"-->
+        <!--android:layout_marginRight="16dp"-->
+        <!--android:layout_gravity="bottom|right"-->
+        <!--android:layout_width="@dimen/padding_medium"-->
+        <!--android:layout_height="@dimen/padding_medium"-->
+        <!--android:text="1"-->
+        <!--android:textSize="@dimen/font_medium"-->
+        <!--android:background="@drawable/shape_circle"-->
+        <!--android:backgroundTint="@color/red"/>-->
+
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/nestedscrollview"
         android:layout_width="match_parent"

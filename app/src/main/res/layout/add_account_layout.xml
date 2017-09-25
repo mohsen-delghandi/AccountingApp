@@ -77,21 +77,21 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/editText_add_account_fullName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
+        <TextView
+            android:visibility="gone"
+            style="@style/etStyle"
+            android:layout_width="wrap_content"
+            android:id="@+id/textView_add_account_fullName"
             android:hint="نام و نام خانوادگی"
             android:inputType="textPersonName"
-            android:nextFocusForward="@+id/editText_add_account_codeMelli"
-            android:paddingBottom="@dimen/padding_large"
-            android:paddingLeft="@dimen/padding_spinner"
-            android:paddingRight="@dimen/padding_spinner"
-            android:paddingTop="@dimen/padding_large"
-            android:textColor="@color/icons"
-            android:textColorHint="#ababab"
-            android:textSize="@dimen/font_small" />
+            android:nextFocusForward="@+id/editText_add_account_codeMelli"/>
+
+        <EditText
+            style="@style/etStyle"
+            android:id="@+id/editText_add_account_fullName"
+            android:hint="نام و نام خانوادگی"
+            android:inputType="textPersonName"
+            android:nextFocusForward="@+id/editText_add_account_codeMelli"/>
     </LinearLayout>
 
     <LinearLayout
@@ -101,21 +101,21 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:background="@drawable/shape_border">
-        <EditText
-            android:id="@+id/editText_add_account_codeMelli"
-            android:paddingRight="@dimen/padding_spinner"
-            android:paddingLeft="@dimen/padding_spinner"
-            android:paddingTop="@dimen/padding_large"
-            android:paddingBottom="@dimen/padding_large"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/font_small"
+        <TextView
+            android:visibility="gone"
+            style="@style/etStyle"
+            android:layout_width="wrap_content"
+            android:id="@+id/textView_add_account_codeMelli"
             android:hint="کد ملی"
             android:nextFocusForward="@+id/editText_add_account_phone"
             android:inputType="phone"
-            android:textColorHint="#ababab"
-            android:textColor="@color/icons"
-            android:background="@android:color/transparent"
+            />
+        <EditText
+            style="@style/etStyle"
+            android:id="@+id/editText_add_account_codeMelli"
+            android:hint="کد ملی"
+            android:nextFocusForward="@+id/editText_add_account_phone"
+            android:inputType="phone"
             />
     </LinearLayout>
 
@@ -126,21 +126,21 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:background="@drawable/shape_border">
-        <EditText
-            android:id="@+id/editText_add_account_phone"
-            android:paddingRight="@dimen/padding_spinner"
-            android:paddingLeft="@dimen/padding_spinner"
-            android:paddingTop="@dimen/padding_large"
-            android:paddingBottom="@dimen/padding_large"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/font_small"
+        <TextView
+            android:visibility="gone"
+            style="@style/etStyle"
+            android:layout_width="wrap_content"
+            android:id="@+id/textView_add_account_phone"
             android:hint="تلفن"
             android:nextFocusForward="@+id/editText_add_account_mobile"
             android:inputType="phone"
-            android:textColorHint="#ababab"
-            android:textColor="@color/icons"
-            android:background="@android:color/transparent"
+            />
+        <EditText
+            style="@style/etStyle"
+            android:id="@+id/editText_add_account_phone"
+            android:hint="تلفن"
+            android:nextFocusForward="@+id/editText_add_account_mobile"
+            android:inputType="phone"
             />
     </LinearLayout>
     <LinearLayout
@@ -150,21 +150,21 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:background="@drawable/shape_border">
-        <EditText
-            android:id="@+id/editText_add_account_mobile"
-            android:paddingRight="@dimen/padding_spinner"
-            android:paddingLeft="@dimen/padding_spinner"
-            android:paddingTop="@dimen/padding_large"
-            android:paddingBottom="@dimen/padding_large"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/font_small"
+        <TextView
+            android:visibility="gone"
+            style="@style/etStyle"
+            android:layout_width="wrap_content"
+            android:id="@+id/textView_add_account_mobile"
             android:hint="همراه"
             android:nextFocusForward="@+id/editText_add_account_address"
             android:inputType="phone"
-            android:textColorHint="#ababab"
-            android:textColor="@color/icons"
-            android:background="@android:color/transparent"
+            />
+        <EditText
+            style="@style/etStyle"
+            android:id="@+id/editText_add_account_mobile"
+            android:hint="همراه"
+            android:nextFocusForward="@+id/editText_add_account_address"
+            android:inputType="phone"
             />
     </LinearLayout>
     <LinearLayout
@@ -174,23 +174,23 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:background="@drawable/shape_border">
-
-        <EditText
-            android:id="@+id/editText_add_account_address"
-            android:paddingRight="@dimen/padding_spinner"
-            android:paddingLeft="@dimen/padding_spinner"
-            android:paddingTop="@dimen/padding_large"
-            android:paddingBottom="@dimen/padding_large"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/font_small"
+        <TextView
+            style="@style/etStyle"
+            android:layout_width="wrap_content"
+            android:visibility="gone"
+            android:id="@+id/textView_add_account_address"
             android:hint="آدرس"
             android:lines="5"
             android:gravity="top"
             android:inputType="text"
-            android:textColorHint="#ababab"
-            android:textColor="@color/icons"
-            android:background="@android:color/transparent"
+            />
+        <EditText
+            style="@style/etStyle"
+            android:id="@+id/editText_add_account_address"
+            android:hint="آدرس"
+            android:lines="5"
+            android:gravity="top"
+            android:inputType="text"
             />
     </LinearLayout>
     <LinearLayout

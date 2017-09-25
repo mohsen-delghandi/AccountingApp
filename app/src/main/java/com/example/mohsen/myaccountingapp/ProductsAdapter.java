@@ -37,6 +37,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
     List<Integer> mProductIDs;
     View.OnClickListener oclCollapse, oclExpand;
     boolean isCollapsed;
+    ViewHolder selectedHolder;
 
 
     public ProductsAdapter(Context context, List<String> productName, List<String> productBuyPrice, List<String> productSellPrice, List<String> productUnit, List<String> productMojoodi, List<Integer> productIDs) {
@@ -68,7 +69,6 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
             llExtra = (LinearLayout) v.findViewById(R.id.linearLayout_product_extra);
             llMain = (LinearLayout) v.findViewById(R.id.linearLayout_product_main);
             llName = (LinearLayout) v.findViewById(R.id.linearLayout_product_name);
-
             tvName = (TextView) v.findViewById(R.id.textView_product_name);
             tvSellPrice = (TextView) v.findViewById(R.id.textView_product_sell_price);
             tvBuyPrice = (TextView) v.findViewById(R.id.textView_product_buy_price);
@@ -78,9 +78,36 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
             tvEdit = (TextView) v.findViewById(R.id.textView_product_edit);
             tvDelete = (TextView) v.findViewById(R.id.textView_product_delete);
             tvRial = (TextView) v.findViewById(R.id.textView_product_rial);
-
             ivArrow = (ImageView) v.findViewById(R.id.imageView_product_arrow);
         }
+    }
+
+    private void selectItem(ProductsAdapter.ViewHolder h){
+        h.llExtra.setVisibility(View.VISIBLE);
+        h.llMain.setBackground(mContext.getResources().getDrawable(R.drawable.shape_gradient_background));
+        h.llName.getBackground().setTint(mContext.getResources().getColor(R.color.icons));
+        h.tvName.setTextColor(mContext.getResources().getColor(R.color.icons));
+        h.tvMojodi.setTextColor(mContext.getResources().getColor(R.color.icons));
+        h.tvUnit.setTextColor(mContext.getResources().getColor(R.color.icons));
+        h.tvSellText.setTextColor(mContext.getResources().getColor(R.color.icons));
+        h.tvSellPrice.setTextColor(mContext.getResources().getColor(R.color.icons));
+        h.tvRial.setTextColor(mContext.getResources().getColor(R.color.icons));
+        h.ivArrow.setImageResource(R.drawable.shape_arrow_drop_up);
+        h.ivArrow.setColorFilter(ContextCompat.getColor(mContext, R.color.primary_dark), android.graphics.PorterDuff.Mode.MULTIPLY);
+    }
+
+    private void deSelectItem(ProductsAdapter.ViewHolder h){
+        h.llExtra.setVisibility(View.GONE);
+        h.llMain.setBackground(mContext.getResources().getDrawable(R.drawable.shape_underline_dashed));
+        h.llName.getBackground().setTint(mContext.getResources().getColor(R.color.primary_text));
+        h.tvName.setTextColor(mContext.getResources().getColor(R.color.primary_text));
+        h.tvMojodi.setTextColor(mContext.getResources().getColor(R.color.A6));
+        h.tvUnit.setTextColor(mContext.getResources().getColor(R.color.A6));
+        h.tvSellText.setTextColor(mContext.getResources().getColor(R.color.A6));
+        h.tvSellPrice.setTextColor(mContext.getResources().getColor(R.color.green));
+        h.tvRial.setTextColor(mContext.getResources().getColor(R.color.green));
+        h.ivArrow.setImageResource(R.drawable.shape_arrow_drop_down);
+        h.ivArrow.setColorFilter(ContextCompat.getColor(mContext, R.color.primary), android.graphics.PorterDuff.Mode.MULTIPLY);
     }
 
     @Override
@@ -139,29 +166,14 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
             public void onClick(View view) {
                 isCollapsed = holder.llExtra.getVisibility() == View.GONE;
                 if (isCollapsed) {
-                    holder.llExtra.setVisibility(View.VISIBLE);
-                    holder.llMain.setBackground(mContext.getResources().getDrawable(R.drawable.shape_gradient_background));
-                    holder.llName.getBackground().setTint(mContext.getResources().getColor(R.color.icons));
-                    holder.tvName.setTextColor(mContext.getResources().getColor(R.color.icons));
-                    holder.tvMojodi.setTextColor(mContext.getResources().getColor(R.color.icons));
-                    holder.tvUnit.setTextColor(mContext.getResources().getColor(R.color.icons));
-                    holder.tvSellText.setTextColor(mContext.getResources().getColor(R.color.icons));
-                    holder.tvSellPrice.setTextColor(mContext.getResources().getColor(R.color.icons));
-                    holder.tvRial.setTextColor(mContext.getResources().getColor(R.color.icons));
-                    holder.ivArrow.setImageResource(R.drawable.shape_arrow_drop_up);
-                    holder.ivArrow.setColorFilter(ContextCompat.getColor(mContext, R.color.primary_dark), android.graphics.PorterDuff.Mode.MULTIPLY);
+                    selectItem(holder);
+                    if(selectedHolder != holder){
+                        if(selectedHolder != null)
+                            deSelectItem(selectedHolder);
+                        selectedHolder = holder;
+                    }
                 } else {
-                    holder.llExtra.setVisibility(View.GONE);
-                    holder.llMain.setBackground(mContext.getResources().getDrawable(R.drawable.shape_underline_dashed));
-                    holder.llName.getBackground().setTint(mContext.getResources().getColor(R.color.primary_text));
-                    holder.tvName.setTextColor(mContext.getResources().getColor(R.color.primary_text));
-                    holder.tvMojodi.setTextColor(mContext.getResources().getColor(R.color.A6));
-                    holder.tvUnit.setTextColor(mContext.getResources().getColor(R.color.A6));
-                    holder.tvSellText.setTextColor(mContext.getResources().getColor(R.color.A6));
-                    holder.tvSellPrice.setTextColor(mContext.getResources().getColor(R.color.green));
-                    holder.tvRial.setTextColor(mContext.getResources().getColor(R.color.green));
-                    holder.ivArrow.setImageResource(R.drawable.shape_arrow_drop_down);
-                    holder.ivArrow.setColorFilter(ContextCompat.getColor(mContext, R.color.primary), android.graphics.PorterDuff.Mode.MULTIPLY);
+                    deSelectItem(holder);
                 }
             }
         });
