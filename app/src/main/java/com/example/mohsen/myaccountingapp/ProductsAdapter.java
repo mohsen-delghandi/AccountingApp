@@ -2,22 +2,30 @@ package com.example.mohsen.myaccountingapp;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.provider.ContactsContract;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.transition.ChangeBounds;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,9 +46,12 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
     View.OnClickListener oclCollapse, oclExpand;
     boolean isCollapsed;
     ViewHolder selectedHolder;
+    LayoutInflater mInflaterInclude;
+    LinearLayout mLlAddLayer;
+    FloatingActionButton mFab;
 
 
-    public ProductsAdapter(Context context, List<String> productName, List<String> productBuyPrice, List<String> productSellPrice, List<String> productUnit, List<String> productMojoodi, List<Integer> productIDs) {
+    public ProductsAdapter(Context context, List<String> productName, List<String> productBuyPrice, List<String> productSellPrice, List<String> productUnit, List<String> productMojoodi, List<Integer> productIDs, LinearLayout llAddLayer, FloatingActionButton fab) {
         mContext = context;
         mProductName = productName;
         mProductBuyPrice = productBuyPrice;
@@ -48,6 +59,8 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
         mProductUnit = productUnit;
         mProductMojoodi = productMojoodi;
         mProductIDs = productIDs;
+        mLlAddLayer = llAddLayer;
+        mFab = fab;
     }
 
     @Override
@@ -93,7 +106,6 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
         h.tvSellPrice.setTextColor(mContext.getResources().getColor(R.color.icons));
         h.tvRial.setTextColor(mContext.getResources().getColor(R.color.icons));
         h.ivArrow.setImageResource(R.drawable.shape_arrow_drop_up);
-        h.ivArrow.setColorFilter(ContextCompat.getColor(mContext, R.color.primary_dark), android.graphics.PorterDuff.Mode.MULTIPLY);
     }
 
     private void deSelectItem(ProductsAdapter.ViewHolder h){
@@ -107,7 +119,6 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
         h.tvSellPrice.setTextColor(mContext.getResources().getColor(R.color.green));
         h.tvRial.setTextColor(mContext.getResources().getColor(R.color.green));
         h.ivArrow.setImageResource(R.drawable.shape_arrow_drop_down);
-        h.ivArrow.setColorFilter(ContextCompat.getColor(mContext, R.color.primary), android.graphics.PorterDuff.Mode.MULTIPLY);
     }
 
     @Override
@@ -192,26 +203,122 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
             }
         });
 
-//        holder.ivCall.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                String[] permissions = {Manifest.permission.CALL_PHONE};
-//                new PermissionHandler().checkPermission(mContext, permissions, new PermissionHandler.OnPermissionResponse() {
-//                    @Override
-//                    public void onPermissionGranted() {
-//                        Intent intent = new Intent(Intent.ACTION_CALL);
-//                        intent.setData(Uri.parse(holder.tvMobile.getText().toString()));
-//                        mContext.this.startActivity(intent);
-//                    }
-//
-//                    @Override
-//                    public void onPermissionDenied() {
-////                                Toast.makeText(AccountSideActivity.this, "NO Permission.", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//            }
-//        });
+        holder.tvEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mInflaterInclude = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                mFab.setVisibility(View.GONE);
+                mLlAddLayer.removeAllViews();
+                mLlAddLayer.setVisibility(View.VISIBLE);
+                mLlAddLayer.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        return true;
+                    }
+                });
 
+                final View v = mInflaterInclude.inflate(R.layout.add_product_layout,mLlAddLayer);
+                v.findViewById(R.id.textView_add_product_clean).setVisibility(View.INVISIBLE);
+                ((TextView)v.findViewById(R.id.textView_add_product_save)).setText("بروزرسانی");
+
+                SQLiteDatabase db11 = new MyDatabase(mContext).getWritableDatabase();
+                Cursor c11 = db11.query("TblKala",new String[]{"Name_Kala","Fk_VahedKalaAsli","GheymatKharidAsli","GheymatForoshAsli","MojodiAvalDore","MianginFiAvalDovre"},"ID_Kala = ?",
+                        new String[]{mProductIDs.get(position)+""},null,null,null);
+                c11.moveToFirst();
+                ((EditText)v.findViewById(R.id.editText_add_product_name)).setText(c11.getString(0));
+                ((EditText)v.findViewById(R.id.editText_add_product_buy_price)).setText(c11.getString(2));
+                ((EditText)v.findViewById(R.id.editText_add_product_sell_price)).setText(c11.getString(3));
+                ((EditText)v.findViewById(R.id.editText_add_product_mojoodi)).setText(c11.getString(4));
+                ((EditText)v.findViewById(R.id.editText_add_product_average_price)).setText(c11.getString(5));
+
+                SQLiteDatabase db2 = new MyDatabase(mContext).getReadableDatabase();
+                Cursor c = db2.query("TblVahedKalaAsli",new String[]{"NameVahed","ID_Vahed"},null,null,null,null,null,null);
+                String[] groupNames = null;
+                int[] groupIDs = null;
+                if(c.moveToFirst()){
+                    groupNames = new String[c.getCount()];
+                    groupIDs = new int[c.getCount()];
+                    int i = 0;
+                    do{
+                        groupNames[i] = c.getString(0);
+                        groupIDs[i] = c.getInt(1);
+                        i++;
+                    }while (c.moveToNext());
+                }
+                c.close();
+                db2.close();
+                final int[] groupVahedID = new int[1];
+
+                final ArrayAdapter adapter = new ArrayAdapter(mContext,R.layout.simple_spinner_item,groupNames);
+                adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
+                final int[] finalGroupIDs = groupIDs;
+                ((Spinner)v.findViewById(R.id.spinner_add_product_units_list)).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        groupVahedID[0] = finalGroupIDs[i];
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+                        groupVahedID[0] = finalGroupIDs[0];
+                    }
+                });
+                ((Spinner)v.findViewById(R.id.spinner_add_product_units_list)).setAdapter(adapter);
+                int vahedGroupPosition = 0;
+                for(int i = 0 ; i < groupIDs.length ; i++){
+                    if(c11.getInt(2) == groupIDs[i]) {
+                        vahedGroupPosition = i;
+                        i = groupIDs.length;
+                    }
+                }
+                ((Spinner)v.findViewById(R.id.spinner_add_product_units_list)).setSelection(vahedGroupPosition);
+
+                ((TextView)v.findViewById(R.id.textView_add_product_name)).setVisibility(View.VISIBLE);
+                ((TextView)v.findViewById(R.id.textView_add_product_buy_price)).setVisibility(View.VISIBLE);
+                ((TextView)v.findViewById(R.id.textView_add_product_sell_price)).setVisibility(View.VISIBLE);
+                ((TextView)v.findViewById(R.id.textView_add_product_mojoodi)).setVisibility(View.VISIBLE);
+                ((TextView)v.findViewById(R.id.textView_add_product_average_price)).setVisibility(View.VISIBLE);
+
+                ((EditText)v.findViewById(R.id.editText_add_product_name)).setHint("");
+                ((EditText)v.findViewById(R.id.editText_add_product_buy_price)).setHint("");
+                ((EditText)v.findViewById(R.id.editText_add_product_sell_price)).setHint("");
+                ((EditText)v.findViewById(R.id.editText_add_product_mojoodi)).setHint("");
+                ((EditText)v.findViewById(R.id.editText_add_product_average_price)).setHint("");
+
+                ((TextView)v.findViewById(R.id.textView_add_product_close)).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mLlAddLayer.setVisibility(View.GONE);
+                        mFab.setVisibility(View.VISIBLE);
+                    }
+                });
+
+                ((TextView)v.findViewById(R.id.textView_add_product_save)).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        SQLiteDatabase db = new MyDatabase(mContext).getWritableDatabase();
+                        ContentValues cv2 = new ContentValues();
+                        cv2.put("Name_Kala",((EditText)v.findViewById(R.id.editText_add_product_name)).getText().toString().trim());
+                        cv2.put("GheymatKharidAsli",((EditText)v.findViewById(R.id.editText_add_product_buy_price)).getText().toString().trim());
+                        cv2.put("GheymatForoshAsli",((EditText)v.findViewById(R.id.editText_add_product_sell_price)).getText().toString().trim());
+                        cv2.put("MojodiAvalDore",((EditText)v.findViewById(R.id.editText_add_product_mojoodi)).getText().toString().trim());
+                        cv2.put("MianginFiAvalDovre",((EditText)v.findViewById(R.id.editText_add_product_average_price)).getText().toString().trim());
+                        cv2.put("Fk_VahedKalaAsli",groupVahedID[0]);
+                        db.update("TblKala",cv2,"ID_Kala = ?",new String[]{mProductIDs.get(position)+""});
+                        db.close();
+
+                        Toast.makeText(mContext, "با موفقیت ذخیره شد.", Toast.LENGTH_SHORT).show();
+                        mLlAddLayer.setVisibility(View.GONE);
+                        mFab.setVisibility(View.VISIBLE);
+
+                        ProductsActivity.updateRefreshRecycler(mContext);
+                    }
+                });
+
+                c11.close();
+                db11.close();
+            }
+        });
 
     }
 

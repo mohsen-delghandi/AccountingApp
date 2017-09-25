@@ -27,9 +27,9 @@ import java.util.List;
 
 public class ProductsActivity extends MainActivity {
 
-    RecyclerView productRecyclerView;
+    static RecyclerView productRecyclerView;
     RecyclerView.LayoutManager recyclerManager;
-    RecyclerView.Adapter recyclerAdapter;
+    static RecyclerView.Adapter recyclerAdapter;
 
     LayoutInflater inflaterInclude;
 
@@ -55,6 +55,7 @@ public class ProductsActivity extends MainActivity {
             public void onClick(View view) {
                 inflaterInclude = (LayoutInflater)ProductsActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 fab.setVisibility(View.GONE);
+                llAddLayer.removeAllViews();
                 llAddLayer.setVisibility(View.VISIBLE);
                 llAddLayer.setOnTouchListener(new View.OnTouchListener() {
                     @Override
@@ -155,8 +156,13 @@ public class ProductsActivity extends MainActivity {
         recyclerManager = new LinearLayoutManager(this);
         productRecyclerView.setLayoutManager(recyclerManager);
         readProductsFromDatabase();
-        recyclerAdapter = new ProductsAdapter(this,productName,productBuyPrice,productSellPrice,productUnit,productMojoodi,productIDs);
+        recyclerAdapter = new ProductsAdapter(this,productName,productBuyPrice,productSellPrice,productUnit,productMojoodi,productIDs,llAddLayer,fab);
         productRecyclerView.setAdapter(recyclerAdapter);
+    }
+
+    public static void updateRefreshRecycler(Context context){
+//        recyclerAdapter.notifyItemChanged(position);
+//        recyclerAdapter.notifyDataSetChanged();
     }
 
     public void cleanFrom(){
@@ -193,13 +199,5 @@ public class ProductsActivity extends MainActivity {
         }
         cursor2.close();
         mydb.close();
-
-//        accountList.add(accountFullName);
-//        accountList.add(accountPhone);
-//        accountList.add(accountMobile);
-//        accountList.add(accountAddress);
-//        accountList.add(accountIDs);
-//
-//        return accountList;
     }
 }

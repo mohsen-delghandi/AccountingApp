@@ -37,6 +37,15 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:background="@drawable/shape_border">
+        <TextView
+            android:visibility="gone"
+            style="@style/etStyle"
+            android:layout_width="wrap_content"
+            android:id="@+id/textView_add_product_name"
+            android:hint="نام محصول"
+            android:inputType="text"
+            android:nextFocusForward="@+id/spinner_add_product_units_list"
+            />
         <EditText
             style="@style/etStyle"
             android:id="@+id/editText_add_product_name"
@@ -82,7 +91,14 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:background="@drawable/shape_border">
-
+        <TextView
+            style="@style/etStyle"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:id="@+id/textView_add_product_buy_price"
+            android:hint="قیمت خرید"
+            android:inputType="number"
+            android:nextFocusForward="@+id/editText_add_product_sell_price" />
         <EditText
             style="@style/etStyle"
             android:id="@+id/editText_add_product_buy_price"
@@ -97,6 +113,15 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:background="@drawable/shape_border">
+        <TextView
+            style="@style/etStyle"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:id="@+id/textView_add_product_sell_price"
+            android:hint="قیمت فروش"
+            android:inputType="number"
+            android:nextFocusForward="@+id/editText_add_product_mojoodi"
+            />
         <EditText
             style="@style/etStyle"
             android:id="@+id/editText_add_product_sell_price"
@@ -113,7 +138,14 @@
         android:background="@drawable/shape_border"
         android:gravity="center_vertical"
         android:orientation="horizontal">
-
+        <TextView
+            style="@style/etStyle"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:id="@+id/textView_add_product_mojoodi"
+            android:hint="موجودی اول دوره"
+            android:inputType="number"
+            android:nextFocusForward="@+id/editText_add_product_average_price"/>
         <EditText
             style="@style/etStyle"
             android:id="@+id/editText_add_product_mojoodi"
@@ -129,6 +161,14 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:background="@drawable/shape_border">
+        <TextView
+            style="@style/etStyle"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:id="@+id/textView_add_product_average_price"
+            android:hint="میانگین قیمت"
+            android:inputType="number"
+            />
         <EditText
             style="@style/etStyle"
             android:id="@+id/editText_add_product_average_price"
