@@ -111,7 +111,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
     private void deSelectItem(ProductsAdapter.ViewHolder h){
         h.llExtra.setVisibility(View.GONE);
         h.llMain.setBackground(mContext.getResources().getDrawable(R.drawable.shape_underline_dashed));
-        h.llName.getBackground().setTint(mContext.getResources().getColor(R.color.primary_text));
+        h.llName.getBackground().setTint(mContext.getResources().getColor(R.color.divider));
         h.tvName.setTextColor(mContext.getResources().getColor(R.color.primary_text));
         h.tvMojodi.setTextColor(mContext.getResources().getColor(R.color.A6));
         h.tvUnit.setTextColor(mContext.getResources().getColor(R.color.A6));
@@ -129,49 +129,6 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
         holder.tvBuyPrice.setText(mProductBuyPrice.get(position));
         holder.tvSellPrice.setText(mProductSellPrice.get(position));
         holder.setIsRecyclable(false);
-//        oclExpand = new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                holder.llExtra.setVisibility(View.VISIBLE);
-//                holder.llMain.setBackground(mContext.getResources().getDrawable(R.drawable.shape_gradient_background));
-//                holder.llName.getBackground().setTint(mContext.getResources().getColor(R.color.icons));
-//                holder.tvFullName.setTextColor(mContext.getResources().getColor(R.color.icons));
-//                holder.tvCompanyName.setTextColor(mContext.getResources().getColor(R.color.icons));
-//                holder.tvDash.setTextColor(mContext.getResources().getColor(R.color.icons));
-//                holder.tvBedehiDash.setTextColor(mContext.getResources().getColor(R.color.icons));
-//                holder.tvBedehiMablagh.setTextColor(mContext.getResources().getColor(R.color.icons));
-//                holder.tvBedehiVahed.setTextColor(mContext.getResources().getColor(R.color.icons));
-//                holder.tvBedehiText.setTextColor(mContext.getResources().getColor(R.color.icons));
-//                holder.ivCall.setBackground(null);
-//                holder.ivCall.setColorFilter(ContextCompat.getColor(mContext, R.color.primary_dark), android.graphics.PorterDuff.Mode.MULTIPLY);
-//                holder.ivArrow.setBackground(null);
-//                holder.ivArrow.setColorFilter(ContextCompat.getColor(mContext, R.color.primary_dark), android.graphics.PorterDuff.Mode.MULTIPLY);
-//                holder.llMain.setOnClickListener(oclCollapse);
-//            }
-//        };
-//
-//        oclCollapse = new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                holder.llExtra.setVisibility(View.GONE);
-//                holder.llMain.setBackground(mContext.getResources().getDrawable(R.drawable.shape_underline_dashed));
-//                holder.llName.getBackground().setTint(mContext.getResources().getColor(R.color.primary_text));
-//                holder.tvFullName.setTextColor(mContext.getResources().getColor(R.color.primary_text));
-//                holder.tvCompanyName.setTextColor(mContext.getResources().getColor(R.color.primary_text));
-//                holder.tvDash.setTextColor(mContext.getResources().getColor(R.color.primary_text));
-//                holder.tvBedehiDash.setTextColor(mContext.getResources().getColor(R.color.green));
-//                holder.tvBedehiMablagh.setTextColor(mContext.getResources().getColor(R.color.green));
-//                holder.tvBedehiVahed.setTextColor(mContext.getResources().getColor(R.color.green));
-//                holder.tvBedehiText.setTextColor(mContext.getResources().getColor(R.color.green));
-//                holder.ivCall.setBackground(mContext.getResources().getDrawable(R.drawable.shape_circle));
-//                holder.ivCall.getBackground().setTint(mContext.getResources().getColor(R.color.primary_dark));
-//                holder.ivCall.setColorFilter(ContextCompat.getColor(mContext, R.color.primary), android.graphics.PorterDuff.Mode.MULTIPLY);
-//                holder.ivArrow.setBackground(mContext.getResources().getDrawable(R.drawable.shape_circle));
-//                holder.ivArrow.getBackground().setTint(mContext.getResources().getColor(R.color.primary_dark));
-//                holder.ivArrow.setColorFilter(ContextCompat.getColor(mContext, R.color.primary), android.graphics.PorterDuff.Mode.MULTIPLY);
-//                holder.llMain.setOnClickListener(oclExpand);
-//            }
-//        };
         holder.llMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -196,7 +153,12 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
                 dbb.execSQL("DELETE FROM TblKala WHERE ID_Kala = " + mProductIDs.get(position));
                 dbb.close();
 
+                mProductIDs.remove(position);
                 mProductName.remove(position);
+                mProductBuyPrice.remove(position);
+                mProductSellPrice.remove(position);
+                mProductUnit.remove(position);
+                mProductMojoodi.remove(position);
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, mProductName.size());
                 notifyDataSetChanged();
@@ -245,7 +207,6 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
                         i++;
                     }while (c.moveToNext());
                 }
-                c.close();
                 db2.close();
                 final int[] groupVahedID = new int[1];
 
@@ -266,7 +227,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
                 ((Spinner)v.findViewById(R.id.spinner_add_product_units_list)).setAdapter(adapter);
                 int vahedGroupPosition = 0;
                 for(int i = 0 ; i < groupIDs.length ; i++){
-                    if(c11.getInt(2) == groupIDs[i]) {
+                    if(c11.getInt(1) == groupIDs[i]) {
                         vahedGroupPosition = i;
                         i = groupIDs.length;
                     }
@@ -305,13 +266,24 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
                         cv2.put("MianginFiAvalDovre",((EditText)v.findViewById(R.id.editText_add_product_average_price)).getText().toString().trim());
                         cv2.put("Fk_VahedKalaAsli",groupVahedID[0]);
                         db.update("TblKala",cv2,"ID_Kala = ?",new String[]{mProductIDs.get(position)+""});
+
+
+                        mProductName.set(position,((EditText)v.findViewById(R.id.editText_add_product_name)).getText().toString().trim());
+                        mProductBuyPrice.set(position,((EditText)v.findViewById(R.id.editText_add_product_buy_price)).getText().toString().trim());
+                        mProductSellPrice.set(position,((EditText)v.findViewById(R.id.editText_add_product_sell_price)).getText().toString().trim());
+                        Cursor c6 = db.query("TblVahedKalaAsli",new String[]{"NameVahed"},"ID_Vahed = ?",new String[]{groupVahedID[0]+""},null,null,null,null);
+                        c6.moveToFirst();
+                        mProductUnit.set(position,c6.getString(0));
+                        mProductMojoodi.set(position,((EditText)v.findViewById(R.id.editText_add_product_mojoodi)).getText().toString().trim());
+
+                        c6.close();
                         db.close();
+
+                        notifyDataSetChanged();
 
                         Toast.makeText(mContext, "با موفقیت ذخیره شد.", Toast.LENGTH_SHORT).show();
                         mLlAddLayer.setVisibility(View.GONE);
                         mFab.setVisibility(View.VISIBLE);
-
-                        ProductsActivity.updateRefreshRecycler(mContext);
                     }
                 });
 

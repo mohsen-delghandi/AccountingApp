@@ -41,7 +41,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
 
     Context mContext;
     View v;
-    List<String> mAccountFullName, mAccountPhones, mAccountMobiles, mAccountAddresses;
+    List<String> mAccountFullName, mAccountPhones, mAccountMobiles, mAccountAddresses,mAccountPishvands;
     List<Integer> mAccountIDs;
     boolean isCollapsed;
     ViewHolder selectedHolder;
@@ -50,13 +50,14 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
     FloatingActionButton mFab;
 
 
-    public AccountsAdapter(Context context, List<String> accountFullName, List<String> accountPhone, List<String> accountMobile, List<String> accountAddress, List<Integer> accountIDs, LinearLayout llAddLayer, FloatingActionButton fab) {
+    public AccountsAdapter(Context context, List<String> accountFullName, List<String> accountPhone, List<String> accountMobile, List<String> accountAddress, List<Integer> accountIDs, List<String> accountPishvands, LinearLayout llAddLayer, FloatingActionButton fab) {
         mContext = context;
         mAccountFullName = accountFullName;
         mAccountAddresses = accountAddress;
         mAccountMobiles = accountMobile;
         mAccountPhones = accountPhone;
         mAccountIDs = accountIDs;
+        mAccountPishvands = accountPishvands;
         mLlAddLayer = llAddLayer;
         mFab = fab;
     }
@@ -72,7 +73,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
         LinearLayout llExtra;
         LinearLayout llMain;
         LinearLayout llName;
-        TextView tvFullName, tvDash, tvCompanyName, tvBedehiDash, tvBedehiMablagh, tvBedehiText, tvBedehiVahed, tvPhone, tvMobile, tvAddress, tvEdit, tvDelete;
+        TextView tvFullName, tvDash, tvCompanyName, tvBedehiDash, tvBedehiMablagh, tvBedehiText, tvBedehiVahed, tvPhone, tvMobile, tvAddress, tvEdit, tvDelete,tvPishvand;
         ImageView ivCall, ivArrow, ivBedehi;
 
         public ViewHolder(View v) {
@@ -92,6 +93,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
             tvBedehiVahed = (TextView) v.findViewById(R.id.textView_acount_side_bedehi_vahed);
             tvEdit = (TextView) v.findViewById(R.id.textView_acount_side_edit);
             tvDelete = (TextView) v.findViewById(R.id.textView_acount_side_delete);
+            tvPishvand = (TextView) v.findViewById(R.id.textView_acount_side_pishvand);
             ivCall = (ImageView) v.findViewById(R.id.imageView_acount_side_call);
             ivArrow = (ImageView) v.findViewById(R.id.imageView_acount_side_arrow);
             ivBedehi = (ImageView) v.findViewById(R.id.imageView_acount_side_bedehi);
@@ -103,6 +105,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
         h.llMain.setBackground(mContext.getResources().getDrawable(R.drawable.shape_gradient_background));
         h.llName.getBackground().setTint(mContext.getResources().getColor(R.color.icons));
         h.tvFullName.setTextColor(mContext.getResources().getColor(R.color.icons));
+        h.tvPishvand.setTextColor(mContext.getResources().getColor(R.color.icons));
         h.tvCompanyName.setTextColor(mContext.getResources().getColor(R.color.icons));
         h.tvDash.setTextColor(mContext.getResources().getColor(R.color.icons));
         h.tvBedehiDash.setTextColor(mContext.getResources().getColor(R.color.icons));
@@ -118,8 +121,9 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
     public void deSelectItem(ViewHolder h){
         h.llExtra.setVisibility(View.GONE);
         h.llMain.setBackground(mContext.getResources().getDrawable(R.drawable.shape_underline_dashed));
-        h.llName.getBackground().setTint(mContext.getResources().getColor(R.color.primary_text));
+        h.llName.getBackground().setTint(mContext.getResources().getColor(R.color.divider));
         h.tvFullName.setTextColor(mContext.getResources().getColor(R.color.primary_text));
+        h.tvPishvand.setTextColor(mContext.getResources().getColor(R.color.primary_text));
         h.tvCompanyName.setTextColor(mContext.getResources().getColor(R.color.primary_text));
         h.tvDash.setTextColor(mContext.getResources().getColor(R.color.primary_text));
         h.tvBedehiDash.setTextColor(mContext.getResources().getColor(R.color.green));
@@ -133,6 +137,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
     @Override
     public void onBindViewHolder(final AccountsAdapter.ViewHolder holder, final int position) {
         holder.tvFullName.setText(mAccountFullName.get(position));
+        holder.tvPishvand.setText(mAccountPishvands.get(position));
         holder.tvPhone.setText(mAccountPhones.get(position));
         holder.tvMobile.setText(mAccountMobiles.get(position));
         holder.tvAddress.setText(mAccountAddresses.get(position));
@@ -204,9 +209,14 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
                 dbb.execSQL("DELETE FROM tblContacts WHERE Contacts_ID = " + mAccountIDs.get(position));
                 dbb.close();
 
+                mAccountIDs.remove(position);
                 mAccountFullName.remove(position);
+                mAccountPhones.remove(position);
+                mAccountMobiles.remove(position);
+                mAccountAddresses.remove(position);
+
                 notifyItemRemoved(position);
-                notifyItemRangeChanged(position, mAccountFullName.size());
+                notifyItemRangeChanged(position,mAccountFullName.size());
                 notifyDataSetChanged();
             }
         });
@@ -359,7 +369,19 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
                         cv2.put("GroupContact",groupContactID[0]);
                         cv2.put("Pishvand_ID",pishvandID[0]);
                         db.update("tblContacts",cv2,"Contacts_ID = ?",new String[]{mAccountIDs.get(position)+""});
+
+                        mAccountFullName.set(position,((EditText)v.findViewById(R.id.editText_add_account_fullName)).getText().toString().trim());
+                        mAccountPhones.set(position,((EditText)v.findViewById(R.id.editText_add_account_phone)).getText().toString().trim());
+                        mAccountMobiles.set(position,((EditText)v.findViewById(R.id.editText_add_account_mobile)).getText().toString().trim());
+                        mAccountAddresses.set(position,((EditText)v.findViewById(R.id.editText_add_account_address)).getText().toString().trim());
+                        Cursor c55 = db.query("tblPishvand",new String[]{"Pishvand"},"Pishvand_ID = ?",new String[]{pishvandID[0]+""},null,null,null,null);
+                        c55.moveToFirst();
+                        mAccountPishvands.set(position,c55.getString(0));
+                        c55.close();
+
                         db.close();
+
+                        notifyDataSetChanged();
 
                         Toast.makeText(mContext, "با موفقیت ذخیره شد.", Toast.LENGTH_SHORT).show();
                         mLlAddLayer.setVisibility(View.GONE);

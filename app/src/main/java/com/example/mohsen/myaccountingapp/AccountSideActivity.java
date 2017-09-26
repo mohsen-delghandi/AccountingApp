@@ -49,7 +49,7 @@ public class AccountSideActivity extends MainActivity {
     ImageView ivContactListPlus;
     Spinner spContactsList,spPishvand;
 
-    List<String> accountFullName,accountPhone,accountMobile,accountAddress;
+    List<String> accountFullName,accountPhone,accountMobile,accountAddress,accountPishvands;
     List<Integer> accountIDs;
 
 
@@ -112,6 +112,16 @@ public class AccountSideActivity extends MainActivity {
 
                 }
                 break;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(llAddLayer.getVisibility()==View.VISIBLE){
+            llAddLayer.setVisibility(View.GONE);
+            fab.setVisibility(View.VISIBLE);
+        }else {
+            super.onBackPressed();
         }
     }
 
@@ -236,7 +246,7 @@ public class AccountSideActivity extends MainActivity {
                         cv.put("Tafzili_Name",etFullName.getText().toString().trim());
                         cv.put("Tafzili_ID",cursor.getInt(0)+1);
                         db.insert("tblTafzili",null,cv);
-//                        Toast.makeText(AccountSideActivity.this, db.insert("tblTafzili",null,cv)+"", Toast.LENGTH_SHORT).show();
+
                         ContentValues cv2 = new ContentValues();
                         cv2.put("Tafzili_ID",cursor.getInt(0)+1);
                         cv2.put("FullName",etFullName.getText().toString().trim());
@@ -246,14 +256,26 @@ public class AccountSideActivity extends MainActivity {
                         cv2.put("Code_Melli",etCodeMelli.getText().toString().trim());
                         cv2.put("GroupContact",groupContactID[0]);
                         cv2.put("Pishvand_ID",pishvandID[0]);
-                        db.insert("tblContacts",null,cv2);
-//                        Toast.makeText(AccountSideActivity.this, db.insert("tblContacts",null,cv2)+"", Toast.LENGTH_SHORT).show();
+                        long id = db.insert("tblContacts",null,cv2);
+
+                        accountFullName.add(etFullName.getText().toString().trim());
+                        accountPhone.add(etPhone.getText().toString().trim());
+                        accountMobile.add(etMobile.getText().toString().trim());
+                        accountAddress.add(etAddress.getText().toString().trim());
+                        accountIDs.add((int)id);
+                        Cursor c4 = db.query("tblPishvand",new String[]{"Pishvand"},"Pishvand_ID = ?",new String[]{pishvandID[0]+""},null,null,null,null);
+                        c4.moveToFirst();
+                        accountPishvands.add(c4.getString(0));
+                        c4.close();
+
+                        recyclerAdapter.notifyItemInserted(accountIDs.size()-1);
+                        recyclerAdapter.notifyDataSetChanged();
+
                         cursor.close();
                         db.close();
 
                         Toast.makeText(AccountSideActivity.this, "با موفقیت ذخیره شد.", Toast.LENGTH_SHORT).show();
                         cleanFrom();
-//                        accountRecyclerView.setAdapter(recyclerAdapter);
                     }
                 });
 
@@ -299,7 +321,7 @@ public class AccountSideActivity extends MainActivity {
         recyclerManager = new LinearLayoutManager(this);
         accountRecyclerView.setLayoutManager(recyclerManager);
         readAccountsFromDatabase();
-        recyclerAdapter = new AccountsAdapter(this,accountFullName,accountPhone,accountMobile,accountAddress,accountIDs,llAddLayer,fab);
+        recyclerAdapter = new AccountsAdapter(this,accountFullName,accountPhone,accountMobile,accountAddress,accountIDs,accountPishvands,llAddLayer,fab);
         accountRecyclerView.setAdapter(recyclerAdapter);
     }
 
@@ -310,18 +332,21 @@ public class AccountSideActivity extends MainActivity {
         etMobile.setText("");
         etAddress.setText("");
         etFullName.setText("");
+        spPishvand.setSelection(0);
+        spContactsList.setSelection(0);
     }
 
-    public List<List> readAccountsFromDatabase(){
+    public void readAccountsFromDatabase(){
         accountFullName = new ArrayList<String>();
         accountPhone = new ArrayList<String>();
         accountMobile = new ArrayList<String>();
         accountAddress = new ArrayList<String>();
         accountIDs = new ArrayList<Integer>();
-        List<List> accountList = new ArrayList<List>();
+        accountPishvands = new ArrayList<String>();
+
 
         SQLiteDatabase mydb = new MyDatabase(this).getReadableDatabase();
-        Cursor cursor2 = mydb.query("tblContacts",new String[]{"FullName","Phone","Mobile","AdressContacts","Contacts_ID"},null,null,null,null,null);
+        Cursor cursor2 = mydb.query("tblContacts",new String[]{"FullName","Phone","Mobile","AdressContacts","Contacts_ID","Pishvand_ID"},null,null,null,null,null);
         if(cursor2.moveToFirst()){
             do{
                 accountFullName.add(cursor2.getString(0));
@@ -329,17 +354,13 @@ public class AccountSideActivity extends MainActivity {
                 accountMobile.add(cursor2.getString(2));
                 accountAddress.add(cursor2.getString(3));
                 accountIDs.add(cursor2.getInt(4));
+                Cursor c3 = mydb.query("tblPishvand",new String[]{"Pishvand"},"Pishvand_ID = ?",new String[]{cursor2.getString(5)},null,null,null,null);
+                c3.moveToFirst();
+                accountPishvands.add(c3.getString(0));
+                c3.close();
             }while ((cursor2.moveToNext()));
         }
         cursor2.close();
         mydb.close();
-
-        accountList.add(accountFullName);
-        accountList.add(accountPhone);
-        accountList.add(accountMobile);
-        accountList.add(accountAddress);
-        accountList.add(accountIDs);
-
-        return accountList;
     }
 }

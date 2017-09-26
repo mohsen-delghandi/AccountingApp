@@ -42,6 +42,16 @@ public class ProductsActivity extends MainActivity {
     Spinner spUnitList;
 
     @Override
+    public void onBackPressed() {
+        if(llAddLayer.getVisibility()==View.VISIBLE){
+            llAddLayer.setVisibility(View.GONE);
+            fab.setVisibility(View.VISIBLE);
+        }else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setInflater(this,R.layout.products_layout);
@@ -124,12 +134,25 @@ public class ProductsActivity extends MainActivity {
                         cv.put("GheymatForoshAsli",etSellPrice.getText().toString().trim());
                         cv.put("MojodiAvalDore",etMojoodi.getText().toString().trim());
                         cv.put("MianginFiAvalDovre",etAveragePrice.getText().toString().trim());
-                        db.insert("TblKala",null,cv);
+                        long id = db.insert("TblKala",null,cv);
+
+                        productName.add(etName.getText().toString().trim());
+                        productBuyPrice.add(etBuyPrice.getText().toString().trim());
+                        productSellPrice.add(etSellPrice.getText().toString().trim());
+                        Cursor c22 = db.query("TblVahedKalaAsli",new String[]{"NameVahed"},"ID_Vahed = ?",new String[]{unitID[0]+""},null,null,null);
+                        c22.moveToFirst();
+                        productUnit.add(c22.getString(0));
+                        c22.close();
+                        productMojoodi.add(etMojoodi.getText().toString().trim());
+                        productIDs.add((int)id);
+
+                        recyclerAdapter.notifyItemInserted(productIDs.size()-1);
+                        recyclerAdapter.notifyDataSetChanged();
+
                         db.close();
 
                         Toast.makeText(ProductsActivity.this, "با موفقیت ذخیره شد.", Toast.LENGTH_SHORT).show();
                         cleanFrom();
-//                        accountRecyclerView.setAdapter(recyclerAdapter);
                     }
                 });
 
@@ -160,17 +183,13 @@ public class ProductsActivity extends MainActivity {
         productRecyclerView.setAdapter(recyclerAdapter);
     }
 
-    public static void updateRefreshRecycler(Context context){
-//        recyclerAdapter.notifyItemChanged(position);
-//        recyclerAdapter.notifyDataSetChanged();
-    }
-
     public void cleanFrom(){
         etName.setText("");
         etAveragePrice.setText("");
         etMojoodi.setText("");
         etSellPrice.setText("");
         etBuyPrice.setText("");
+        spUnitList.setSelection(0);
     }
 
     public void readProductsFromDatabase(){
