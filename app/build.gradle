@@ -31,6 +31,5 @@ dependencies {
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
     compile 'com.github.imangazalievm:circlemenu:1.1.1'
     compile 'com.github.szugyi:Android-CircleMenu:2.0.0'
-    compile 'com.android.support:appcompat-v7:23.2.0'
     compile 'com.readystatesoftware.sqliteasset:sqliteassethelper:+'
 }

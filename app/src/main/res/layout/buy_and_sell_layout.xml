@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layoutDirection="rtl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingRight="@dimen/padding_bit"
+    android:paddingLeft="@dimen/padding_bit"
+    >
+
+    <LinearLayout
+        android:id="@+id/linearLayout_2"
+        android:paddingTop="@dimen/padding_medium"
+        android:paddingBottom="@dimen/padding_large"
+        android:layout_marginBottom="@dimen/padding_large"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:background="@drawable/shape_circle"
+            android:backgroundTint="@color/primary"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/textView_buy_select"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="خرید"
+                android:textSize="@dimen/font_xmedium"
+                android:gravity="center"
+                android:paddingBottom="@dimen/padding_medium"
+                android:paddingTop="@dimen/padding_medium"
+                android:paddingRight="@dimen/padding_spinner"
+                android:paddingLeft="@dimen/padding_spinner"
+                android:textColor="@color/icons"/>
+            <TextView
+                android:id="@+id/textView_sell_select"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="فروش"
+                android:textSize="@dimen/font_xmedium"
+                android:gravity="center"
+                android:paddingBottom="@dimen/padding_medium"
+                android:paddingTop="@dimen/padding_medium"
+                android:paddingRight="@dimen/padding_spinner"
+                android:paddingLeft="@dimen/padding_spinner"
+                android:textColor="@color/icons"/>
+            <TextView
+                android:id="@+id/textView_all_select"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="همه"
+                android:textSize="@dimen/font_xmedium"
+                android:gravity="center"
+                android:paddingBottom="@dimen/padding_medium"
+                android:paddingTop="@dimen/padding_medium"
+                android:paddingRight="@dimen/padding_spinner"
+                android:paddingLeft="@dimen/padding_spinner"
+                android:background="@drawable/shape_circle"
+                android:backgroundTint="@color/primary_dark"
+                android:textColor="@color/icons"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView_buy_and_sell"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:visibility="invisible"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_item_height" />
+
+</LinearLayout>

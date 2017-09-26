@@ -1,0 +1,187 @@
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layoutDirection="rtl"
+    android:gravity="center_vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/linearLayout_buy_sell_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/textView_buy_sell_date"
+            android:padding="@dimen/padding_bit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="1396/05/23"
+            android:gravity="center"
+            android:background="#efefef"
+            android:textColor="@color/primary_text"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout_buy_and_sell_main"
+        android:padding="@dimen/padding_small"
+        android:background="@drawable/shape_underline_dashed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="top"
+            android:layout_marginLeft="@dimen/padding_large">
+
+            <ImageView
+                android:id="@+id/imageView_buy_and_sell_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:background="@drawable/naqdi"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/linearLayout_buy_and_sell_factor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_underline"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView_buy_and_sell_factor_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingRight="@dimen/padding_bit"
+                    android:text="کد فاکتور : "
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/font_medium" />
+
+                <TextView
+                    android:id="@+id/textView_buy_and_sell_factor_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/padding_bit"
+                    android:gravity="center_vertical"
+                    android:text="265189532"
+                    android:textStyle="bold"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/font_medium" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingRight="@dimen/padding_large"
+                android:paddingLeft="@dimen/padding_large"
+                android:paddingTop="@dimen/padding_bit"
+                android:paddingBottom="@dimen/padding_bit">
+
+                <TextView
+                    android:id="@+id/textView_buy_and_sell_mablagh_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="مبلغ کل : "
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/font_medium" />
+
+                <TextView
+                    android:id="@+id/textView_buy_and_sell_mablagh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingRight="@dimen/padding_bit"
+                    android:text="150,000,000,000"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/font_medium" />
+
+                <TextView
+                    android:id="@+id/textView_buy_and_sell_rial"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/padding_bit"
+                    android:gravity="center_vertical"
+                    android:text="ریال"
+                    app:fontPath="fonts/IRANSansWeb_Bold.ttf"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/font_medium" />
+            </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingRight="@dimen/padding_large"
+                    android:paddingLeft="@dimen/padding_large"
+                    android:paddingTop="@dimen/padding_bit"
+                    android:paddingBottom="@dimen/padding_bit">
+
+                    <TextView
+                        android:id="@+id/textView_buy_and_sell_account_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="طرف حساب : "
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/font_medium" />
+
+                    <TextView
+                        android:id="@+id/textView_buy_and_sell_account_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:paddingRight="@dimen/padding_bit"
+                        android:text="نوید مندیس"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/font_medium" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/padding_large"
+            android:gravity="left">
+
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/shape_arrow_drop_down"
+                android:backgroundTint="@color/primary_dark"
+                android:padding="@dimen/padding_medium"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

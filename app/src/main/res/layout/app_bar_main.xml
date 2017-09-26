@@ -15,7 +15,8 @@
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:paddingRight="@dimen/padding_medium"
-        android:paddingLeft="@dimen/padding_medium">
+        android:paddingLeft="@dimen/padding_medium"
+        android:paddingBottom="@dimen/padding_bit">
 
         <!--<android.support.v7.widget.Toolbar-->
             <!--android:id="@+id/toolbar"-->
@@ -113,9 +114,17 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:layout_height="wrap_content"
                     android:gravity="left">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/shape_question"
+                        android:background="@drawable/shape_circle"
+                        android:padding="@dimen/padding_small"
+                        android:layout_marginLeft="@dimen/padding_small"
+                        />
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
