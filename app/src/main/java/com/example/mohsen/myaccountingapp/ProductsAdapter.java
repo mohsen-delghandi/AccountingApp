@@ -113,9 +113,9 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
         h.llMain.setBackground(mContext.getResources().getDrawable(R.drawable.shape_underline_dashed));
         h.llName.getBackground().setTint(mContext.getResources().getColor(R.color.divider));
         h.tvName.setTextColor(mContext.getResources().getColor(R.color.primary_text));
-        h.tvMojodi.setTextColor(mContext.getResources().getColor(R.color.A6));
-        h.tvUnit.setTextColor(mContext.getResources().getColor(R.color.A6));
-        h.tvSellText.setTextColor(mContext.getResources().getColor(R.color.A6));
+        h.tvMojodi.setTextColor(mContext.getResources().getColor(R.color.secondary_text));
+        h.tvUnit.setTextColor(mContext.getResources().getColor(R.color.secondary_text));
+        h.tvSellText.setTextColor(mContext.getResources().getColor(R.color.secondary_text));
         h.tvSellPrice.setTextColor(mContext.getResources().getColor(R.color.green));
         h.tvRial.setTextColor(mContext.getResources().getColor(R.color.green));
         h.ivArrow.setImageResource(R.drawable.shape_arrow_drop_down);

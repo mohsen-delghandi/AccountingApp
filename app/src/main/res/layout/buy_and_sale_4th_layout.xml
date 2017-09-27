@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layoutDirection="rtl"
+    android:padding="@dimen/padding_large"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/linearLayout_titleBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/padding_large"
+        android:background="@android:color/transparent"
+        android:paddingRight="@dimen/padding_medium"
+        android:paddingLeft="@dimen/padding_medium"
+        android:paddingBottom="@dimen/padding_bit">
+
+        <!--<android.support.v7.widget.Toolbar-->
+        <!--android:id="@+id/toolbar"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="?attr/actionBarSize"-->
+        <!--android:background="@android:color/transparent"-->
+        <!--app:popupTheme="@style/AppTheme.PopupOverlay">-->
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="@dimen/padding_medium"
+            android:paddingBottom="@dimen/padding_medium"
+            android:paddingRight="@dimen/padding_bit"
+            android:paddingLeft="@dimen/padding_bit"
+            android:gravity="center_vertical"
+            android:backgroundTint="@color/new_text"
+            android:background="@drawable/shape_underline">
+
+            <LinearLayout
+                android:padding="@dimen/padding_large"
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:gravity="right"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="لیست سفارش"
+                    android:textColor="@color/new_text"
+                    android:textSize="@dimen/font_large"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="LIST"
+                        android:textSize="@dimen/font_medium"
+                        android:textColor="@color/new_text"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ORDER "
+                        app:fontPath="fonts/IRANSansWeb_Bold.ttf"
+                        android:textSize="@dimen/font_medium"
+                        android:textColor="@color/new_text"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:gravity="left">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/shape_question"
+                    android:background="@drawable/shape_circle"
+                    android:padding="@dimen/padding_small"
+                    android:layout_marginLeft="@dimen/padding_small"
+                    />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/shape_arrow_left"
+                    android:background="@drawable/shape_circle"
+                    android:padding="@dimen/padding_small"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!--</android.support.v7.widget.Toolbar>-->
+
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView_accountSide"
+        android:layout_marginBottom="@dimen/padding_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.RecyclerView>
+
+
+    <LinearLayout
+        android:layout_margin="@dimen/padding_large"
+        android:padding="@dimen/padding_large"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_border_tire_shiri">
+
+        <LinearLayout
+            android:padding="@dimen/padding_large"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="@dimen/dimen_large"
+                android:layout_height="@dimen/dimen_large"
+                android:src="@drawable/jame_radif"
+                android:tint="@color/primary_text"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="جمع ردیف"
+                android:layout_marginBottom="@dimen/padding_large"
+                android:textSize="@dimen/font_medium"
+                android:textColor="@color/primary_text"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5"
+                android:textSize="@dimen/font_large"
+                android:textColor="@color/new_text"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="@color/primary_text"/>
+
+        <LinearLayout
+            android:padding="@dimen/padding_large"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="@dimen/dimen_large"
+                android:layout_height="@dimen/dimen_large"
+                android:src="@drawable/jame_meghdar"
+                android:tint="@color/primary_text"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="جمع مقدار"
+                android:layout_marginBottom="@dimen/padding_large"
+                android:textSize="@dimen/font_medium"
+                android:textColor="@color/primary_text"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="38"
+                android:textSize="@dimen/font_large"
+                android:textColor="@color/new_text"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="@color/primary_text"/>
+
+        <LinearLayout
+            android:padding="@dimen/padding_large"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="@dimen/dimen_large"
+                android:layout_height="@dimen/dimen_large"
+                android:src="@drawable/shape_cash"
+                android:tint="@color/primary_text"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="جمع کل مبلغ (ریال)"
+                android:layout_marginBottom="@dimen/padding_large"
+                android:textSize="@dimen/font_medium"
+                android:textColor="@color/primary_text"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="150,000,000"
+                android:textSize="@dimen/font_large"
+                android:textColor="@color/green"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/padding_spinner"
+        android:padding="@dimen/padding_large"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_circle"
+        android:backgroundTint="@color/green">
+
+        <ImageView
+            android:layout_width="@dimen/padding_spinner"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_check"/>
+
+        <TextView
+            android:paddingRight="@dimen/padding_large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="نهایی سازی سفارش"
+            android:textSize="@dimen/font_medium"
+            android:textColor="@color/icons"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

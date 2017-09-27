@@ -52,47 +52,47 @@
             </LinearLayout>
 
             <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:background="@drawable/shape_circle"
-            android:backgroundTint="@android:color/transparent"
-            android:paddingRight="@dimen/padding_large"
-            android:paddingLeft="@dimen/padding_large"
-            android:paddingTop="@dimen/padding_bit"
-            android:paddingBottom="@dimen/padding_bit">
-
-            <TextView
-                android:id="@+id/textView_product_sell_text"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:text="قیمت فروش :"
-                android:textColor="@color/secondary_text"
-                android:textSize="@dimen/font_small" />
+                android:orientation="horizontal"
+                android:background="@drawable/shape_circle"
+                android:backgroundTint="@android:color/transparent"
+                android:paddingRight="@dimen/padding_large"
+                android:paddingLeft="@dimen/padding_large"
+                android:paddingTop="@dimen/padding_bit"
+                android:paddingBottom="@dimen/padding_bit">
 
-            <TextView
-                android:id="@+id/textView_product_sell_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:paddingRight="@dimen/padding_bit"
-                android:text="150,000,000"
-                android:maxLines="1"
-                android:textColor="@color/green"
-                android:textSize="@dimen/font_small" />
+                <TextView
+                    android:id="@+id/textView_product_sell_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="قیمت فروش :"
+                    android:textColor="@color/secondary_text"
+                    android:textSize="@dimen/font_small" />
 
-            <TextView
-                android:id="@+id/textView_product_rial"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/padding_bit"
-                android:gravity="center_vertical"
-                android:text="ریال"
-                android:textColor="@color/green"
-                android:textSize="@dimen/font_small" />
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/textView_product_sell_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingRight="@dimen/padding_bit"
+                    android:text="150,000,000"
+                    android:maxLines="1"
+                    android:textColor="@color/green"
+                    android:textSize="@dimen/font_small" />
+
+                <TextView
+                    android:id="@+id/textView_product_rial"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/padding_bit"
+                    android:gravity="center_vertical"
+                    android:text="ریال"
+                    android:textColor="@color/green"
+                    android:textSize="@dimen/font_small" />
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -100,7 +100,7 @@
             android:layout_width="0dp"
             android:layout_weight="1.5"
             android:layout_height="wrap_content"
-            android:gravity="left">
+            android:gravity="left|center_vertical">
 
 
             <LinearLayout
@@ -110,29 +110,27 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
+                <ImageView
+                    android:layout_width="@dimen/padding_spinner"
+                    android:layout_height="@dimen/padding_spinner"
+                    android:src="@drawable/arrow_up_image"/>
+
                 <TextView
                     android:id="@+id/textView_product_unit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="کیلو"
+                    android:text="25"
                     android:maxLines="1"
+                    app:fontPath="fonts/IRANSansWeb_Bold.ttf"
                     android:textColor="@color/secondary_text"
                     android:textSize="@dimen/font_large" />
 
-                <TextView
-                    android:layout_below="@id/textView_product_unit"
-                    android:id="@+id/textView_product_mojodi"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="01"
-                    android:maxLines="1"
-                    android:layout_marginTop="-10dp"
-                    android:textColor="@color/secondary_text"
-                    android:textSize="@dimen/font_large"
-                    app:fontPath="fonts/IRANSansWeb_Bold.ttf"
-                    />
+                <ImageView
+                    android:layout_width="@dimen/padding_spinner"
+                    android:layout_height="@dimen/padding_spinner"
+                    android:src="@drawable/arrow_down_image"/>
+
             </LinearLayout>
 
             <ImageView
@@ -140,7 +138,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_medium"
-                android:src="@drawable/shape_arrow_drop_down"/>
+                android:src="@drawable/shape_plus"
+                android:background="@drawable/shape_circle"/>
 
         </LinearLayout>
 

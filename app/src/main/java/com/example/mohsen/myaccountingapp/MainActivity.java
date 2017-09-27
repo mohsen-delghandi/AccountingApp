@@ -123,7 +123,7 @@ public class MainActivity extends BaseActivity {
 
         classes.add(AccountSideActivity.class);
         classes.add(ProductsActivity.class);
-//        classes.add(SettingsActivity2.class);
+        classes.add(BuyAndSellActivity.class);
 //        classes.add(DatabaseAcitivity.class);
 
         mNavigationRecycler = (RecyclerView)findViewById(R.id.nav_recyclerView);

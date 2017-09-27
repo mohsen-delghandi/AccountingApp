@@ -9,7 +9,6 @@
     >
 
     <LinearLayout
-        android:id="@+id/linearLayout_2"
         android:paddingTop="@dimen/padding_medium"
         android:paddingBottom="@dimen/padding_large"
         android:layout_marginBottom="@dimen/padding_large"

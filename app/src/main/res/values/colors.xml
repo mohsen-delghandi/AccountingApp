@@ -4,10 +4,12 @@
     <color name="primary_dark">#242e42</color>
     <color name="primary_text">#7b8aa4</color>
     <color name="icons">#FFF</color>
-    <color name="red">#b80628</color>
-    <color name="green">#26b26f</color>
+    <color name="red">#c3344f</color>
+    <color name="green">#39b54a</color>
     <color name="orange">#f7941d</color>
     <color name="divider">#ccc</color>
-    <color name="A6">#a6a6a6</color>
+    <color name="secondary_text">#a6a6a6</color>
+    <color name="new_text">#535353</color>
+    <color name="shiri">#ededed</color>
 </resources>
 

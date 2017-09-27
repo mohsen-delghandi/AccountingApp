@@ -10,8 +10,8 @@
     <string-array name="navigation_menu_item_names">
         <item>طرف حساب</item>
         <item>محصولات</item>
-        <item>تراکنش ها</item>
         <item>خرید و فروش</item>
+        <item>تراکنش ها</item>
         <item>تنظیمات</item>
     </string-array>
 </resources>

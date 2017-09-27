@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layoutDirection="rtl"
+    android:padding="@dimen/padding_spinner"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/icons">
+
+    <LinearLayout
+        android:paddingRight="@dimen/padding_spinner"
+        android:paddingLeft="@dimen/padding_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:background="@drawable/shape_circle"
+            android:backgroundTint="@color/primary"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/textView_buy_and_sell_2nd_buy_select"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="خرید"
+                android:textSize="@dimen/font_xmedium"
+                android:gravity="center"
+                android:paddingBottom="@dimen/padding_medium"
+                android:paddingTop="@dimen/padding_medium"
+                android:paddingRight="@dimen/padding_spinner"
+                android:paddingLeft="@dimen/padding_spinner"
+                android:textColor="@color/icons"/>
+            <TextView
+                android:id="@+id/textView_buy_and_sell_2nd_sell_select"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="فروش"
+                android:textSize="@dimen/font_xmedium"
+                android:gravity="center"
+                android:paddingBottom="@dimen/padding_medium"
+                android:paddingTop="@dimen/padding_medium"
+                android:paddingRight="@dimen/padding_spinner"
+                android:paddingLeft="@dimen/padding_spinner"
+                android:background="@drawable/shape_circle"
+                android:backgroundTint="@color/primary_dark"
+                android:textColor="@color/icons"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:gravity="left">
+            <ImageView
+                android:id="@+id/imageView_buy_and_sell_2nd_help"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/shape_question"
+                android:background="@drawable/shape_circle"
+                android:padding="@dimen/padding_small"
+                android:layout_marginLeft="@dimen/padding_small"
+                />
+            <ImageView
+                android:id="@+id/imageView_buy_and_sell_2nd_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/shape_arrow_left"
+                android:background="@drawable/shape_circle"
+                android:padding="@dimen/padding_small"
+                />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_gravity="center"
+        android:paddingTop="@dimen/padding_spinner"
+        android:paddingBottom="@dimen/padding_spinner"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:padding="@dimen/padding_large"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:gravity="left"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:text="فروش محصـــولات"
+                android:textColor="@color/new_text"
+                android:textSize="@dimen/font_large"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:text="PRODUCTS"
+                    android:textSize="@dimen/font_medium"
+                    android:textColor="@color/new_text"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:text="SELLING "
+                    app:fontPath="fonts/IRANSansWeb_Bold.ttf"
+                    android:textSize="@dimen/font_medium"
+                    android:textColor="@color/new_text"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:src="@drawable/buy_and_sell_image"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/padding_large"
+        android:paddingRight="@dimen/padding_spinner"
+        android:paddingLeft="@dimen/padding_spinner"
+        android:paddingTop="@dimen/padding_xlarge"
+        android:paddingBottom="@dimen/padding_xlarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_border_tire">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="کد فاکتور"
+            android:textSize="@dimen/font_medium"
+            android:textColor="@color/new_text"/>
+
+        <TextView
+            android:id="@+id/textView_buy_and_sell_2nd_factor_code"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="wrap_content"
+            app:fontPath="fonts/IRANSansWeb_Bold.ttf"
+            android:textSize="@dimen/font_medium"
+            android:textColor="@color/new_text"
+            android:text="2562510"
+            android:background="@android:color/transparent"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/padding_large"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_border_tire">
+
+        <AutoCompleteTextView
+            android:id="@+id/autoTextView_buy_and_sell_2nd_account"
+            android:paddingRight="@dimen/padding_spinner"
+            android:paddingLeft="@dimen/padding_spinner"
+            android:paddingTop="@dimen/padding_xlarge"
+            android:paddingBottom="@dimen/padding_xlarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:completionThreshold="1"
+            android:hint="طرف حساب"
+            android:textColorHint="@color/new_text"
+            android:textColor="@color/new_text"
+            android:background="@android:color/transparent"
+            android:textSize="@dimen/font_medium"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/linearLayout_buy_and_sell_2nd_account"
+        android:layout_marginTop="@dimen/padding_large"
+        android:paddingRight="@dimen/padding_large"
+        android:paddingLeft="@dimen/padding_large"
+        android:paddingTop="@dimen/padding_spinner"
+        android:paddingBottom="@dimen/padding_spinner"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_border_tire_shiri"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding_bit">
+
+            <ImageView
+                android:id="@+id/imageView_buy_and_sell_2nd_account"
+                android:layout_width="@dimen/padding_medium"
+                android:layout_height="@dimen/padding_medium"
+                android:gravity="center_vertical"
+                android:src="@drawable/shape_arrow_down"
+                android:tint="@color/red" />
+
+            <TextView
+                android:id="@+id/textView_buy_and_sell_2nd_bedehi_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text=" بدهکار "
+                android:maxLines="1"
+                android:textColor="@color/red"
+                android:textSize="@dimen/font_small" />
+
+            <TextView
+                android:id="@+id/textView_buy_and_sell_2nd_bedehi_dash"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text=" - "
+                android:textColor="@color/red"
+                android:textSize="@dimen/font_small" />
+
+            <TextView
+                android:id="@+id/textView_buy_and_sell_2nd_bedehi_mablagh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingRight="@dimen/padding_bit"
+                android:text="150,000,000"
+                android:maxLines="1"
+                android:textColor="@color/red"
+                android:textSize="@dimen/font_small" />
+
+            <TextView
+                android:id="@+id/textView_buy_and_sell_2nd_bedehi_vahed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/padding_bit"
+                android:gravity="center_vertical"
+                android:text="ریال"
+                android:textColor="@color/red"
+                android:textSize="@dimen/font_xsmall" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/padding_large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_small"
+                android:text="تلفن :"
+                android:textColor="@color/new_text"
+                android:gravity="center_vertical"/>
+            <TextView
+                android:id="@+id/textView_buy_and_sell_2nd_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_small"
+                android:text="05123565448"
+                android:paddingRight="@dimen/padding_medium"
+                android:paddingLeft="@dimen/padding_medium"
+                android:textColor="@color/new_text"
+                android:gravity="center_vertical"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_small"
+                android:text="همراه :"
+                android:layout_marginRight="@dimen/padding_large"
+                android:textColor="@color/new_text"
+                android:gravity="center_vertical"/>
+            <TextView
+                android:id="@+id/textView_buy_and_sell_2nd_mobile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_small"
+                android:text="09359146436"
+                android:paddingRight="@dimen/padding_medium"
+                android:paddingLeft="@dimen/padding_medium"
+                android:textColor="@color/new_text"
+                android:gravity="center_vertical"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_small"
+                android:text="آدرس :"
+                android:textColor="@color/new_text"
+                android:gravity="center_vertical"/>
+
+            <TextView
+                android:id="@+id/textView_buy_and_sell_2nd_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_small"
+                android:text="سبزوار، خیابان ابن یمین، ساختمان دادآفرین"
+                android:textColor="@color/new_text"
+                android:paddingRight="@dimen/padding_medium"
+                android:paddingLeft="@dimen/padding_medium"
+                android:gravity="center_vertical"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout_buy_and_sell_2nd_tayid"
+        android:layout_marginTop="@dimen/padding_spinner"
+        android:padding="@dimen/padding_large"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_circle"
+        android:backgroundTint="@color/green">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/shape_arrow_right"/>
+
+        <TextView
+            android:paddingRight="@dimen/padding_bit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="تایید و انتخاب محصولات"
+            android:textSize="@dimen/font_medium"
+            android:textColor="@color/icons"/>
+
+    </LinearLayout>
+
+</LinearLayout>

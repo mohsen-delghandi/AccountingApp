@@ -24,6 +24,7 @@
     <dimen name="dimen_small">10dp</dimen>
     <dimen name="dimen_medium">20dp</dimen>
     <dimen name="dimen_xmedium">25dp</dimen>
+    <dimen name="dimen_xxmedium">35dp</dimen>
     <dimen name="dimen_large">40dp</dimen>
     <dimen name="dimen_xlarge">45dp</dimen>
     <dimen name="dimen_xxlarge">50dp</dimen>
