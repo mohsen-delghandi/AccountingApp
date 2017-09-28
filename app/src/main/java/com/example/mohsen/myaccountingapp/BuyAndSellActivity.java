@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -49,6 +50,8 @@ public class BuyAndSellActivity extends MainActivity {
 
     TextView tvKharidSelect2nd,tvForoshSelect2nd,tvFactorCode2nd,tvAccountBedehi2nd
             ,tvPhone2nd,tvMobile2nd,tvAddress2nd;
+
+    LinearLayout llAccountDetails2nd;
     AutoCompleteTextView atvAccounts;
     EditText etFullName,etPhone,etMobile,etAddress,etContactList,etCodeMelli;
     ImageView ivContactListPlus,ivHelp2nd,ivBack2nd;
@@ -102,12 +105,13 @@ public class BuyAndSellActivity extends MainActivity {
                 ivHelp2nd = (ImageView) findViewById(R.id.imageView_buy_and_sell_2nd_help);
                 ivBack2nd = (ImageView) findViewById(R.id.imageView_buy_and_sell_2nd_back);
 
+                llAccountDetails2nd = (LinearLayout)findViewById(R.id.linearLayout_buy_and_sell_2nd_account);
+
                 atvAccounts = (AutoCompleteTextView) findViewById(R.id.autoTextView_buy_and_sell_2nd_account);
 
                 SQLiteDatabase dbAccounts = new MyDatabase(BuyAndSellActivity.this).getReadableDatabase();
-                Cursor cursorAccounts = dbAccounts.query("tblContacts",new String[]{"FullName","Tafzili_ID"},null,null,null,null,null,null);
+                Cursor cursorAccounts = dbAccounts.query("tblContacts",new String[]{"FullName"},null,null,null,null,null,null);
                 List<String> listAccounts = new ArrayList<String>();
-                List<Integer> listTafziliIDs = new ArrayList<Integer>();
                 if(cursorAccounts.moveToFirst()){
                     do{
                         listAccounts.add(cursorAccounts.getString(0));
@@ -121,7 +125,23 @@ public class BuyAndSellActivity extends MainActivity {
                 atvAccounts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        Toast.makeText(BuyAndSellActivity.this,adapterView.getSelectedItemPosition()+"" , Toast.LENGTH_SHORT).show();
+                        SQLiteDatabase dbShowAccount = new MyDatabase(BuyAndSellActivity.this).getReadableDatabase();
+                        Cursor cursorShowAccount = dbShowAccount.query("tblContacts",new String[]{"Tafzili_ID"},"FullName = ?",new String[]{atvAccounts.getText().toString().trim()+""},null,null,null);
+                        List<Integer> accountTafziliIDs = new ArrayList<Integer>();
+                        if(cursorShowAccount.moveToFirst()){
+                            accountTafziliIDs.add(cursorShowAccount.getInt(0));
+                        }
+                        cursorShowAccount.close();
+                        Cursor cursorAccountDetails = dbShowAccount.query("tblContacts",new String[]{"Phone","Mobile","AdressContacts"},"Tafzili_ID = ?",new String[]{accountTafziliIDs.get(0)+""},null,null,null);
+                        cursorAccountDetails.moveToFirst();
+
+                        llAccountDetails2nd.setVisibility(View.VISIBLE);
+                        tvPhone2nd.setText(cursorAccountDetails.getString(0));
+                        tvMobile2nd.setText(cursorAccountDetails.getString(1));
+                        tvAddress2nd.setText(cursorAccountDetails.getString(2));
+
+                        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                        inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
                     }
                 });
 
@@ -140,9 +160,9 @@ public class BuyAndSellActivity extends MainActivity {
         buyAndSellRecyclerView.setNestedScrollingEnabled(false);
         recyclerManager = new LinearLayoutManager(this);
         buyAndSellRecyclerView.setLayoutManager(recyclerManager);
-//        readAccountsFromDatabase();
-//        recyclerAdapter = new AccountsAdapter(this,accountFullName,accountPhone,accountMobile,accountAddress,accountIDs,accountPishvands,llAddLayer,fab);
-//        buyAndSellRecyclerView.setAdapter(recyclerAdapter);
+        readAccountsFromDatabase();
+        recyclerAdapter = new AccountsAdapter(this,accountFullName,accountPhone,accountMobile,accountAddress,accountIDs,accountPishvands,llAddLayer,fab);
+        buyAndSellRecyclerView.setAdapter(recyclerAdapter);
     }
 
     public void cleanFrom(){
