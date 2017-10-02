@@ -14,6 +14,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextWatcher;
 import android.transition.ChangeBounds;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -41,106 +42,54 @@ public class BuyAndSellAdapter extends RecyclerView.Adapter<BuyAndSellAdapter.Vi
 
     Context mContext;
     View v;
-    List<String> mAccountFullName, mAccountPhones, mAccountMobiles, mAccountAddresses,mAccountPishvands;
-    List<Integer> mAccountIDs;
-    boolean isCollapsed;
-    ViewHolder selectedHolder;
-    LayoutInflater mInflaterInclude;
-    LinearLayout mLlAddLayer;
-    FloatingActionButton mFab;
+    List<String> mBuyAndSellFactorCodes;
+    List<String> mBuyAndSellMablaghKols;
+    List<String> mBuyAndSellAccounts;
+    List<String> mMode;
 
 
-    public BuyAndSellAdapter(Context context, List<String> accountFullName, List<String> accountPhone, List<String> accountMobile, List<String> accountAddress, List<Integer> accountIDs, List<String> accountPishvands, LinearLayout llAddLayer, FloatingActionButton fab) {
+    public BuyAndSellAdapter(Context context, List<String> buyAndSellFactorCodes, List<String> buyAndSellMablaghKols, List<String> buyAndSellAccounts, List<String> mode) {
         mContext = context;
-        mAccountFullName = accountFullName;
-        mAccountAddresses = accountAddress;
-        mAccountMobiles = accountMobile;
-        mAccountPhones = accountPhone;
-        mAccountIDs = accountIDs;
-        mAccountPishvands = accountPishvands;
-        mLlAddLayer = llAddLayer;
-        mFab = fab;
+        mBuyAndSellFactorCodes = buyAndSellFactorCodes;
+        mBuyAndSellAccounts = buyAndSellAccounts;
+        mBuyAndSellMablaghKols = buyAndSellMablaghKols;
+        mMode = mode;
     }
 
     @Override
     public BuyAndSellAdapter.ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
-        v = LayoutInflater.from(parent.getContext()).inflate(R.layout.account_side_item, parent, false);
+        v = LayoutInflater.from(parent.getContext()).inflate(R.layout.buy_and_sell_show_item, parent, false);
         ViewHolder holder = new ViewHolder(v);
         return holder;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        LinearLayout llExtra;
+        TextView tvFactorCode, tvMablaghKol, tvAccount;
         LinearLayout llMain;
-        LinearLayout llName;
-        TextView tvFullName, tvDash, tvCompanyName, tvBedehiDash, tvBedehiMablagh, tvBedehiText, tvBedehiVahed, tvPhone, tvMobile, tvAddress, tvEdit, tvDelete,tvPishvand;
-        ImageView ivCall, ivArrow, ivBedehi;
+        ImageView ivLabel;
 
         public ViewHolder(View v) {
             super(v);
-            llExtra = (LinearLayout) v.findViewById(R.id.linearLayout_account_side_extra_information);
-            llMain = (LinearLayout) v.findViewById(R.id.linearLayout_account_side_main);
-            llName = (LinearLayout) v.findViewById(R.id.linearLayout_acount_side_main_information);
-            tvFullName = (TextView) v.findViewById(R.id.textView_acount_side_fullName);
-            tvPhone = (TextView) v.findViewById(R.id.textView_acount_side_phone);
-            tvMobile = (TextView) v.findViewById(R.id.textView_acount_side_mobile);
-            tvAddress = (TextView) v.findViewById(R.id.textView_acount_side_address);
-            tvCompanyName = (TextView) v.findViewById(R.id.textView_acount_side_company_name);
-            tvDash = (TextView) v.findViewById(R.id.textView_acount_side_dash);
-            tvBedehiDash = (TextView) v.findViewById(R.id.textView_acount_side_bedehi_dash);
-            tvBedehiMablagh = (TextView) v.findViewById(R.id.textView_acount_side_bedehi_mablagh);
-            tvBedehiText = (TextView) v.findViewById(R.id.textView_acount_side_bedehi_text);
-            tvBedehiVahed = (TextView) v.findViewById(R.id.textView_acount_side_bedehi_vahed);
-            tvEdit = (TextView) v.findViewById(R.id.textView_acount_side_edit);
-            tvDelete = (TextView) v.findViewById(R.id.textView_acount_side_delete);
-            tvPishvand = (TextView) v.findViewById(R.id.textView_acount_side_pishvand);
-            ivCall = (ImageView) v.findViewById(R.id.imageView_acount_side_call);
-            ivArrow = (ImageView) v.findViewById(R.id.imageView_acount_side_arrow);
-            ivBedehi = (ImageView) v.findViewById(R.id.imageView_acount_side_bedehi);
+            tvFactorCode = (TextView)v.findViewById(R.id.textView_buy_and_sell_factor_code);
+            tvMablaghKol = (TextView)v.findViewById(R.id.textView_buy_and_sell_mablagh);
+            tvAccount = (TextView)v.findViewById(R.id.textView_buy_and_sell_account_name);
+
+            ivLabel = (ImageView)v.findViewById(R.id.imageView_buy_and_sell_label);
+
+            llMain = (LinearLayout)v.findViewById(R.id.linearLayout_buy_and_sell_main);
         }
-    }
-
-    public void selectItem(ViewHolder h){
-        h.llExtra.setVisibility(View.VISIBLE);
-        h.llMain.setBackground(mContext.getResources().getDrawable(R.drawable.shape_gradient_background));
-        h.llName.getBackground().setTint(mContext.getResources().getColor(R.color.icons));
-        h.tvFullName.setTextColor(mContext.getResources().getColor(R.color.icons));
-        h.tvPishvand.setTextColor(mContext.getResources().getColor(R.color.icons));
-        h.tvCompanyName.setTextColor(mContext.getResources().getColor(R.color.icons));
-        h.tvDash.setTextColor(mContext.getResources().getColor(R.color.icons));
-        h.tvBedehiDash.setTextColor(mContext.getResources().getColor(R.color.icons));
-        h.tvBedehiMablagh.setTextColor(mContext.getResources().getColor(R.color.icons));
-        h.tvBedehiVahed.setTextColor(mContext.getResources().getColor(R.color.icons));
-        h.tvBedehiText.setTextColor(mContext.getResources().getColor(R.color.icons));
-        h.ivCall.setBackground(null);
-        h.ivCall.setImageResource(R.drawable.shape_call_expanded);
-        h.ivArrow.setBackground(null);
-        h.ivArrow.setImageResource(R.drawable.shape_arrow_drop_up);
-    }
-
-    public void deSelectItem(ViewHolder h){
-        h.llExtra.setVisibility(View.GONE);
-        h.llMain.setBackground(mContext.getResources().getDrawable(R.drawable.shape_underline_dashed));
-        h.llName.getBackground().setTint(mContext.getResources().getColor(R.color.divider));
-        h.tvFullName.setTextColor(mContext.getResources().getColor(R.color.primary_text));
-        h.tvPishvand.setTextColor(mContext.getResources().getColor(R.color.primary_text));
-        h.tvCompanyName.setTextColor(mContext.getResources().getColor(R.color.primary_text));
-        h.tvDash.setTextColor(mContext.getResources().getColor(R.color.primary_text));
-        h.tvBedehiDash.setTextColor(mContext.getResources().getColor(R.color.green));
-        h.tvBedehiMablagh.setTextColor(mContext.getResources().getColor(R.color.green));
-        h.tvBedehiVahed.setTextColor(mContext.getResources().getColor(R.color.green));
-        h.tvBedehiText.setTextColor(mContext.getResources().getColor(R.color.green));
-        h.ivCall.setImageResource(R.drawable.shape_call_collapsed);
-        h.ivArrow.setImageResource(R.drawable.shape_arrow_drop_down);
     }
 
     @Override
     public void onBindViewHolder(final BuyAndSellAdapter.ViewHolder holder, final int position) {
-        holder.tvFullName.setText(mAccountFullName.get(position));
-        holder.tvPishvand.setText(mAccountPishvands.get(position));
-        holder.tvPhone.setText(mAccountPhones.get(position));
-        holder.tvMobile.setText(mAccountMobiles.get(position));
-        holder.tvAddress.setText(mAccountAddresses.get(position));
+        holder.tvFactorCode.setText(mBuyAndSellFactorCodes.get(position));
+        holder.tvMablaghKol.setText(mBuyAndSellMablaghKols.get(position));
+        holder.tvAccount.setText(mBuyAndSellAccounts.get(position)+"");
+        if(mMode.get(position).trim().equals("Buy")){
+            holder.ivLabel.setImageResource(R.drawable.buy_image);
+        }else if(mMode.get(position).trim().equals("Sell")){
+            holder.ivLabel.setImageResource(R.drawable.sell_image);
+        }
         holder.setIsRecyclable(false);
 //        oclExpand = new View.OnClickListener() {
 //            @Override
@@ -188,242 +137,13 @@ public class BuyAndSellAdapter extends RecyclerView.Adapter<BuyAndSellAdapter.Vi
         holder.llMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                isCollapsed = holder.llExtra.getVisibility() == View.GONE;
-                if (isCollapsed) {
-                    selectItem(holder);
-                    if(selectedHolder != holder){
-                        if(selectedHolder != null)
-                            deSelectItem(selectedHolder);
-                        selectedHolder = holder;
-                    }
-                } else {
-                    deSelectItem(holder);
-                }
-            }
-        });
 
-        holder.tvDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SQLiteDatabase dbb = new MyDatabase(mContext).getWritableDatabase();
-                dbb.execSQL("DELETE FROM tblContacts WHERE Contacts_ID = " + mAccountIDs.get(position));
-                dbb.close();
-
-                mAccountIDs.remove(position);
-                mAccountFullName.remove(position);
-                mAccountPhones.remove(position);
-                mAccountMobiles.remove(position);
-                mAccountAddresses.remove(position);
-
-                notifyItemRemoved(position);
-                notifyItemRangeChanged(position,mAccountFullName.size());
-                notifyDataSetChanged();
-            }
-        });
-
-        holder.tvEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mInflaterInclude = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                mFab.setVisibility(View.GONE);
-                mLlAddLayer.removeAllViews();
-                mLlAddLayer.setVisibility(View.VISIBLE);
-                mLlAddLayer.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        return true;
-                    }
-                });
-
-                final View v = mInflaterInclude.inflate(R.layout.add_account_layout,mLlAddLayer);
-                v.findViewById(R.id.textView_add_account_contact_list).setVisibility(View.INVISIBLE);
-                v.findViewById(R.id.textView_add_account_clean).setVisibility(View.INVISIBLE);
-                ((TextView)v.findViewById(R.id.textView_add_account_save)).setText("بروزرسانی");
-
-                SQLiteDatabase db11 = new MyDatabase(mContext).getWritableDatabase();
-                Cursor c11 = db11.query("tblContacts",new String[]{"FullName","Code_Melli","Phone","Mobile","AdressContacts","GroupContact","Pishvand_ID"},"Contacts_ID = ?",
-                        new String[]{mAccountIDs.get(position)+""},null,null,null);
-                c11.moveToFirst();
-                ((EditText)v.findViewById(R.id.editText_add_account_fullName)).setText(c11.getString(0));
-                ((EditText)v.findViewById(R.id.editText_add_account_codeMelli)).setText(c11.getString(1));
-                ((EditText)v.findViewById(R.id.editText_add_account_phone)).setText(c11.getString(2));
-                ((EditText)v.findViewById(R.id.editText_add_account_mobile)).setText(c11.getString(3));
-                ((EditText)v.findViewById(R.id.editText_add_account_address)).setText(c11.getString(4));
-
-                SQLiteDatabase db2 = new MyDatabase(mContext).getReadableDatabase();
-                Cursor c = db2.query("tblGroupContact",new String[]{"GroupContactName","GroupContact"},null,null,null,null,null,null);
-                String[] groupNames = null;
-                int[] groupIDs = null;
-                if(c.moveToFirst()){
-                    groupNames = new String[c.getCount()];
-                    groupIDs = new int[c.getCount()];
-                    int i = 0;
-                    do{
-                        groupNames[i] = c.getString(0);
-                        groupIDs[i] = c.getInt(1);
-                        i++;
-                    }while (c.moveToNext());
-                }
-                c.close();
-
-                Cursor c2 = db2.query("tblPishvand",new String[]{"Pishvand_ID","Pishvand"},null,null,null,null,null,null);
-                int[] pishvandIDs = null;
-                String[] pishvandNames = null;
-                if(c2.moveToFirst()){
-                    pishvandIDs = new int[c2.getCount()];
-                    pishvandNames = new String[c2.getCount()];
-                    int i = 0;
-                    do{
-                        pishvandIDs[i] = c2.getInt(0);
-                        pishvandNames[i] = c2.getString(1);
-                        i++;
-                    }while (c2.moveToNext());
-                }
-                c2.close();
-
-                db2.close();
-
-//                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.travelreasons, R.layout.simple_spinner_item);
-                final int[] groupContactID = new int[1];
-
-                final ArrayAdapter adapter = new ArrayAdapter(mContext,R.layout.simple_spinner_item,groupNames);
-                adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
-                final int[] finalGroupIDs = groupIDs;
-                ((Spinner)v.findViewById(R.id.spinner_add_account_contacts_list)).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                        groupContactID[0] = finalGroupIDs[i];
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> adapterView) {
-                        groupContactID[0] = finalGroupIDs[0];
-                    }
-                });
-                ((Spinner)v.findViewById(R.id.spinner_add_account_contacts_list)).setAdapter(adapter);
-                int contactGroupPosition = 0;
-                for(int i = 0 ; i < groupIDs.length ; i++){
-                    if(c11.getInt(5) == groupIDs[i]) {
-                        contactGroupPosition = i;
-                        i = groupIDs.length;
-                    }
-                }
-                ((Spinner)v.findViewById(R.id.spinner_add_account_contacts_list)).setSelection(contactGroupPosition);
-
-                final int[] pishvandID = new int[1];
-
-                final ArrayAdapter adapter2 = new ArrayAdapter(mContext,R.layout.simple_spinner_item,pishvandNames);
-                adapter2.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
-                final int[] finalpishvandIDs = pishvandIDs;
-                ((Spinner)v.findViewById(R.id.spinner_add_account_pishvand)).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                        pishvandID[0] = finalpishvandIDs[i];
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> adapterView) {
-                        pishvandID[0] = finalpishvandIDs[0];
-                    }
-                });
-                ((Spinner)v.findViewById(R.id.spinner_add_account_pishvand)).setAdapter(adapter2);
-                int contactPishvandPosition = 0;
-                for(int i = 0 ; i < pishvandIDs.length ; i++){
-                    if(c11.getInt(6) == pishvandIDs[i]) {
-                        contactPishvandPosition = i;
-                        i = pishvandIDs.length;
-                    }
-                }
-                ((Spinner)v.findViewById(R.id.spinner_add_account_pishvand)).setSelection(contactPishvandPosition);
-
-                ((TextView)v.findViewById(R.id.textView_add_account_fullName)).setVisibility(View.VISIBLE);
-                ((TextView)v.findViewById(R.id.textView_add_account_codeMelli)).setVisibility(View.VISIBLE);
-                ((TextView)v.findViewById(R.id.textView_add_account_phone)).setVisibility(View.VISIBLE);
-                ((TextView)v.findViewById(R.id.textView_add_account_mobile)).setVisibility(View.VISIBLE);
-                ((TextView)v.findViewById(R.id.textView_add_account_address)).setVisibility(View.VISIBLE);
-
-                ((EditText)v.findViewById(R.id.editText_add_account_fullName)).setHint("");
-                ((EditText)v.findViewById(R.id.editText_add_account_codeMelli)).setHint("");
-                ((EditText)v.findViewById(R.id.editText_add_account_phone)).setHint("");
-                ((EditText)v.findViewById(R.id.editText_add_account_mobile)).setHint("");
-                ((EditText)v.findViewById(R.id.editText_add_account_address)).setHint("");
-
-                ((TextView)v.findViewById(R.id.textView_add_account_close)).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mLlAddLayer.setVisibility(View.GONE);
-                        mFab.setVisibility(View.VISIBLE);
-                    }
-                });
-
-                ((TextView)v.findViewById(R.id.textView_add_account_save)).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        SQLiteDatabase db = new MyDatabase(mContext).getWritableDatabase();
-                        ContentValues cv2 = new ContentValues();
-                        cv2.put("FullName",((EditText)v.findViewById(R.id.editText_add_account_fullName)).getText().toString().trim());
-                        cv2.put("Phone",((EditText)v.findViewById(R.id.editText_add_account_phone)).getText().toString().trim());
-                        cv2.put("Mobile",((EditText)v.findViewById(R.id.editText_add_account_mobile)).getText().toString().trim());
-                        cv2.put("AdressContacts",((EditText)v.findViewById(R.id.editText_add_account_address)).getText().toString().trim());
-                        cv2.put("Code_Melli",((EditText)v.findViewById(R.id.editText_add_account_codeMelli)).getText().toString().trim());
-                        cv2.put("GroupContact",groupContactID[0]);
-                        cv2.put("Pishvand_ID",pishvandID[0]);
-                        db.update("tblContacts",cv2,"Contacts_ID = ?",new String[]{mAccountIDs.get(position)+""});
-
-                        mAccountFullName.set(position,((EditText)v.findViewById(R.id.editText_add_account_fullName)).getText().toString().trim());
-                        mAccountPhones.set(position,((EditText)v.findViewById(R.id.editText_add_account_phone)).getText().toString().trim());
-                        mAccountMobiles.set(position,((EditText)v.findViewById(R.id.editText_add_account_mobile)).getText().toString().trim());
-                        mAccountAddresses.set(position,((EditText)v.findViewById(R.id.editText_add_account_address)).getText().toString().trim());
-                        Cursor c55 = db.query("tblPishvand",new String[]{"Pishvand"},"Pishvand_ID = ?",new String[]{pishvandID[0]+""},null,null,null,null);
-                        c55.moveToFirst();
-                        mAccountPishvands.set(position,c55.getString(0));
-                        c55.close();
-
-                        db.close();
-
-                        notifyDataSetChanged();
-
-                        Toast.makeText(mContext, "با موفقیت ذخیره شد.", Toast.LENGTH_SHORT).show();
-                        mLlAddLayer.setVisibility(View.GONE);
-                        mFab.setVisibility(View.VISIBLE);
-                    }
-                });
-            }
-        });
-
-        holder.ivCall.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String[] permissions = {Manifest.permission.CALL_PHONE};
-                new PermissionHandler().checkPermission((Activity) mContext, permissions, new PermissionHandler.OnPermissionResponse() {
-                    @Override
-                    public void onPermissionGranted() {
-                        Intent callIntent = new Intent(Intent.ACTION_CALL);
-                        callIntent.setData(Uri.parse("tel:"+holder.tvMobile.getText().toString().trim()));
-                        if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                            // TODO: Consider calling
-                            //    ActivityCompat#requestPermissions
-                            // here to request the missing permissions, and then overriding
-                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                            //                                          int[] grantResults)
-                            // to handle the case where the user grants the permission. See the documentation
-                            // for ActivityCompat#requestPermissions for more details.
-                            return;
-                        }
-                        mContext.startActivity(callIntent);
-                    }
-
-                    @Override
-                    public void onPermissionDenied() {
-                        Toast.makeText(mContext, "No Permission.", Toast.LENGTH_SHORT).show();
-                    }
-                });
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return mAccountFullName.size();
+        return mBuyAndSellFactorCodes.size();
     }
 }

@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout android:id="@+id/linearLayout_product_main"
+<LinearLayout android:id="@+id/linearLayout_product_main_3rd"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layoutDirection="rtl"
     android:gravity="center_vertical"
-    android:padding="@dimen/padding_large"
-    android:layout_margin="@dimen/padding_small"
+    android:paddingTop="@dimen/padding_bit"
+    android:paddingBottom="@dimen/padding_bit"
+    android:paddingRight="@dimen/padding_medium"
+    android:paddingLeft="@dimen/padding_medium"
     android:background="@drawable/shape_underline_dashed"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -19,17 +21,19 @@
         android:gravity="center_vertical">
 
         <ImageView
+            android:id="@+id/imageView_product_image_3rd"
             android:layout_width="@dimen/dimen_xxlarge"
             android:layout_height="@dimen/dimen_xxlarge"
             android:src="@drawable/crm" />
 
         <LinearLayout
             android:orientation="vertical"
+            android:gravity="center_vertical"
             android:layout_width="0dp"
             android:layout_weight="3"
-            android:layout_height="wrap_content"
-            android:paddingRight="@dimen/padding_large"
-            android:paddingLeft="@dimen/padding_large">
+            android:paddingRight="@dimen/padding_bit"
+            android:paddingLeft="@dimen/padding_bit"
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:id="@+id/linearLayout_product_name"
@@ -41,7 +45,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textView_product_name"
+                    android:id="@+id/textView_product_name_3rd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -73,7 +77,7 @@
                     android:textSize="@dimen/font_small" />
 
                 <TextView
-                    android:id="@+id/textView_product_sell_price"
+                    android:id="@+id/textView_product_sell_price_3rd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -111,155 +115,48 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="@dimen/padding_spinner"
-                    android:layout_height="@dimen/padding_spinner"
-                    android:src="@drawable/arrow_up_image"/>
-
-                <TextView
-                    android:id="@+id/textView_product_unit"
+                    android:id="@+id/imageView_product_up_3rd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="25"
-                    android:maxLines="1"
-                    app:fontPath="fonts/IRANSansWeb_Bold.ttf"
-                    android:textColor="@color/secondary_text"
-                    android:textSize="@dimen/font_large" />
+                    android:src="@drawable/arrow_up_image"/>
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/padding_medium" />
 
                 <ImageView
-                    android:layout_width="@dimen/padding_spinner"
-                    android:layout_height="@dimen/padding_spinner"
+                    android:id="@+id/imageView_product_down_3rd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:src="@drawable/arrow_down_image"/>
 
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/imageView_product_arrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/padding_medium"
-                android:src="@drawable/shape_plus"
-                android:background="@drawable/shape_circle"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/linearLayout_product_extra"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:visibility="invisible"
-            android:layout_width="@dimen/dimen_xxlarge"
-            android:layout_height="@dimen/dimen_xxlarge"
-            android:src="@drawable/crm" />
-
-
-        <LinearLayout
-            android:paddingRight="@dimen/padding_large"
-            android:paddingLeft="@dimen/padding_large"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
-
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/textView_product_quintity_3rd"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:orientation="horizontal"
-                android:background="@drawable/shape_circle"
-                android:backgroundTint="@color/primary_dark"
-                android:paddingRight="@dimen/padding_large"
-                android:paddingLeft="@dimen/padding_large"
-                android:paddingTop="@dimen/padding_bit"
-                android:paddingBottom="@dimen/padding_bit"
-                >
+                android:text="0"
+                android:maxLines="1"
+                app:fontPath="fonts/IRANSansWeb_Bold.ttf"
+                android:textColor="@color/secondary_text"
+                android:textSize="@dimen/font_large" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text="قیمت خرید :"
-                    android:textColor="@color/icons"
-                    android:textSize="@dimen/font_small" />
-
-                <TextView
-                    android:id="@+id/textView_product_buy_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:paddingRight="@dimen/padding_bit"
-                    android:text="150,000,000"
-                    android:textColor="@color/icons"
-                    android:textSize="@dimen/font_small" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/padding_bit"
-                    android:gravity="center_vertical"
-                    android:text="ریال"
-                    android:textColor="@color/icons"
-                    android:textSize="@dimen/font_small" />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_marginTop="@dimen/padding_large"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/textView_product_unit_3rd"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="left">
-
-
-                <TextView
-                    android:id="@+id/textView_product_edit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/shape_circle"
-                    android:backgroundTint="@color/primary_dark"
-                    android:textColor="@color/icons"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/padding_large"
-                    android:textSize="@dimen/font_small"
-                    android:paddingRight="@dimen/padding_large"
-                    android:paddingLeft="@dimen/padding_large"
-                    android:paddingTop="@dimen/padding_bit"
-                    android:paddingBottom="@dimen/padding_bit"
-                    android:text="ویرایش"/>
-
-
-                <TextView
-                    android:id="@+id/textView_product_delete"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/shape_circle"
-                    android:backgroundTint="@color/red"
-                    android:textColor="@color/icons"
-                    android:gravity="center"
-                    android:textSize="@dimen/font_small"
-                    android:paddingRight="@dimen/padding_large"
-                    android:paddingLeft="@dimen/padding_large"
-                    android:paddingTop="@dimen/padding_bit"
-                    android:paddingBottom="@dimen/padding_bit"
-                    android:text="حذف"/>
-
-
-            </LinearLayout>
+                android:gravity="right"
+                android:text="کیلو"
+                android:maxLines="1"
+                android:textColor="@color/secondary_text"
+                android:textSize="@dimen/font_small" />
 
         </LinearLayout>
 
     </LinearLayout>
-
-
-
 
 </LinearLayout>
