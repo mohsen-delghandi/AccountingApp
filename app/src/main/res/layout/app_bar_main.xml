@@ -12,6 +12,7 @@
     <LinearLayout
         android:id="@+id/linearLayout_titleBar"
         android:layout_width="match_parent"
+        android:orientation="vertical"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:paddingRight="@dimen/padding_medium"
@@ -136,7 +137,10 @@
 
             </LinearLayout>
 
-            <!--</android.support.v7.widget.Toolbar>-->
+
+
+
+        <!--</android.support.v7.widget.Toolbar>-->
 
 
     </LinearLayout>
@@ -161,6 +165,8 @@
         <!--android:textSize="@dimen/font_medium"-->
         <!--android:background="@drawable/shape_circle"-->
         <!--android:backgroundTint="@color/red"/>-->
+
+
 
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/nestedscrollview"

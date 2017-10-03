@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layoutDirection="rtl"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingRight="@dimen/padding_bit"
-    android:paddingLeft="@dimen/padding_bit"
-    >
+    android:paddingLeft="@dimen/padding_bit">
 
     <LinearLayout
+        android:id="@+id/linearLayout_buy_and_sell_show_layout"
         android:paddingTop="@dimen/padding_medium"
         android:paddingBottom="@dimen/padding_large"
         android:layout_marginBottom="@dimen/padding_large"
@@ -46,6 +47,8 @@
                 android:paddingTop="@dimen/padding_medium"
                 android:paddingRight="@dimen/padding_spinner"
                 android:paddingLeft="@dimen/padding_spinner"
+                android:background="@drawable/shape_circle"
+                android:backgroundTint="@color/primary_dark"
                 android:textColor="@color/icons"/>
             <TextView
                 android:id="@+id/textView_buy_and_sell_hame"
@@ -58,8 +61,6 @@
                 android:paddingTop="@dimen/padding_medium"
                 android:paddingRight="@dimen/padding_spinner"
                 android:paddingLeft="@dimen/padding_spinner"
-                android:background="@drawable/shape_circle"
-                android:backgroundTint="@color/primary_dark"
                 android:textColor="@color/icons"/>
         </LinearLayout>
 

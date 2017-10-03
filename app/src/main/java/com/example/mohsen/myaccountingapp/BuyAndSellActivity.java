@@ -48,6 +48,10 @@ public class BuyAndSellActivity extends MainActivity {
     List<String> buyAndSellAccounts;
     List<String> buyAndSellModes;
 
+    List<Integer> accountTafziliIDs;
+
+    int factorCode;
+
     @Override
     public void onBackPressed() {
         if(llAddLayer.getVisibility()==View.VISIBLE){
@@ -107,7 +111,7 @@ public class BuyAndSellActivity extends MainActivity {
                 }
                 cursorAccounts.close();
 
-                int factorCode = -1;
+                factorCode = -1;
                 Cursor cursorFactorCode1 = dbAccounts.query("TblParent_FrooshKala",new String[]{"MAX(ForooshKalaParent_ID)"},null,null,null,null,null,null);
                 if(cursorFactorCode1.moveToFirst()){
                     factorCode = cursorFactorCode1.getInt(0)+1;
@@ -134,7 +138,7 @@ public class BuyAndSellActivity extends MainActivity {
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         SQLiteDatabase dbShowAccount = new MyDatabase(BuyAndSellActivity.this).getReadableDatabase();
                         Cursor cursorShowAccount = dbShowAccount.query("tblContacts",new String[]{"Tafzili_ID"},"FullName = ?",new String[]{atvAccounts.getText().toString().trim()+""},null,null,null);
-                        List<Integer> accountTafziliIDs = new ArrayList<Integer>();
+                        accountTafziliIDs = new ArrayList<Integer>();
                         if(cursorShowAccount.moveToFirst()){
                             accountTafziliIDs.add(cursorShowAccount.getInt(0));
                         }
@@ -195,7 +199,8 @@ public class BuyAndSellActivity extends MainActivity {
                         productListRecyclerView.setNestedScrollingEnabled(false);
                         recyclerManagerProductList = new LinearLayoutManager(BuyAndSellActivity.this);
                         productListRecyclerView.setLayoutManager(recyclerManagerProductList);
-                        recyclerAdapterProductList = new ProductsListSelectAdapter(BuyAndSellActivity.this,productName,productSellPrice,productUnit,productMojoodi,productIDs);
+                        recyclerAdapterProductList = new ProductsListSelectAdapter(BuyAndSellActivity.this,productName,productSellPrice,productUnit
+                                ,productMojoodi,productIDs,fab,llAddLayer,factorCode,accountTafziliIDs.get(0));
                         productListRecyclerView.setAdapter(recyclerAdapterProductList);
 
 
@@ -207,6 +212,25 @@ public class BuyAndSellActivity extends MainActivity {
                     public void onClick(View view) {
                         llAddLayer.setVisibility(View.GONE);
                         fab.setVisibility(View.VISIBLE);
+                    }
+                });
+
+                tvKharidSelect2nd.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        tvKharidSelect2nd.setBackground(getResources().getDrawable(R.drawable.shape_circle));
+                        tvKharidSelect2nd.getBackground().setTint(getResources().getColor(R.color.primary_dark));
+                        tvForoshSelect2nd.setBackground(null);
+
+                    }
+                });
+
+                tvForoshSelect2nd.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        tvForoshSelect2nd.setBackground(getResources().getDrawable(R.drawable.shape_circle));
+                        tvForoshSelect2nd.getBackground().setTint(getResources().getColor(R.color.primary_dark));
+                        tvKharidSelect2nd.setBackground(null);
                     }
                 });
             }
@@ -221,6 +245,11 @@ public class BuyAndSellActivity extends MainActivity {
         buyAndSellRecyclerView.setNestedScrollingEnabled(false);
         recyclerManager = new LinearLayoutManager(this);
         buyAndSellRecyclerView.setLayoutManager(recyclerManager);
+
+        newLists();
+        readBuyAndSellsFromDatabase("Sell");
+        recyclerAdapter = new BuyAndSellAdapter(BuyAndSellActivity.this,buyAndSellFactorCodes,buyAndSellMablaghKols,buyAndSellAccounts,buyAndSellModes);
+        buyAndSellRecyclerView.setAdapter(recyclerAdapter);
 
         tvKharidButton.setOnClickListener(new View.OnClickListener() {
             @Override

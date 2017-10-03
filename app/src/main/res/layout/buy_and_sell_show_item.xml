@@ -98,9 +98,7 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingRight="@dimen/padding_large"
-                android:paddingLeft="@dimen/padding_large"
-                android:paddingTop="@dimen/padding_bit"
-                android:paddingBottom="@dimen/padding_bit">
+                android:paddingLeft="@dimen/padding_large">
 
                 <TextView
                     android:id="@+id/textView_buy_and_sell_mablagh_text"
@@ -140,9 +138,7 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:paddingRight="@dimen/padding_large"
-                    android:paddingLeft="@dimen/padding_large"
-                    android:paddingTop="@dimen/padding_bit"
-                    android:paddingBottom="@dimen/padding_bit">
+                    android:paddingLeft="@dimen/padding_large">
 
                     <TextView
                         android:id="@+id/textView_buy_and_sell_account_text"
