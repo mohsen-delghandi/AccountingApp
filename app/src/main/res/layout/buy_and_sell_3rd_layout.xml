@@ -87,6 +87,7 @@
                     android:layout_marginLeft="@dimen/padding_small"
                     />
                 <ImageView
+                    android:id="@+id/imageView_buy_and_sell_3rd_back"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/shape_arrow_left"

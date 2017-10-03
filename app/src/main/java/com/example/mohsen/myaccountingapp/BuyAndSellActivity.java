@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,9 +40,7 @@ public class BuyAndSellActivity extends MainActivity {
 
     LinearLayout llAccountDetails2nd,llTayid2nd;
     AutoCompleteTextView atvAccounts;
-    EditText etFullName,etPhone,etMobile,etAddress,etContactList,etCodeMelli;
-    ImageView ivContactListPlus,ivHelp2nd,ivBack2nd;
-    Spinner spContactsList,spPishvand;
+    ImageView ivHelp2nd,ivBack2nd;
 
     List<String> buyAndSellFactorCodes;
     List<String> buyAndSellMablaghKols;
@@ -50,15 +49,195 @@ public class BuyAndSellActivity extends MainActivity {
 
     List<Integer> accountTafziliIDs;
 
+    String mode;
+
     int factorCode;
 
     @Override
     public void onBackPressed() {
         if(llAddLayer.getVisibility()==View.VISIBLE){
-            llAddLayer.setVisibility(View.GONE);
-            fab.setVisibility(View.VISIBLE);
+//            llAddLayer.setVisibility(View.GONE);
+//            fab.setVisibility(View.VISIBLE);
         }else {
             super.onBackPressed();
+        }
+    }
+
+    public void open2ndLayout(){
+        inflaterInclude = (LayoutInflater)BuyAndSellActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        fab.setVisibility(View.GONE);
+        llAddLayer.removeAllViews();
+        llAddLayer.setVisibility(View.VISIBLE);
+        llAddLayer.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
+        inflaterInclude.inflate(R.layout.buy_and_sell_2nd_layout,llAddLayer);
+
+        tvKharidSelect2nd = (TextView)findViewById(R.id.textView_buy_and_sell_2nd_buy_select);
+        tvForoshSelect2nd = (TextView)findViewById(R.id.textView_buy_and_sell_2nd_sell_select);
+        tvFactorCode2nd = (TextView)findViewById(R.id.textView_buy_and_sell_2nd_factor_code);
+        tvAccountBedehi2nd = (TextView)findViewById(R.id.textView_buy_and_sell_2nd_bedehi_mablagh);
+        tvPhone2nd = (TextView)findViewById(R.id.textView_buy_and_sell_2nd_phone);
+        tvMobile2nd = (TextView)findViewById(R.id.textView_buy_and_sell_2nd_mobile);
+        tvAddress2nd = (TextView)findViewById(R.id.textView_buy_and_sell_2nd_address);
+        ivHelp2nd = (ImageView) findViewById(R.id.imageView_buy_and_sell_2nd_help);
+        ivBack2nd = (ImageView) findViewById(R.id.imageView_buy_and_sell_2nd_back);
+
+        llAccountDetails2nd = (LinearLayout)findViewById(R.id.linearLayout_buy_and_sell_2nd_account);
+        llTayid2nd = (LinearLayout)findViewById(R.id.linearLayout_buy_and_sell_2nd_tayid);
+
+        atvAccounts = (AutoCompleteTextView) findViewById(R.id.autoTextView_buy_and_sell_2nd_account);
+
+        SQLiteDatabase dbAccounts = new MyDatabase(BuyAndSellActivity.this).getReadableDatabase();
+        Cursor cursorAccounts = dbAccounts.query("tblContacts",new String[]{"FullName"},null,null,null,null,null,null);
+        List<String> listAccounts = new ArrayList<String>();
+        if(cursorAccounts.moveToFirst()){
+            do{
+                listAccounts.add(cursorAccounts.getString(0));
+            }while (cursorAccounts.moveToNext());
+        }
+        cursorAccounts.close();
+
+        factorCode = -1;
+        Cursor cursorFactorCode1 = dbAccounts.query("TblParent_FrooshKala",new String[]{"MAX(ForooshKalaParent_ID)"},null,null,null,null,null,null);
+        if(cursorFactorCode1.moveToFirst()){
+            factorCode = cursorFactorCode1.getInt(0)+1;
+        }
+        Cursor cursorFactorCode2 = dbAccounts.query("TblParent_KharidKala",new String[]{"MAX(KharidKalaParent_ID)"},null,null,null,null,null,null);
+        if(cursorFactorCode2.moveToFirst()){
+            if(cursorFactorCode2.getInt(0) >= factorCode){
+                factorCode = cursorFactorCode2.getInt(0)+1;
+            }
+        }
+        if(factorCode == -1){
+            Cursor cursorDefaultFactorCode = dbAccounts.query("tblSettingIDFactor",new String[]{"StartID"},null,null,null,null,null);
+            cursorDefaultFactorCode.moveToFirst();
+            factorCode = cursorDefaultFactorCode.getInt(0);
+        }
+        dbAccounts.close();
+
+        tvFactorCode2nd.setText(factorCode+"");
+
+        ArrayAdapter<String> adapterAccounts = new ArrayAdapter<String>(BuyAndSellActivity.this,android.R.layout.simple_list_item_1,listAccounts);
+        atvAccounts.setAdapter(adapterAccounts);
+        atvAccounts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                SQLiteDatabase dbShowAccount = new MyDatabase(BuyAndSellActivity.this).getReadableDatabase();
+                Cursor cursorShowAccount = dbShowAccount.query("tblContacts",new String[]{"Tafzili_ID"},"FullName = ?",new String[]{atvAccounts.getText().toString().trim()+""},null,null,null);
+                accountTafziliIDs = new ArrayList<Integer>();
+                if(cursorShowAccount.moveToFirst()){
+                    accountTafziliIDs.add(cursorShowAccount.getInt(0));
+                }
+                cursorShowAccount.close();
+                Cursor cursorAccountDetails = dbShowAccount.query("tblContacts",new String[]{"Phone","Mobile","AdressContacts"},"Tafzili_ID = ?",new String[]{accountTafziliIDs.get(0)+""},null,null,null);
+                cursorAccountDetails.moveToFirst();
+
+                llAccountDetails2nd.setVisibility(View.VISIBLE);
+                tvPhone2nd.setText(cursorAccountDetails.getString(0));
+                tvMobile2nd.setText(cursorAccountDetails.getString(1));
+                tvAddress2nd.setText(cursorAccountDetails.getString(2));
+
+                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+            }
+        });
+
+        mode = "Sell";
+
+        tvKharidSelect2nd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tvKharidSelect2nd.setBackground(getResources().getDrawable(R.drawable.shape_circle_dark));
+                tvForoshSelect2nd.setBackground(null);
+                mode = "Buy";
+
+            }
+        });
+
+        tvForoshSelect2nd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tvForoshSelect2nd.setBackground(getResources().getDrawable(R.drawable.shape_circle_dark));
+                tvKharidSelect2nd.setBackground(null);
+                mode = "Sell";
+            }
+        });
+
+        llTayid2nd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                open3rdLayout();
+            }
+        });
+
+        ivBack2nd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                llAddLayer.setVisibility(View.GONE);
+                fab.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    public void open3rdLayout(){
+        if(atvAccounts.getText().toString().trim().equals("")){
+            Toast.makeText(BuyAndSellActivity.this, "لطفا طرف حساب را مشخص کنید.", Toast.LENGTH_SHORT).show();
+        }else{
+            fab.setVisibility(View.VISIBLE);
+            llAddLayer.removeAllViews();
+            llAddLayer.setVisibility(View.VISIBLE);
+            llAddLayer.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    return true;
+                }
+            });
+            inflaterInclude.inflate(R.layout.buy_and_sell_3rd_layout, llAddLayer);
+
+
+            List<String> productName = new ArrayList<String>();
+            List<String> productSellPrice = new ArrayList<String>();
+            List<String> productUnit = new ArrayList<String>();
+            List<Integer> productMojoodi = new ArrayList<Integer>();
+            List<Integer> productIDs = new ArrayList<Integer>();
+
+            SQLiteDatabase dbProductList = new MyDatabase(BuyAndSellActivity.this).getReadableDatabase();
+            Cursor cursorProductList = dbProductList.query("TblKala", new String[]{"Name_Kala", "GheymatForoshAsli", "Fk_VahedKalaAsli", "MojodiAvalDore", "ID_Kala"}, null, null, null, null, null);
+            if (cursorProductList.moveToFirst()) {
+                do {
+                    productName.add(cursorProductList.getString(0));
+                    productSellPrice.add(cursorProductList.getString(1));
+                    Cursor cursor3 = dbProductList.query("TblVahedKalaAsli", new String[]{"NameVahed"}, "ID_Vahed = ?", new String[]{cursorProductList.getString(2)}, null, null, null);
+                    cursor3.moveToFirst();
+                    productUnit.add(cursor3.getString(0));
+                    cursor3.close();
+                    productMojoodi.add(cursorProductList.getInt(3));
+                    productIDs.add(cursorProductList.getInt(4));
+                } while ((cursorProductList.moveToNext()));
+            }
+            cursorProductList.close();
+            dbProductList.close();
+
+            productListRecyclerView = (RecyclerView) findViewById(R.id.recyclerView_accountSide);
+            productListRecyclerView.setHasFixedSize(true);
+            productListRecyclerView.setNestedScrollingEnabled(false);
+            recyclerManagerProductList = new LinearLayoutManager(BuyAndSellActivity.this);
+            productListRecyclerView.setLayoutManager(recyclerManagerProductList);
+            recyclerAdapterProductList = new ProductsListSelectAdapter(BuyAndSellActivity.this, productName, productSellPrice, productUnit
+                    , productMojoodi, productIDs, fab, llAddLayer, factorCode, accountTafziliIDs.get(0), mode);
+            productListRecyclerView.setAdapter(recyclerAdapterProductList);
+
+            ImageView tvBack3rd = (ImageView) findViewById(R.id.imageView_buy_and_sell_3rd_back);
+            tvBack3rd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    open2ndLayout();
+                }
+            });
         }
     }
 
@@ -74,165 +253,7 @@ public class BuyAndSellActivity extends MainActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                inflaterInclude = (LayoutInflater)BuyAndSellActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                fab.setVisibility(View.GONE);
-                llAddLayer.removeAllViews();
-                llAddLayer.setVisibility(View.VISIBLE);
-                llAddLayer.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        return true;
-                    }
-                });
-                inflaterInclude.inflate(R.layout.buy_and_sell_2nd_layout,llAddLayer);
-
-                tvKharidSelect2nd = (TextView)findViewById(R.id.textView_buy_and_sell_2nd_buy_select);
-                tvForoshSelect2nd = (TextView)findViewById(R.id.textView_buy_and_sell_2nd_sell_select);
-                tvFactorCode2nd = (TextView)findViewById(R.id.textView_buy_and_sell_2nd_factor_code);
-                tvAccountBedehi2nd = (TextView)findViewById(R.id.textView_buy_and_sell_2nd_bedehi_mablagh);
-                tvPhone2nd = (TextView)findViewById(R.id.textView_buy_and_sell_2nd_phone);
-                tvMobile2nd = (TextView)findViewById(R.id.textView_buy_and_sell_2nd_mobile);
-                tvAddress2nd = (TextView)findViewById(R.id.textView_buy_and_sell_2nd_address);
-                ivHelp2nd = (ImageView) findViewById(R.id.imageView_buy_and_sell_2nd_help);
-                ivBack2nd = (ImageView) findViewById(R.id.imageView_buy_and_sell_2nd_back);
-
-                llAccountDetails2nd = (LinearLayout)findViewById(R.id.linearLayout_buy_and_sell_2nd_account);
-                llTayid2nd = (LinearLayout)findViewById(R.id.linearLayout_buy_and_sell_2nd_tayid);
-
-                atvAccounts = (AutoCompleteTextView) findViewById(R.id.autoTextView_buy_and_sell_2nd_account);
-
-                SQLiteDatabase dbAccounts = new MyDatabase(BuyAndSellActivity.this).getReadableDatabase();
-                Cursor cursorAccounts = dbAccounts.query("tblContacts",new String[]{"FullName"},null,null,null,null,null,null);
-                List<String> listAccounts = new ArrayList<String>();
-                if(cursorAccounts.moveToFirst()){
-                    do{
-                        listAccounts.add(cursorAccounts.getString(0));
-                    }while (cursorAccounts.moveToNext());
-                }
-                cursorAccounts.close();
-
-                factorCode = -1;
-                Cursor cursorFactorCode1 = dbAccounts.query("TblParent_FrooshKala",new String[]{"MAX(ForooshKalaParent_ID)"},null,null,null,null,null,null);
-                if(cursorFactorCode1.moveToFirst()){
-                    factorCode = cursorFactorCode1.getInt(0)+1;
-                }
-                Cursor cursorFactorCode2 = dbAccounts.query("TblParent_KharidKala",new String[]{"MAX(KharidKalaParent_ID)"},null,null,null,null,null,null);
-                if(cursorFactorCode2.moveToFirst()){
-                    if(cursorFactorCode2.getInt(0) >= factorCode){
-                        factorCode = cursorFactorCode2.getInt(0)+1;
-                    }
-                }
-                if(factorCode == -1){
-                    Cursor cursorDefaultFactorCode = dbAccounts.query("tblSettingIDFactor",new String[]{"StartID"},null,null,null,null,null);
-                    cursorDefaultFactorCode.moveToFirst();
-                    factorCode = cursorDefaultFactorCode.getInt(0);
-                }
-                dbAccounts.close();
-
-                tvFactorCode2nd.setText(factorCode+"");
-
-                ArrayAdapter<String> adapterAccounts = new ArrayAdapter<String>(BuyAndSellActivity.this,android.R.layout.simple_list_item_1,listAccounts);
-                atvAccounts.setAdapter(adapterAccounts);
-                atvAccounts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        SQLiteDatabase dbShowAccount = new MyDatabase(BuyAndSellActivity.this).getReadableDatabase();
-                        Cursor cursorShowAccount = dbShowAccount.query("tblContacts",new String[]{"Tafzili_ID"},"FullName = ?",new String[]{atvAccounts.getText().toString().trim()+""},null,null,null);
-                        accountTafziliIDs = new ArrayList<Integer>();
-                        if(cursorShowAccount.moveToFirst()){
-                            accountTafziliIDs.add(cursorShowAccount.getInt(0));
-                        }
-                        cursorShowAccount.close();
-                        Cursor cursorAccountDetails = dbShowAccount.query("tblContacts",new String[]{"Phone","Mobile","AdressContacts"},"Tafzili_ID = ?",new String[]{accountTafziliIDs.get(0)+""},null,null,null);
-                        cursorAccountDetails.moveToFirst();
-
-                        llAccountDetails2nd.setVisibility(View.VISIBLE);
-                        tvPhone2nd.setText(cursorAccountDetails.getString(0));
-                        tvMobile2nd.setText(cursorAccountDetails.getString(1));
-                        tvAddress2nd.setText(cursorAccountDetails.getString(2));
-
-                        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                        inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-                    }
-                });
-
-                llTayid2nd.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        fab.setVisibility(View.VISIBLE);
-                        llAddLayer.removeAllViews();
-                        llAddLayer.setVisibility(View.VISIBLE);
-                        llAddLayer.setOnTouchListener(new View.OnTouchListener() {
-                            @Override
-                            public boolean onTouch(View v, MotionEvent event) {
-                                return true;
-                            }
-                        });
-                        inflaterInclude.inflate(R.layout.buy_and_sell_3rd_layout,llAddLayer);
-
-
-                        List<String> productName = new ArrayList<String>();
-                        List<String> productSellPrice = new ArrayList<String>();
-                        List<String> productUnit = new ArrayList<String>();
-                        List<Integer> productMojoodi = new ArrayList<Integer>();
-                        List<Integer> productIDs = new ArrayList<Integer>();
-
-                        SQLiteDatabase dbProductList = new MyDatabase(BuyAndSellActivity.this).getReadableDatabase();
-                        Cursor cursorProductList = dbProductList.query("TblKala",new String[]{"Name_Kala","GheymatForoshAsli","Fk_VahedKalaAsli","MojodiAvalDore","ID_Kala"},null,null,null,null,null);
-                        if(cursorProductList.moveToFirst()){
-                            do{
-                                productName.add(cursorProductList.getString(0));
-                                productSellPrice.add(cursorProductList.getString(1));
-                                Cursor cursor3 = dbProductList.query("TblVahedKalaAsli",new String[]{"NameVahed"},"ID_Vahed = ?",new String[]{cursorProductList.getString(2)},null,null,null);
-                                cursor3.moveToFirst();
-                                productUnit.add(cursor3.getString(0));
-                                cursor3.close();
-                                productMojoodi.add(cursorProductList.getInt(3));
-                                productIDs.add(cursorProductList.getInt(4));
-                            }while ((cursorProductList.moveToNext()));
-                        }
-                        cursorProductList.close();
-                        dbProductList.close();
-
-                        productListRecyclerView = (RecyclerView)findViewById(R.id.recyclerView_accountSide);
-                        productListRecyclerView.setHasFixedSize(true);
-                        productListRecyclerView.setNestedScrollingEnabled(false);
-                        recyclerManagerProductList = new LinearLayoutManager(BuyAndSellActivity.this);
-                        productListRecyclerView.setLayoutManager(recyclerManagerProductList);
-                        recyclerAdapterProductList = new ProductsListSelectAdapter(BuyAndSellActivity.this,productName,productSellPrice,productUnit
-                                ,productMojoodi,productIDs,fab,llAddLayer,factorCode,accountTafziliIDs.get(0));
-                        productListRecyclerView.setAdapter(recyclerAdapterProductList);
-
-
-                    }
-                });
-
-                ivBack2nd.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        llAddLayer.setVisibility(View.GONE);
-                        fab.setVisibility(View.VISIBLE);
-                    }
-                });
-
-                tvKharidSelect2nd.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        tvKharidSelect2nd.setBackground(getResources().getDrawable(R.drawable.shape_circle));
-                        tvKharidSelect2nd.getBackground().setTint(getResources().getColor(R.color.primary_dark));
-                        tvForoshSelect2nd.setBackground(null);
-
-                    }
-                });
-
-                tvForoshSelect2nd.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        tvForoshSelect2nd.setBackground(getResources().getDrawable(R.drawable.shape_circle));
-                        tvForoshSelect2nd.getBackground().setTint(getResources().getColor(R.color.primary_dark));
-                        tvKharidSelect2nd.setBackground(null);
-                    }
-                });
+                open2ndLayout();
             }
         });
 
@@ -254,8 +275,7 @@ public class BuyAndSellActivity extends MainActivity {
         tvKharidButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tvKharidButton.setBackground(getResources().getDrawable(R.drawable.shape_circle));
-                tvKharidButton.getBackground().setTint(getResources().getColor(R.color.primary_dark));
+                tvKharidButton.setBackground(getResources().getDrawable(R.drawable.shape_circle_dark));
                 tvHameButton.setBackground(null);
                 tvForoshButton.setBackground(null);
                 newLists();
@@ -268,8 +288,7 @@ public class BuyAndSellActivity extends MainActivity {
         tvForoshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tvForoshButton.setBackground(getResources().getDrawable(R.drawable.shape_circle));
-                tvForoshButton.getBackground().setTint(getResources().getColor(R.color.primary_dark));
+                tvForoshButton.setBackground(getResources().getDrawable(R.drawable.shape_circle_dark));
                 tvHameButton.setBackground(null);
                 tvKharidButton.setBackground(null);
                 newLists();
@@ -282,8 +301,7 @@ public class BuyAndSellActivity extends MainActivity {
         tvHameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tvHameButton.setBackground(getResources().getDrawable(R.drawable.shape_circle));
-                tvHameButton.getBackground().setTint(getResources().getColor(R.color.primary_dark));
+                tvHameButton.setBackground(getResources().getDrawable(R.drawable.shape_circle_dark));
                 tvForoshButton.setBackground(null);
                 tvKharidButton.setBackground(null);
                 newLists();

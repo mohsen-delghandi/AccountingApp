@@ -171,7 +171,7 @@
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/nestedscrollview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="#fff"
         android:fillViewport="true">
 
