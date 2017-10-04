@@ -9,8 +9,6 @@
     android:gravity="center_vertical"
     android:paddingTop="@dimen/padding_bit"
     android:paddingBottom="@dimen/padding_bit"
-    android:paddingRight="@dimen/padding_medium"
-    android:paddingLeft="@dimen/padding_medium"
     android:background="@drawable/shape_underline_dashed"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -32,7 +30,7 @@
             android:layout_width="0dp"
             android:layout_weight="3"
             android:paddingRight="@dimen/padding_bit"
-            android:paddingLeft="@dimen/padding_bit"
+            android:paddingLeft="@dimen/padding_medium"
             android:layout_height="wrap_content">
 
             <LinearLayout
@@ -52,7 +50,7 @@
                     android:text="BOTAX COSMATIC"
                     android:maxLines="1"
                     android:textColor="@color/primary_text"
-                    android:textSize="@dimen/font_medium" />
+                    android:textSize="@dimen/font_xmedium" />
             </LinearLayout>
 
             <LinearLayout
@@ -94,6 +92,7 @@
                     android:layout_marginRight="@dimen/padding_bit"
                     android:gravity="center_vertical"
                     android:text="ریال"
+                    app:fontPath="fonts/IRANSansWeb_Bold.ttf"
                     android:textColor="@color/green"
                     android:textSize="@dimen/font_small" />
             </LinearLayout>
@@ -101,13 +100,15 @@
         </LinearLayout>
 
         <LinearLayout
+            android:paddingRight="@dimen/padding_large"
             android:layout_width="0dp"
-            android:layout_weight="1.5"
+            android:layout_weight="1.48"
             android:layout_height="wrap_content"
             android:gravity="left|center_vertical">
 
 
             <LinearLayout
+                android:padding="@dimen/padding_bit"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
@@ -142,7 +143,7 @@
                 android:maxLines="1"
                 app:fontPath="fonts/IRANSansWeb_Bold.ttf"
                 android:textColor="@color/secondary_text"
-                android:textSize="@dimen/font_large" />
+                android:textSize="@dimen/font_medium" />
 
             <TextView
                 android:id="@+id/textView_product_unit_3rd"

@@ -13,10 +13,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +46,8 @@ public class BuyAndSellActivity extends MainActivity {
     List<String> buyAndSellModes;
 
     List<Integer> accountTafziliIDs;
+
+    LinearLayout llTayid3rd;
 
     String mode;
 
@@ -187,7 +187,7 @@ public class BuyAndSellActivity extends MainActivity {
         if(atvAccounts.getText().toString().trim().equals("")){
             Toast.makeText(BuyAndSellActivity.this, "لطفا طرف حساب را مشخص کنید.", Toast.LENGTH_SHORT).show();
         }else{
-            fab.setVisibility(View.VISIBLE);
+//            fab.setVisibility(View.VISIBLE);
             llAddLayer.removeAllViews();
             llAddLayer.setVisibility(View.VISIBLE);
             llAddLayer.setOnTouchListener(new View.OnTouchListener() {
@@ -198,6 +198,7 @@ public class BuyAndSellActivity extends MainActivity {
             });
             inflaterInclude.inflate(R.layout.buy_and_sell_3rd_layout, llAddLayer);
 
+            llTayid3rd = (LinearLayout)findViewById(R.id.linearLayout_order_list_tayid_3rd);
 
             List<String> productName = new ArrayList<String>();
             List<String> productSellPrice = new ArrayList<String>();
@@ -222,13 +223,17 @@ public class BuyAndSellActivity extends MainActivity {
             cursorProductList.close();
             dbProductList.close();
 
+            TextView tvJameRadif = (TextView)findViewById(R.id.textView_order_list_jame_radif_4th);
+            TextView tvJameMeghdar = (TextView)findViewById(R.id.textView_order_list_jame_meghdar_4th);
+            TextView tvJameMablagh = (TextView)findViewById(R.id.textView_order_list_jame_mablagh_4th);
+
             productListRecyclerView = (RecyclerView) findViewById(R.id.recyclerView_accountSide);
             productListRecyclerView.setHasFixedSize(true);
             productListRecyclerView.setNestedScrollingEnabled(false);
             recyclerManagerProductList = new LinearLayoutManager(BuyAndSellActivity.this);
             productListRecyclerView.setLayoutManager(recyclerManagerProductList);
             recyclerAdapterProductList = new ProductsListSelectAdapter(BuyAndSellActivity.this, productName, productSellPrice, productUnit
-                    , productMojoodi, productIDs, fab, llAddLayer, factorCode, accountTafziliIDs.get(0), mode);
+                    , productMojoodi, productIDs, llAddLayer, factorCode, accountTafziliIDs.get(0), mode,llTayid3rd,tvJameRadif,tvJameMeghdar,tvJameMablagh);
             productListRecyclerView.setAdapter(recyclerAdapterProductList);
 
             ImageView tvBack3rd = (ImageView) findViewById(R.id.imageView_buy_and_sell_3rd_back);
@@ -269,7 +274,7 @@ public class BuyAndSellActivity extends MainActivity {
 
         newLists();
         readBuyAndSellsFromDatabase("Sell");
-        recyclerAdapter = new BuyAndSellAdapter(BuyAndSellActivity.this,buyAndSellFactorCodes,buyAndSellMablaghKols,buyAndSellAccounts,buyAndSellModes);
+        recyclerAdapter = new BuyAndSellAdapter(BuyAndSellActivity.this,buyAndSellFactorCodes,buyAndSellMablaghKols,buyAndSellAccounts,buyAndSellModes, llAddLayer, fab);
         buyAndSellRecyclerView.setAdapter(recyclerAdapter);
 
         tvKharidButton.setOnClickListener(new View.OnClickListener() {
@@ -280,7 +285,7 @@ public class BuyAndSellActivity extends MainActivity {
                 tvForoshButton.setBackground(null);
                 newLists();
                 readBuyAndSellsFromDatabase("Buy");
-                recyclerAdapter = new BuyAndSellAdapter(BuyAndSellActivity.this,buyAndSellFactorCodes,buyAndSellMablaghKols,buyAndSellAccounts,buyAndSellModes);
+                recyclerAdapter = new BuyAndSellAdapter(BuyAndSellActivity.this,buyAndSellFactorCodes,buyAndSellMablaghKols,buyAndSellAccounts,buyAndSellModes,llAddLayer,fab);
                 buyAndSellRecyclerView.setAdapter(recyclerAdapter);
             }
         });
@@ -293,7 +298,7 @@ public class BuyAndSellActivity extends MainActivity {
                 tvKharidButton.setBackground(null);
                 newLists();
                 readBuyAndSellsFromDatabase("Sell");
-                recyclerAdapter = new BuyAndSellAdapter(BuyAndSellActivity.this,buyAndSellFactorCodes,buyAndSellMablaghKols,buyAndSellAccounts,buyAndSellModes);
+                recyclerAdapter = new BuyAndSellAdapter(BuyAndSellActivity.this,buyAndSellFactorCodes,buyAndSellMablaghKols,buyAndSellAccounts,buyAndSellModes, llAddLayer, fab);
                 buyAndSellRecyclerView.setAdapter(recyclerAdapter);
             }
         });
@@ -306,7 +311,7 @@ public class BuyAndSellActivity extends MainActivity {
                 tvKharidButton.setBackground(null);
                 newLists();
                 readBuyAndSellsFromDatabase("All");
-                recyclerAdapter = new BuyAndSellAdapter(BuyAndSellActivity.this,buyAndSellFactorCodes,buyAndSellMablaghKols,buyAndSellAccounts,buyAndSellModes);
+                recyclerAdapter = new BuyAndSellAdapter(BuyAndSellActivity.this,buyAndSellFactorCodes,buyAndSellMablaghKols,buyAndSellAccounts,buyAndSellModes, llAddLayer, fab);
                 buyAndSellRecyclerView.setAdapter(recyclerAdapter);
             }
         });

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layoutDirection="rtl"
@@ -8,13 +8,18 @@
     android:background="@color/icons">
 
     <LinearLayout
+        android:padding="@dimen/padding_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <LinearLayout
         android:id="@+id/linearLayout_titleBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
-        android:paddingRight="@dimen/padding_medium"
-        android:paddingLeft="@dimen/padding_medium"
-        android:paddingBottom="@dimen/padding_bit">
+        android:paddingRight="@dimen/padding_spinner"
+        android:paddingLeft="@dimen/padding_spinner">
 
         <!--<android.support.v7.widget.Toolbar-->
         <!--android:id="@+id/toolbar"-->
@@ -25,19 +30,14 @@
 
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:paddingTop="@dimen/padding_medium"
             android:paddingBottom="@dimen/padding_medium"
-            android:paddingRight="@dimen/padding_bit"
-            android:paddingLeft="@dimen/padding_bit"
-            android:gravity="center_vertical"
             android:backgroundTint="@color/new_text"
             android:background="@drawable/shape_underline">
 
             <LinearLayout
-                android:padding="@dimen/padding_large"
                 android:orientation="vertical"
                 android:layout_width="0dp"
                 android:layout_weight="4"
@@ -49,7 +49,7 @@
                     android:layout_height="wrap_content"
                     android:text="فروش محصـــولات"
                     android:textColor="@color/new_text"
-                    android:textSize="@dimen/font_large"
+                    android:textSize="@dimen/font_small"
                     />
 
                 <LinearLayout
@@ -60,14 +60,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="PRODUCTS"
-                        android:textSize="@dimen/font_medium"
+                        android:textSize="@dimen/font_small"
                         android:textColor="@color/new_text"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="SELLING "
                         app:fontPath="fonts/IRANSansWeb_Bold.ttf"
-                        android:textSize="@dimen/font_medium"
+                        android:textSize="@dimen/font_small"
                         android:textColor="@color/new_text"/>
                 </LinearLayout>
 
@@ -103,16 +103,174 @@
 
     </LinearLayout>
 
+        <ScrollView
+            android:scrollbars="none"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
     <android.support.v7.widget.RecyclerView
+
+        android:layout_below="@+id/linearLayout_titleBar"
         android:id="@+id/recyclerView_accountSide"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
     </android.support.v7.widget.RecyclerView>
 
-    <TextView
-        android:visibility="invisible"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_item_height" />
+        <TextView
+            android:layout_below="@id/recyclerView_accountSide"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/nav_header_height" />
 
-</LinearLayout>
+        </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_gravity="bottom"
+        android:id="@+id/linearLayout_order_review"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true">
+
+        <LinearLayout
+            android:paddingTop="@dimen/dimen_item_xheight"
+            android:background="@drawable/background_white_gradient"
+            android:gravity="center"
+            android:paddingRight="@dimen/padding_bit"
+            android:paddingBottom="@dimen/padding_bit"
+            android:paddingLeft="@dimen/padding_bit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:padding="@dimen/padding_medium"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <ImageView
+                    android:layout_width="@dimen/dimen_xxmedium"
+                    android:layout_height="@dimen/dimen_xxmedium"
+                    android:src="@drawable/jame_radif"
+                    android:tint="@color/primary_text"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="جمع ردیف"
+                    android:layout_marginBottom="@dimen/padding_large"
+                    android:textSize="@dimen/font_xmedium"
+                    android:textColor="@color/primary_text"/>
+                <TextView
+                    android:id="@+id/textView_order_list_jame_radif_4th"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="@dimen/font_medium"
+                    android:textColor="@color/new_text"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:background="@color/primary_text"/>
+
+            <LinearLayout
+                android:padding="@dimen/padding_medium"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <ImageView
+                    android:layout_width="@dimen/dimen_xxmedium"
+                    android:layout_height="@dimen/dimen_xxmedium"
+                    android:src="@drawable/jame_meghdar"
+                    android:tint="@color/primary_text"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="جمع مقدار"
+                    android:layout_marginBottom="@dimen/padding_large"
+                    android:textSize="@dimen/font_xmedium"
+                    android:textColor="@color/primary_text"/>
+                <TextView
+                    android:id="@+id/textView_order_list_jame_meghdar_4th"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="@dimen/font_medium"
+                    android:textColor="@color/new_text"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:background="@color/primary_text"/>
+
+            <LinearLayout
+                android:padding="@dimen/padding_medium"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <ImageView
+                    android:layout_width="@dimen/dimen_xxmedium"
+                    android:layout_height="@dimen/dimen_xxmedium"
+                    android:src="@drawable/shape_cash"
+                    android:tint="@color/primary_text"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="جمع کل مبلغ (ریال)"
+                    android:maxLines="1"
+                    android:layout_marginBottom="@dimen/padding_large"
+                    android:textSize="@dimen/font_xmedium"
+                    android:textColor="@color/primary_text"/>
+                <TextView
+                    android:id="@+id/textView_order_list_jame_mablagh_4th"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="@dimen/font_medium"
+                    android:textColor="@color/green"/>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout_order_list_tayid_3rd"
+            android:padding="@dimen/padding_medium"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/green">
+
+            <ImageView
+                android:layout_width="@dimen/padding_xlarge"
+                android:layout_height="@dimen/padding_xlarge"
+                android:background="@drawable/shape_check"/>
+
+            <TextView
+                android:paddingRight="@dimen/padding_large"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="نهایی سازی سفارش"
+                android:textSize="@dimen/font_xmedium"
+                android:textColor="@color/icons"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

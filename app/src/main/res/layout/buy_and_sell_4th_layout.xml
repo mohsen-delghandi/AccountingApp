@@ -124,6 +124,7 @@
 
 
     <LinearLayout
+        android:visibility="gone"
         android:layout_margin="@dimen/padding_large"
         android:padding="@dimen/padding_large"
         android:layout_width="match_parent"
@@ -225,6 +226,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/linearLayout_order_list_tayid_4th"
         android:layout_marginTop="@dimen/padding_spinner"
         android:padding="@dimen/padding_large"

@@ -13,6 +13,7 @@ import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextWatcher;
 import android.transition.ChangeBounds;
@@ -46,14 +47,22 @@ public class BuyAndSellAdapter extends RecyclerView.Adapter<BuyAndSellAdapter.Vi
     List<String> mBuyAndSellMablaghKols;
     List<String> mBuyAndSellAccounts;
     List<String> mMode;
+    LayoutInflater mInflaterInclude;
+    LinearLayout mLlAddLayer;
+    FloatingActionButton mFab;
+    RecyclerView factorViewRecyclerView;
+    RecyclerView.LayoutManager recyclerManager;
+    RecyclerView.Adapter recyclerAdapter;
 
 
-    public BuyAndSellAdapter(Context context, List<String> buyAndSellFactorCodes, List<String> buyAndSellMablaghKols, List<String> buyAndSellAccounts, List<String> mode) {
+    public BuyAndSellAdapter(Context context, List<String> buyAndSellFactorCodes, List<String> buyAndSellMablaghKols, List<String> buyAndSellAccounts, List<String> mode, LinearLayout llAddLayer, FloatingActionButton fab) {
         mContext = context;
         mBuyAndSellFactorCodes = buyAndSellFactorCodes;
         mBuyAndSellAccounts = buyAndSellAccounts;
         mBuyAndSellMablaghKols = buyAndSellMablaghKols;
         mMode = mode;
+        mFab = fab;
+        mLlAddLayer = llAddLayer;
     }
 
     @Override
@@ -137,7 +146,26 @@ public class BuyAndSellAdapter extends RecyclerView.Adapter<BuyAndSellAdapter.Vi
         holder.llMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mInflaterInclude = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                mFab.setVisibility(View.GONE);
+                mLlAddLayer.removeAllViews();
+                mLlAddLayer.setVisibility(View.VISIBLE);
+                mLlAddLayer.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        return true;
+                    }
+                });
 
+                final View v = mInflaterInclude.inflate(R.layout.buy_and_sell_4th_layout,mLlAddLayer);
+
+                factorViewRecyclerView = (RecyclerView)v.findViewById(R.id.recyclerView_buy_and_sell_4th);
+                factorViewRecyclerView.setHasFixedSize(true);
+                factorViewRecyclerView.setNestedScrollingEnabled(false);
+                recyclerManager = new LinearLayoutManager(mContext);
+                factorViewRecyclerView.setLayoutManager(recyclerManager);
+                recyclerAdapter = new FactorListAdapter(mContext,mBuyAndSellFactorCodes.get(position),mMode.get(position));
+                factorViewRecyclerView.setAdapter(recyclerAdapter);
             }
         });
     }

@@ -12,11 +12,6 @@
                 />
 
             <solid android:color="#00FFFFFF" />
-
-            <padding android:left="@dimen/padding_medium"
-                android:right="@dimen/padding_medium"
-                android:top="@dimen/padding_medium"
-                android:bottom="@dimen/padding_medium" />
         </shape>
     </item>
 

@@ -4,6 +4,9 @@
     <color name="primary_dark">#242e42</color>
     <color name="primary_text">#7b8aa4</color>
     <color name="icons">#FFF</color>
+    <color name="icons_alpha_0">#00ffffff</color>
+    <color name="icons_alph_50">#7fffffff</color>
+    <color name="icons_alph_75">#c8ffffff</color>
     <color name="red">#c3344f</color>
     <color name="green">#39b54a</color>
     <color name="orange">#f7941d</color>
@@ -11,5 +14,6 @@
     <color name="secondary_text">#a6a6a6</color>
     <color name="new_text">#535353</color>
     <color name="shiri">#ededed</color>
+    <color name="shiri_opaque">#e6e6e6</color>
 </resources>
 
