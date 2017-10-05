@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.Image;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
@@ -158,13 +159,25 @@ public class BuyAndSellAdapter extends RecyclerView.Adapter<BuyAndSellAdapter.Vi
                 });
 
                 final View v = mInflaterInclude.inflate(R.layout.buy_and_sell_4th_layout,mLlAddLayer);
+                TextView tvRadif = (TextView)v.findViewById(R.id.textView_order_list_jame_radif_4thnew);
+                TextView tvMeghdar = (TextView)v.findViewById(R.id.textView_order_list_jame_meghdar_4thnew);
+                TextView tvMablagh = (TextView)v.findViewById(R.id.textView_order_list_jame_mablagh_4thnew);
+                ImageView ivBack4th = (ImageView)v.findViewById(R.id.imageView_buy_and_sell_4th_back);
+                ivBack4th.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mFab.setVisibility(View.VISIBLE);
+                        mLlAddLayer.removeAllViews();
+                        mLlAddLayer.setVisibility(View.GONE);
+                    }
+                });
 
                 factorViewRecyclerView = (RecyclerView)v.findViewById(R.id.recyclerView_buy_and_sell_4th);
                 factorViewRecyclerView.setHasFixedSize(true);
                 factorViewRecyclerView.setNestedScrollingEnabled(false);
                 recyclerManager = new LinearLayoutManager(mContext);
                 factorViewRecyclerView.setLayoutManager(recyclerManager);
-                recyclerAdapter = new FactorListAdapter(mContext,mBuyAndSellFactorCodes.get(position),mMode.get(position));
+                recyclerAdapter = new FactorListAdapter(mContext,mBuyAndSellFactorCodes.get(position),mMode.get(position),tvRadif,tvMeghdar,tvMablagh);
                 factorViewRecyclerView.setAdapter(recyclerAdapter);
             }
         });

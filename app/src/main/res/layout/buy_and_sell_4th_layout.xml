@@ -124,7 +124,6 @@
 
 
     <LinearLayout
-        android:visibility="gone"
         android:layout_margin="@dimen/padding_large"
         android:padding="@dimen/padding_large"
         android:layout_width="match_parent"
@@ -150,7 +149,7 @@
                 android:textSize="@dimen/font_medium"
                 android:textColor="@color/primary_text"/>
             <TextView
-                android:id="@+id/textView_order_list_jame_radif_4th"
+                android:id="@+id/textView_order_list_jame_radif_4thnew"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="5"
@@ -182,7 +181,7 @@
                 android:textSize="@dimen/font_medium"
                 android:textColor="@color/primary_text"/>
             <TextView
-                android:id="@+id/textView_order_list_jame_meghdar_4th"
+                android:id="@+id/textView_order_list_jame_meghdar_4thnew"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="38"
@@ -214,7 +213,7 @@
                 android:textSize="@dimen/font_medium"
                 android:textColor="@color/primary_text"/>
             <TextView
-                android:id="@+id/textView_order_list_jame_mablagh_4th"
+                android:id="@+id/textView_order_list_jame_mablagh_4thnew"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="150,000,000"

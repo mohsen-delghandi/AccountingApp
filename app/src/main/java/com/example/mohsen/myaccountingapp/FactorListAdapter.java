@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,12 +24,64 @@ public class FactorListAdapter extends RecyclerView.Adapter<FactorListAdapter.Vi
     Context mContext;
     View v;
     String mFactorCode,mMode;
+    List<String> mFactorNames,mFactorSellPrices,mFactorUnits,mFactorMeghdars;
+    TextView mTvRadif,mTvMeghdar,mTvMablagh;
 
 
-    public FactorListAdapter(Context context, String factorCode, String mode) {
+    public FactorListAdapter(Context context, String factorCode, String mode, TextView tvRadif, TextView tvMeghdar, TextView tvMablagh) {
         mContext = context;
         mFactorCode = factorCode;
         mMode = mode;
+        mTvMablagh = tvMablagh;
+        mTvMeghdar = tvMeghdar;
+        mTvRadif = tvRadif;
+        SQLiteDatabase dbBasket = new MyDatabase(mContext).getReadableDatabase();
+        if(mMode.toString().trim().equals("Buy")){
+            Cursor cursorBasketName = dbBasket.query("TblChild_KharidKala",new String[]{"ChildKharidKala_KalaID","ChildKharidKala_TedadAsli"},"ChildKharidKala_ParentID = " + mFactorCode,null,null,null,null,null);
+            mFactorNames = new ArrayList<>();
+            mFactorSellPrices = new ArrayList<>();
+            mFactorUnits = new ArrayList<>();
+            mFactorMeghdars = new ArrayList<>();
+            if(cursorBasketName.moveToFirst()){
+                do{
+                    Cursor cursorBasketName2 = dbBasket.query("TblKala",new String[]{"Name_Kala","Fk_VahedKalaAsli","GheymatKharidAsli"},"ID_Kala = " + cursorBasketName.getString(0),null,null,null,null);
+                    cursorBasketName2.moveToFirst();
+                    mFactorNames.add(cursorBasketName2.getString(0));
+                    mFactorSellPrices.add(cursorBasketName2.getString(2));
+                    Cursor cursorBasketName3 = dbBasket.query("TblVahedKalaAsli",new String[]{"NameVahed"},"ID_Vahed = " + cursorBasketName2.getString(1),null,null,null,null);
+                    cursorBasketName3.moveToFirst();
+                    mFactorUnits.add(cursorBasketName3.getString(0));
+                    mFactorMeghdars.add(cursorBasketName.getString(1));
+                }while(cursorBasketName.moveToNext());
+            }
+        }else if(mMode.toString().trim().equals("Sell")){
+            Cursor cursorBasketName = dbBasket.query("TblChild_ForooshKala",new String[]{"ChildForooshKala_KalaID","ChildForooshKala_TedadAsli"},"ChildForooshKala_ParentID = " + mFactorCode,null,null,null,null,null);
+            mFactorNames = new ArrayList<>();
+            mFactorSellPrices = new ArrayList<>();
+            mFactorUnits = new ArrayList<>();
+            mFactorMeghdars = new ArrayList<>();
+            if(cursorBasketName.moveToFirst()){
+                do{
+                    Cursor cursorBasketName2 = dbBasket.query("TblKala",new String[]{"Name_Kala","Fk_VahedKalaAsli","GheymatForoshAsli"},"ID_Kala = " + cursorBasketName.getString(0),null,null,null,null);
+                    cursorBasketName2.moveToFirst();
+                    mFactorNames.add(cursorBasketName2.getString(0));
+                    mFactorSellPrices.add(cursorBasketName2.getString(2));
+                    Cursor cursorBasketName3 = dbBasket.query("TblVahedKalaAsli",new String[]{"NameVahed"},"ID_Vahed = " + cursorBasketName2.getString(1),null,null,null,null);
+                    cursorBasketName3.moveToFirst();
+                    mFactorUnits.add(cursorBasketName3.getString(0));
+                    mFactorMeghdars.add(cursorBasketName.getString(1));
+                }while(cursorBasketName.moveToNext());
+            }
+        }
+
+        mTvRadif.setText(mFactorNames.size()+"");
+        int jameMablagh = 0 , jameMeghdar = 0;
+        for(int i = 0 ; i < mFactorSellPrices.size() ; i++){
+            jameMablagh += Integer.parseInt(mFactorSellPrices.get(i));
+            jameMeghdar += Integer.parseInt(mFactorMeghdars.get(i));
+        }
+        mTvMablagh.setText(jameMablagh+"");
+        mTvMeghdar.setText(jameMeghdar+"");
     }
 
     @Override
@@ -52,41 +105,17 @@ public class FactorListAdapter extends RecyclerView.Adapter<FactorListAdapter.Vi
 
     @Override
     public void onBindViewHolder(final FactorListAdapter.ViewHolder holder, final int position) {
-        SQLiteDatabase dbBasket = new MyDatabase(mContext).getReadableDatabase();
-        if(mMode.toString().trim().equals("Buy")){
 
-        }
-        Cursor cursorBasketName = dbBasket.query("TblChild_KharidKala",new String[]{"ChildKharidKala_KalaID","ChildKharidKala_TedadAsli","ChilKharidKala_JameKol"},"ID_Kala = " + mProductBasket.get(position),null,null,null,null,null);
-        cursorBasketName.moveToFirst();
-        holder.tvName.setText(cursorBasketName.getString(0));
-//        holder.tvUnit.setText(mProductUnit.get(position));
-        holder.tvSellPrice.setText(cursorBasketName.getString(1));
-        holder.tvMeghdar.setText(mProductBasketMeghdar.get(position)+"");
+        holder.tvName.setText(mFactorNames.get(position));
+        holder.tvUnit.setText(mFactorUnits.get(position));
+        holder.tvSellPrice.setText(mFactorSellPrices.get(position));
+        holder.tvMeghdar.setText(mFactorMeghdars.get(position));
 
         holder.setIsRecyclable(false);
-
-        holder.ivDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                SQLiteDatabase dbb = new MyDatabase(mContext).getWritableDatabase();
-//                dbb.execSQL("DELETE FROM TblKala WHERE ID_Kala = " + mProductIDs.get(position));
-//                dbb.close();
-//
-//                mProductIDs.remove(position);
-//                mProductName.remove(position);
-//                mProductBuyPrice.remove(position);
-//                mProductSellPrice.remove(position);
-//                mProductUnit.remove(position);
-//                mProductMojoodi.remove(position);
-//                notifyItemRemoved(position);
-//                notifyItemRangeChanged(position, mProductName.size());
-//                notifyDataSetChanged();
-            }
-        });
     }
 
     @Override
     public int getItemCount() {
-        return mProductBasket.size();
+        return mFactorNames.size();
     }
 }
