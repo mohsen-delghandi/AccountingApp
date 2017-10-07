@@ -164,7 +164,7 @@ android:background="@drawable/shape_underline_dashed">
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/primary_dark"
                 android:padding="@dimen/padding_small"
-                android:src="@drawable/shape_arrow_drop_down" />
+                android:src="@drawable/shape_arrow_drop_down_old" />
 
         </LinearLayout>
 

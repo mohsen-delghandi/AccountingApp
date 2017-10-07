@@ -1,0 +1,315 @@
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layoutDirection="rtl"
+    android:gravity="center_vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/linearLayout_transaction_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/textView_transaction_date"
+            android:padding="@dimen/padding_bit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="1396/05/23"
+            android:gravity="center"
+            android:background="#efefef"
+            android:textColor="@color/primary_text"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_underline_dashed"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_small">
+
+        <LinearLayout
+            android:id="@+id/linearLayout_transaction_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginLeft="@dimen/padding_large">
+
+                <ImageView
+                    android:adjustViewBounds="true"
+                    android:id="@+id/imageView_transaction_label"
+                    android:layout_width="@dimen/dimen_xxmedium"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/naghdi_normal"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="5"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout_transaction_mablagh"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_underline"
+                        android:backgroundTint="@color/shiri"
+                        android:gravity="center_vertical"
+                        android:paddingBottom="@dimen/padding_bit"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView_transaction_factor_mablagh"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:paddingRight="@dimen/padding_bit"
+                            android:text="150,000,000,000"
+                            android:textColor="@color/green"
+                            android:textSize="@dimen/font_medium" />
+
+                        <TextView
+                            android:id="@+id/textView_buy_and_sell_factor_code"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/padding_bit"
+                            android:gravity="center_vertical"
+                            android:text="ریال"
+                            android:textStyle="bold"
+                            app:fontPath="fonts/IRANSansWeb_Bold.ttf"
+                            android:maxLines="1"
+                            android:textColor="@color/green"
+                            android:textSize="@dimen/font_medium" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingRight="@dimen/padding_large"
+                            android:paddingLeft="@dimen/padding_large">
+
+                            <TextView
+                                android:id="@+id/textView_buy_and_sell_mablagh_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:text="دریافت از : "
+                                android:textColor="@color/primary_text"
+                                android:textSize="@dimen/font_medium" />
+
+                            <TextView
+                                android:id="@+id/textView_buy_and_sell_mablagh"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:paddingRight="@dimen/padding_bit"
+                                android:text="نوید مندیس"
+                                android:maxLines="1"
+                                android:textColor="@color/primary_text"
+                                android:textSize="@dimen/font_medium" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1.2"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/padding_large"
+                    android:gravity="left">
+
+
+
+                    <ImageView
+                        android:adjustViewBounds="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/shape_arrow_drop_down"
+                        android:backgroundTint="@color/primary_dark"
+                        android:padding="@dimen/padding_medium"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linearLayout_transaction_extra"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:paddingRight="@dimen/padding_large"
+                    android:paddingLeft="@dimen/padding_large"
+                    android:layout_marginTop="@dimen/padding_large">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/textView_buy_and_sell_account_text"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="نام بانک : "
+                            android:textColor="@color/primary_text"
+                            android:textSize="@dimen/font_small" />
+
+                        <TextView
+                            android:id="@+id/textView_buy_and_sell_account_name"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:paddingRight="@dimen/padding_bit"
+                            android:text="صادرات"
+                            android:maxLines="1"
+                            android:textColor="@color/primary_text"
+                            android:textSize="@dimen/font_small"/>
+
+                        <Space
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+
+
+                        <TextView
+                            android:id="@+id/aa"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="شماره چک : "
+                            android:textColor="@color/primary_text"
+                            android:textSize="@dimen/font_small" />
+
+                        <TextView
+                            android:id="@+id/aaa"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:paddingRight="@dimen/padding_bit"
+                            android:text="25633595"
+                            android:maxLines="1"
+                            android:textColor="@color/primary_text"
+                            android:textSize="@dimen/font_small" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/ش"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="توضیحات : "
+                            android:textColor="@color/primary_text"
+                            android:textSize="@dimen/font_small" />
+
+                        <TextView
+                            android:id="@+id/aaaaa"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:paddingRight="@dimen/padding_bit"
+                            android:text="این چک جهت آخرین پرداخت بوده است."
+                            android:maxLines="1"
+                            android:textColor="@color/primary_text"
+                            android:textSize="@dimen/font_small"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left">
+
+                        <TextView
+                            android:id="@+id/textView_acount_side_edit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="ویرایش"
+                            android:gravity="center"
+                            android:background="@drawable/shape_circle"
+                            android:paddingRight="@dimen/padding_spinner"
+                            android:paddingTop="@dimen/padding_bit"
+                            android:paddingBottom="@dimen/padding_bit"
+                            android:paddingLeft="@dimen/padding_spinner"
+                            android:textColor="@color/icons"
+                            android:layout_marginLeft="@dimen/padding_large"
+                            android:layout_marginBottom="@dimen/padding_medium"
+                            android:layout_marginTop="@dimen/padding_medium"
+                            android:backgroundTint="@color/primary_dark"
+                            android:textSize="@dimen/font_small"/>
+
+                        <TextView
+                            android:id="@+id/textView_acount_side_delete"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="حذف"
+                            android:gravity="center"
+                            android:background="@drawable/shape_circle"
+                            android:paddingRight="@dimen/padding_spinner"
+                            android:paddingTop="@dimen/padding_bit"
+                            android:paddingBottom="@dimen/padding_bit"
+                            android:paddingLeft="@dimen/padding_spinner"
+                            android:layout_marginTop="@dimen/padding_medium"
+                            android:textColor="@color/icons"
+                            android:backgroundTint="@color/red"
+                            android:textSize="@dimen/font_small"/>
+
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+
+</LinearLayout>

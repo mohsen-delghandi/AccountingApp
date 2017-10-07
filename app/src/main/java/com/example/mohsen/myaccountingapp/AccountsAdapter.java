@@ -9,13 +9,9 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.transition.ChangeBounds;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -29,8 +25,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -131,7 +125,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
         h.tvBedehiVahed.setTextColor(mContext.getResources().getColor(R.color.green));
         h.tvBedehiText.setTextColor(mContext.getResources().getColor(R.color.green));
         h.ivCall.setImageResource(R.drawable.shape_call_collapsed);
-        h.ivArrow.setImageResource(R.drawable.shape_arrow_drop_down);
+        h.ivArrow.setImageResource(R.drawable.shape_arrow_drop_down_old);
     }
 
     @Override
