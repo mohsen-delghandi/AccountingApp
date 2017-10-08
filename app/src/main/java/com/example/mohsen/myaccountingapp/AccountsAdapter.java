@@ -125,7 +125,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
         h.tvBedehiVahed.setTextColor(mContext.getResources().getColor(R.color.green));
         h.tvBedehiText.setTextColor(mContext.getResources().getColor(R.color.green));
         h.ivCall.setImageResource(R.drawable.shape_call_collapsed);
-        h.ivArrow.setImageResource(R.drawable.shape_arrow_drop_down_old);
+        h.ivArrow.setImageResource(R.drawable.shape_arrow_drop_down);
     }
 
     @Override

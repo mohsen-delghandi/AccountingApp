@@ -124,7 +124,7 @@ public class MainActivity extends BaseActivity {
         classes.add(AccountSideActivity.class);
         classes.add(ProductsActivity.class);
         classes.add(BuyAndSellActivity.class);
-//        classes.add(DatabaseAcitivity.class);
+        classes.add(TransactionActivity.class);
 
         mNavigationRecycler = (RecyclerView)findViewById(R.id.nav_recyclerView);
         mNavigationRecycler.setHasFixedSize(true);

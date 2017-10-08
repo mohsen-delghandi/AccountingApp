@@ -106,7 +106,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
         h.tvSellText.setTextColor(mContext.getResources().getColor(R.color.secondary_text));
         h.tvSellPrice.setTextColor(mContext.getResources().getColor(R.color.green));
         h.tvRial.setTextColor(mContext.getResources().getColor(R.color.green));
-        h.ivArrow.setImageResource(R.drawable.shape_arrow_drop_down_old);
+        h.ivArrow.setImageResource(R.drawable.shape_arrow_drop_down);
     }
 
     @Override

@@ -34,6 +34,8 @@
                 android:paddingTop="@dimen/padding_medium"
                 android:paddingRight="@dimen/padding_spinner"
                 android:paddingLeft="@dimen/padding_spinner"
+                android:background="@drawable/shape_circle"
+                android:backgroundTint="@color/primary_dark"
                 android:textColor="@color/icons"/>
             <TextView
                 android:id="@+id/textView_transaction_pardakht"
@@ -46,8 +48,6 @@
                 android:paddingTop="@dimen/padding_medium"
                 android:paddingRight="@dimen/padding_spinner"
                 android:paddingLeft="@dimen/padding_spinner"
-                android:background="@drawable/shape_circle"
-                android:backgroundTint="@color/primary_dark"
                 android:textColor="@color/icons"/>
             <TextView
                 android:visibility="gone"

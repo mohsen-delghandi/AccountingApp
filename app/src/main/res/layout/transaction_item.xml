@@ -80,7 +80,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/textView_transaction_factor_mablagh"
+                            android:id="@+id/textView_transaction_mablagh"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
@@ -126,7 +126,7 @@
                                 android:textSize="@dimen/font_medium" />
 
                             <TextView
-                                android:id="@+id/textView_buy_and_sell_mablagh"
+                                android:id="@+id/textView_transaction_account"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_vertical"
@@ -163,7 +163,6 @@
             </LinearLayout>
 
                 <LinearLayout
-                    android:visibility="gone"
                     android:id="@+id/linearLayout_transaction_extra"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -188,7 +187,7 @@
                             android:textSize="@dimen/font_small" />
 
                         <TextView
-                            android:id="@+id/textView_buy_and_sell_account_name"
+                            android:id="@+id/textView_transaction_bank_name"
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
@@ -216,7 +215,7 @@
                             android:textSize="@dimen/font_small" />
 
                         <TextView
-                            android:id="@+id/aaa"
+                            android:id="@+id/textView_transaction_check_number"
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
@@ -243,7 +242,7 @@
                             android:textSize="@dimen/font_small" />
 
                         <TextView
-                            android:id="@+id/aaaaa"
+                            android:id="@+id/textView_transaction_exp"
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"

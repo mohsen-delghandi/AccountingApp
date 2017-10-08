@@ -295,7 +295,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/shape_arrow_drop_down_old"
+                    android:src="@drawable/shape_arrow_drop_down"
                     android:backgroundTint="@color/primary_dark"
                     android:padding="@dimen/padding_medium"/>
 
@@ -444,7 +444,7 @@
                             android:id="@+id/iv_down"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/shape_arrow_drop_down_old"/>
+                            android:src="@drawable/shape_arrow_drop_down"/>
 
                     </LinearLayout>
 

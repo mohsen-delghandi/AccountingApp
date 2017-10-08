@@ -29,6 +29,8 @@
             android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".BuyAndSellActivity"
             android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".TransactionActivity"
+            android:windowSoftInputMode="adjustPan"/>
     </application>
 
 </manifest>

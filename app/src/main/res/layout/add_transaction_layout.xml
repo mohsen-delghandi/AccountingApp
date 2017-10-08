@@ -11,62 +11,78 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <TextView
-            android:id="@+id/textView_add_account_contact_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <LinearLayout
             android:background="@drawable/shape_circle"
             android:backgroundTint="@color/primary"
-            android:textColor="@color/icons"
             android:gravity="center"
-            android:textSize="@dimen/font_small"
-            android:paddingRight="@dimen/padding_large"
-            android:paddingLeft="@dimen/padding_large"
-            android:paddingTop="@dimen/padding_medium"
-            android:paddingBottom="@dimen/padding_medium"
-            android:text="لیست مخاطبین"/>
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/textView_buy_and_sell_kharid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="خرید"
+                android:textSize="@dimen/font_xmedium"
+                android:gravity="center"
+                android:paddingBottom="@dimen/padding_medium"
+                android:paddingTop="@dimen/padding_medium"
+                android:paddingRight="@dimen/padding_spinner"
+                android:paddingLeft="@dimen/padding_spinner"
+                android:textColor="@color/icons"/>
+            <TextView
+                android:id="@+id/textView_buy_and_sell_forosh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="فروش"
+                android:textSize="@dimen/font_xmedium"
+                android:gravity="center"
+                android:paddingBottom="@dimen/padding_medium"
+                android:paddingTop="@dimen/padding_medium"
+                android:paddingRight="@dimen/padding_spinner"
+                android:paddingLeft="@dimen/padding_spinner"
+                android:background="@drawable/shape_circle"
+                android:backgroundTint="@color/icons"
+                android:textColor="@color/primary_dark"/>
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/textView_buy_and_sell_hame"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="همه"
+                android:textSize="@dimen/font_xmedium"
+                android:gravity="center"
+                android:paddingBottom="@dimen/padding_medium"
+                android:paddingTop="@dimen/padding_medium"
+                android:paddingRight="@dimen/padding_spinner"
+                android:paddingLeft="@dimen/padding_spinner"
+                android:textColor="@color/icons"/>
+        </LinearLayout>
+
+
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="2"
             android:layout_height="wrap_content"
             android:gravity="left">
-        <TextView
-            android:id="@+id/textView_add_account_close"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/shape_circle"
-            android:backgroundTint="@color/primary"
-            android:textColor="@color/icons"
-            android:textSize="@dimen/font_small"
-            android:paddingRight="@dimen/padding_large"
-            android:paddingLeft="@dimen/padding_large"
-            android:paddingTop="@dimen/padding_medium"
-            android:paddingBottom="@dimen/padding_medium"
-            android:text="بستن"/>
+            <ImageView
+                android:id="@+id/imageView_buy_and_sell_2nd_help"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/shape_question"
+                android:background="@drawable/shape_circle"
+                android:padding="@dimen/padding_small"
+                android:layout_marginLeft="@dimen/padding_small"
+                />
+            <ImageView
+                android:id="@+id/imageView_buy_and_sell_2nd_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/shape_arrow_left"
+                android:background="@drawable/shape_circle"
+                android:padding="@dimen/padding_small"
+                />
         </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_marginTop="@dimen/padding_large"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:background="@drawable/shape_border">
-        <Spinner
-            android:paddingRight="@dimen/padding_spinner"
-            android:paddingLeft="@dimen/padding_spinner"
-            android:paddingTop="@dimen/padding_large"
-            android:paddingBottom="@dimen/padding_large"
-            android:id="@+id/spinner_add_account_pishvand"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textSize="@dimen/font_small"
-            android:textColorHint="#ababab"
-            android:textColor="@color/icons"
-            android:spinnerMode="dropdown"
-            android:popupBackground="@color/primary_dark"
-            android:background="@android:color/transparent"
-            />
     </LinearLayout>
 
     <LinearLayout
@@ -78,18 +94,19 @@
         android:orientation="horizontal">
 
         <TextView
-            android:visibility="gone"
+            android:id="@+id/textView_add_account_fullName"
             style="@style/etStyle"
             android:layout_width="wrap_content"
-            android:id="@+id/textView_add_account_fullName"
-            android:hint="نام و نام خانوادگی"
+            android:text="شنبه 25 شهریور سال 96"
             android:inputType="textPersonName"
-            android:nextFocusForward="@+id/editText_add_account_codeMelli"/>
+            android:nextFocusForward="@+id/editText_add_account_codeMelli"
+            android:textColor="@color/icons"/>
 
-        <EditText
+        <TextView
             style="@style/etStyle"
             android:id="@+id/editText_add_account_fullName"
-            android:hint="نام و نام خانوادگی"
+            android:text="17:16"
+            android:gravity="left"
             android:inputType="textPersonName"
             android:nextFocusForward="@+id/editText_add_account_codeMelli"/>
     </LinearLayout>
@@ -102,47 +119,21 @@
         android:gravity="center_vertical"
         android:background="@drawable/shape_border">
         <TextView
-            android:visibility="gone"
-            style="@style/etStyle"
-            android:layout_width="wrap_content"
-            android:id="@+id/textView_add_account_codeMelli"
-            android:hint="کد ملی"
-            android:nextFocusForward="@+id/editText_add_account_phone"
-            android:inputType="phone"
-            />
-        <EditText
-            style="@style/etStyle"
-            android:id="@+id/editText_add_account_codeMelli"
-            android:hint="کد ملی"
-            android:nextFocusForward="@+id/editText_add_account_phone"
-            android:inputType="phone"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_marginTop="@dimen/padding_large"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:background="@drawable/shape_border">
-        <TextView
-            android:visibility="gone"
             style="@style/etStyle"
             android:layout_width="wrap_content"
             android:id="@+id/textView_add_account_phone"
-            android:hint="تلفن"
+            android:text="شماره چک"
             android:nextFocusForward="@+id/editText_add_account_mobile"
             android:inputType="phone"
             />
         <EditText
             style="@style/etStyle"
             android:id="@+id/editText_add_account_phone"
-            android:hint="تلفن"
             android:nextFocusForward="@+id/editText_add_account_mobile"
             android:inputType="phone"
             />
     </LinearLayout>
+
     <LinearLayout
         android:layout_marginTop="@dimen/padding_large"
         android:layout_width="match_parent"
@@ -151,18 +142,48 @@
         android:gravity="center_vertical"
         android:background="@drawable/shape_border">
         <TextView
-            android:visibility="gone"
+            style="@style/etStyle"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:id="@+id/textView_add_account_codeMelli"
+            android:text="مبلغ"
+            android:nextFocusForward="@+id/editText_add_account_phone"
+            />
+
+        <EditText
+            style="@style/etStyle"
+            android:layout_width="0dp"
+            android:layout_weight="2"/>
+
+        <TextView
+            style="@style/etStyle"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:id="@+id/editText_add_account_codeMelli"
+            android:text="تومان"
+            android:nextFocusForward="@+id/editText_add_account_phone"
+            android:inputType="phone"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/padding_large"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/shape_border">
+        <TextView
             style="@style/etStyle"
             android:layout_width="wrap_content"
             android:id="@+id/textView_add_account_mobile"
-            android:hint="همراه"
+            android:text="طرف حساب"
             android:nextFocusForward="@+id/editText_add_account_address"
             android:inputType="phone"
             />
         <EditText
             style="@style/etStyle"
             android:id="@+id/editText_add_account_mobile"
-            android:hint="همراه"
             android:nextFocusForward="@+id/editText_add_account_address"
             android:inputType="phone"
             />
@@ -178,9 +199,55 @@
         <TextView
             style="@style/etStyle"
             android:layout_width="wrap_content"
-            android:visibility="gone"
             android:id="@+id/textView_add_account_address"
-            android:hint="آدرس"
+            android:text="تاریخ چک"
+            android:lines="5"
+            android:gravity="top"
+            android:inputType="text"
+            />
+        <TextView
+            style="@style/etStyle"
+            android:id="@+id/editText_add_account_address"
+            android:text="شنبه 25 شهریور سال 96"
+            android:inputType="text"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/padding_large"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/shape_border">
+        <TextView
+            style="@style/etStyle"
+            android:layout_width="wrap_content"
+            android:id="@+id/textView_add_account_mobile"
+            android:text="بانک"
+            android:nextFocusForward="@+id/editText_add_account_address"
+            android:inputType="phone"
+            />
+        <EditText
+            style="@style/etStyle"
+            android:id="@+id/editText_add_account_mobile"
+            android:nextFocusForward="@+id/editText_add_account_address"
+            android:inputType="phone"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/padding_large"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/shape_border">
+        <TextView
+            style="@style/etStyle"
+            android:layout_width="wrap_content"
+            android:id="@+id/textView_add_account_address"
+            android:text="توضیحات"
             android:lines="5"
             android:gravity="top"
             android:inputType="text"
@@ -188,43 +255,11 @@
         <EditText
             style="@style/etStyle"
             android:id="@+id/editText_add_account_address"
-            android:hint="آدرس"
             android:lines="5"
             android:gravity="top"
             android:inputType="text"
             />
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_marginTop="@dimen/padding_large"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:background="@drawable/shape_border">
-        <TextView
-            android:paddingRight="@dimen/padding_spinner"
-            android:paddingLeft="@dimen/padding_spinner"
-            android:paddingTop="@dimen/padding_large"
-            android:paddingBottom="@dimen/padding_large"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/font_small"
-            android:text="ثبت در گروه :"
-            android:textColor="#ababab"
-            android:background="@android:color/transparent"
-            />
-        <Spinner
-            android:id="@+id/spinner_add_account_contacts_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/font_small"
-            android:textColorHint="#ababab"
-            android:textColor="@color/icons"
-            android:background="@android:color/transparent"
-            />
-    </LinearLayout>
-
 
     <LinearLayout
         android:layout_width="match_parent"
