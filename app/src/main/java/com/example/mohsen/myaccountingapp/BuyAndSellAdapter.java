@@ -93,7 +93,7 @@ public class BuyAndSellAdapter extends RecyclerView.Adapter<BuyAndSellAdapter.Vi
     @Override
     public void onBindViewHolder(final BuyAndSellAdapter.ViewHolder holder, final int position) {
         holder.tvFactorCode.setText(mBuyAndSellFactorCodes.get(position));
-        holder.tvMablaghKol.setText(mBuyAndSellMablaghKols.get(position));
+        holder.tvMablaghKol.setText(MainActivity.priceFormatter(mBuyAndSellMablaghKols.get(position)));
         holder.tvAccount.setText(mBuyAndSellAccounts.get(position)+"");
         if(mMode.get(position).trim().equals("Buy")){
             holder.ivLabel.setImageResource(R.drawable.buy_image);

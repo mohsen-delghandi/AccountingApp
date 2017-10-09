@@ -36,9 +36,10 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
     LayoutInflater mInflaterInclude;
     LinearLayout mLlAddLayer;
     FloatingActionButton mFab;
+    String mType;
 
 
-    public TransactionsAdapter(Context context, List<String> transactionsMablaghKols, List<String> transactionsAccounts, List<String> transactionExps, List<String> transactionBanks, List<String> transactionCheckNumbers, List<String> transactionModes, LinearLayout llAddLayer, FloatingActionButton fab) {
+    public TransactionsAdapter(Context context, List<String> transactionsMablaghKols, List<String> transactionsAccounts, List<String> transactionExps, List<String> transactionBanks, List<String> transactionCheckNumbers, List<String> transactionModes, LinearLayout llAddLayer, FloatingActionButton fab, String type) {
         mContext = context;
         mTranactionMablaghKols = transactionsMablaghKols;
         mTranactionAccounts = transactionsAccounts;
@@ -48,6 +49,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         mTranactionCheckNumbers = transactionCheckNumbers;
         mLlAddLayer = llAddLayer;
         mFab = fab;
+        mType = type;
     }
 
     @Override
@@ -61,19 +63,30 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         LinearLayout llExtra;
         LinearLayout llMain;
         LinearLayout llName;
-        TextView tvName, tvMablagh,tvExp,tvBankName, tvCheckNumber, tvMojodi, tvEdit, tvDelete,tvRial;
-        ImageView ivArrow;
+        TextView tvName, tvMablagh,tvExp,tvBankName, tvCheckNumber, tvType, tvRial,tvBankText,tvCheckNumberText,tvExpText,tvDelete,tvEdit;
+        ImageView ivLabel,ivArrow;
 
         public ViewHolder(View v) {
             super(v);
             llExtra = (LinearLayout) v.findViewById(R.id.linearLayout_transaction_extra);
             llMain = (LinearLayout) v.findViewById(R.id.linearLayout_transaction_main);
-//            llName = (LinearLayout) v.findViewById(R.id.linearLayout_product_name);
+            llName = (LinearLayout) v.findViewById(R.id.linearLayout_transaction_mablagh);
             tvName = (TextView) v.findViewById(R.id.textView_transaction_account);
             tvMablagh = (TextView) v.findViewById(R.id.textView_transaction_mablagh);
             tvExp = (TextView) v.findViewById(R.id.textView_transaction_exp);
             tvBankName = (TextView) v.findViewById(R.id.textView_transaction_bank_name);
             tvCheckNumber = (TextView) v.findViewById(R.id.textView_transaction_check_number);
+            tvType = (TextView) v.findViewById(R.id.textView_transaction_type_text);
+            tvBankText = (TextView) v.findViewById(R.id.textView_transaction_bank_text);
+            tvCheckNumberText = (TextView) v.findViewById(R.id.textView_transaction_check_number_text);
+            tvExpText = (TextView) v.findViewById(R.id.textView_transaction_exp_text);
+            tvRial = (TextView) v.findViewById(R.id.textView_transaction_rial);
+            tvDelete = (TextView) v.findViewById(R.id.textView_transaction_delete);
+            tvEdit = (TextView) v.findViewById(R.id.textView_transaction_edit);
+
+            ivLabel = (ImageView)v.findViewById(R.id.imageView_transaction_label);
+            ivArrow = (ImageView)v.findViewById(R.id.imageView_transaction_arrow);
+
 //            tvSellText = (TextView) v.findViewById(R.id.textView_product_sell_text);
 //            tvUnit = (TextView) v.findViewById(R.id.textView_product_unit);
 //            tvMojodi = (TextView) v.findViewById(R.id.textView_product_mojodi);
@@ -84,62 +97,82 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         }
     }
 
-//    private void selectItem(TransactionsAdapter.ViewHolder h){
-//        h.llExtra.setVisibility(View.VISIBLE);
-//        h.llMain.setBackground(mContext.getResources().getDrawable(R.drawable.shape_gradient_background));
-//        h.llName.getBackground().setTint(mContext.getResources().getColor(R.color.icons));
-//        h.tvName.setTextColor(mContext.getResources().getColor(R.color.icons));
-//        h.tvMojodi.setTextColor(mContext.getResources().getColor(R.color.icons));
-//        h.tvUnit.setTextColor(mContext.getResources().getColor(R.color.icons));
-//        h.tvSellText.setTextColor(mContext.getResources().getColor(R.color.icons));
-//        h.tvSellPrice.setTextColor(mContext.getResources().getColor(R.color.icons));
-//        h.tvRial.setTextColor(mContext.getResources().getColor(R.color.icons));
-//        h.ivArrow.setImageResource(R.drawable.shape_arrow_drop_up);
-//    }
+    private void selectItem(TransactionsAdapter.ViewHolder h){
+        h.llExtra.setVisibility(View.VISIBLE);
+        h.llMain.setBackground(mContext.getResources().getDrawable(R.drawable.shape_gradient_background));
+        h.llName.getBackground().setTint(mContext.getResources().getColor(R.color.icons));
+        h.tvName.setTextColor(mContext.getResources().getColor(R.color.icons));
+        h.tvMablagh.setTextColor(mContext.getResources().getColor(R.color.icons));
+        h.tvExpText.setTextColor(mContext.getResources().getColor(R.color.icons));
+        h.tvExp.setTextColor(mContext.getResources().getColor(R.color.icons));
+        h.tvBankText.setTextColor(mContext.getResources().getColor(R.color.icons));
+        h.tvBankName.setTextColor(mContext.getResources().getColor(R.color.icons));
+        h.tvCheckNumberText.setTextColor(mContext.getResources().getColor(R.color.icons));
+        h.tvCheckNumber.setTextColor(mContext.getResources().getColor(R.color.icons));
+        h.tvType.setTextColor(mContext.getResources().getColor(R.color.icons));
+        h.tvRial.setTextColor(mContext.getResources().getColor(R.color.icons));
 
-//    private void deSelectItem(TransactionsAdapter.ViewHolder h){
-//        h.llExtra.setVisibility(View.GONE);
-//        h.llMain.setBackground(mContext.getResources().getDrawable(R.drawable.shape_underline_dashed));
-//        h.llName.getBackground().setTint(mContext.getResources().getColor(R.color.divider));
-//        h.tvName.setTextColor(mContext.getResources().getColor(R.color.primary_text));
-//        h.tvMojodi.setTextColor(mContext.getResources().getColor(R.color.secondary_text));
-//        h.tvUnit.setTextColor(mContext.getResources().getColor(R.color.secondary_text));
-//        h.tvSellText.setTextColor(mContext.getResources().getColor(R.color.secondary_text));
-//        h.tvSellPrice.setTextColor(mContext.getResources().getColor(R.color.green));
-//        h.tvRial.setTextColor(mContext.getResources().getColor(R.color.green));
-//        h.ivArrow.setImageResource(R.drawable.shape_arrow_drop_down);
-//    }
+        h.ivArrow.setImageResource(R.drawable.shape_arrow_drop_up);
+        if(mType.toString().trim().equals("Checki")){
+            h.ivLabel.setImageResource(R.drawable.cheki_selected);
+        }else if(mType.toString().trim().equals("Naghdi")){
+            h.ivLabel.setImageResource(R.drawable.naghdi_selected);
+        }
+    }
+
+    private void deSelectItem(TransactionsAdapter.ViewHolder h){
+        h.llExtra.setVisibility(View.GONE);
+        h.llMain.setBackground(mContext.getResources().getDrawable(R.drawable.shape_underline_dashed));
+        h.llName.getBackground().setTint(mContext.getResources().getColor(R.color.divider));
+        h.tvName.setTextColor(mContext.getResources().getColor(R.color.primary_text));
+        h.tvMablagh.setTextColor(mContext.getResources().getColor(R.color.green));
+        h.tvType.setTextColor(mContext.getResources().getColor(R.color.primary_text));
+        h.tvRial.setTextColor(mContext.getResources().getColor(R.color.green));
+
+        h.ivArrow.setImageResource(R.drawable.shape_arrow_drop_down);
+        if(mType.toString().trim().equals("Checki")){
+            h.ivLabel.setImageResource(R.drawable.cheki_normal);
+        }else if(mType.toString().trim().equals("Naghdi")){
+            h.ivLabel.setImageResource(R.drawable.naghdi_normal);
+        }
+    }
 
     @Override
     public void onBindViewHolder(final TransactionsAdapter.ViewHolder holder, final int position) {
         holder.tvName.setText(mTranactionAccounts.get(position));
-        holder.tvMablagh.setText(mTranactionMablaghKols.get(position));
+        holder.tvMablagh.setText(MainActivity.priceFormatter(mTranactionMablaghKols.get(position)));
         holder.tvExp.setText(mTranactionsExps.get(position));
         holder.tvBankName.setText(mTranactionBanks.get(position));
         holder.tvCheckNumber.setText(mTranactionCheckNumbers.get(position));
-//        holder.tvBuyPrice.setText(mProductBuyPrice.get(position));
-//        holder.tvSellPrice.setText(mProductSellPrice.get(position));
+        if(mTranactionsModes.get(position).toString().trim().equals("Checki")){
+            holder.ivLabel.setImageResource(R.drawable.cheki_normal);
+        }
+        if(mType.toString().trim().equals("Pardakht")){
+            holder.tvType.setText("پرداخت به : ");
+        }else if(mType.toString().trim().equals("Daryaft")){
+            holder.tvType.setText("دریافت از : ");
+        }
         holder.setIsRecyclable(false);
-//        holder.llMain.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                isCollapsed = holder.llExtra.getVisibility() == View.GONE;
-//                if (isCollapsed) {
-//                    selectItem(holder);
-//                    if(selectedHolder != holder){
-//                        if(selectedHolder != null)
-//                            deSelectItem(selectedHolder);
-//                        selectedHolder = holder;
-//                    }
-//                } else {
-//                    deSelectItem(holder);
-//                }
-//            }
-//        });
+        holder.llMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isCollapsed = holder.llExtra.getVisibility() == View.GONE;
+                if (isCollapsed) {
+                    selectItem(holder);
+                    if(selectedHolder != holder){
+                        if(selectedHolder != null)
+                            deSelectItem(selectedHolder);
+                        selectedHolder = holder;
+                    }
+                } else {
+                    deSelectItem(holder);
+                }
+            }
+        });
 
-//        holder.tvDelete.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
+        holder.tvDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 //                SQLiteDatabase dbb = new MyDatabase(mContext).getWritableDatabase();
 //                dbb.execSQL("DELETE FROM TblKala WHERE ID_Kala = " + mProductIDs.get(position));
 //                dbb.close();
@@ -153,8 +186,8 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
 //                notifyItemRemoved(position);
 //                notifyItemRangeChanged(position, mProductName.size());
 //                notifyDataSetChanged();
-//            }
-//        });
+            }
+        });
 //
 //        holder.tvEdit.setOnClickListener(new View.OnClickListener() {
 //            @Override

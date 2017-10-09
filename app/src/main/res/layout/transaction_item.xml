@@ -25,6 +25,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout_transaction_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_underline_dashed"
@@ -32,7 +33,6 @@
         android:padding="@dimen/padding_small">
 
         <LinearLayout
-            android:id="@+id/linearLayout_transaction_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -90,7 +90,7 @@
                             android:textSize="@dimen/font_medium" />
 
                         <TextView
-                            android:id="@+id/textView_buy_and_sell_factor_code"
+                            android:id="@+id/textView_transaction_rial"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="@dimen/padding_bit"
@@ -117,7 +117,7 @@
                             android:paddingLeft="@dimen/padding_large">
 
                             <TextView
-                                android:id="@+id/textView_buy_and_sell_mablagh_text"
+                                android:id="@+id/textView_transaction_type_text"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_vertical"
@@ -151,6 +151,7 @@
 
 
                     <ImageView
+                        android:id="@+id/imageView_transaction_arrow"
                         android:adjustViewBounds="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -163,6 +164,7 @@
             </LinearLayout>
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:id="@+id/linearLayout_transaction_extra"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -177,7 +179,7 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:id="@+id/textView_buy_and_sell_account_text"
+                            android:id="@+id/textView_transaction_bank_text"
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
@@ -201,16 +203,17 @@
                         <Space
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"/>
+                            android:layout_weight=".1"/>
 
 
                         <TextView
-                            android:id="@+id/aa"
+                            android:id="@+id/textView_transaction_check_number_text"
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:text="شماره چک : "
+                            android:maxLines="1"
                             android:textColor="@color/primary_text"
                             android:textSize="@dimen/font_small" />
 
@@ -233,7 +236,7 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:id="@+id/ش"
+                            android:id="@+id/textView_transaction_exp_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="right"
@@ -261,7 +264,7 @@
                         android:gravity="left">
 
                         <TextView
-                            android:id="@+id/textView_acount_side_edit"
+                            android:id="@+id/textView_transaction_edit"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="ویرایش"
@@ -279,7 +282,7 @@
                             android:textSize="@dimen/font_small"/>
 
                         <TextView
-                            android:id="@+id/textView_acount_side_delete"
+                            android:id="@+id/textView_transaction_delete"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="حذف"

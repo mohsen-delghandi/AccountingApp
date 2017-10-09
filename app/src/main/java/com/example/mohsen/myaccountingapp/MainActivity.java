@@ -71,6 +71,15 @@ public class MainActivity extends BaseActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
+    public static String priceFormatter(String price){
+        int a =  (price+"").length();
+        String formattedPrice = (price+"").substring(0,a%3);
+        for(int i = 0 ; i < (price+"").length()/3 ; i++) {
+            if (!formattedPrice.equals("")) formattedPrice += ",";
+            formattedPrice += (price+"").substring(a % 3 + 3 * i , a % 3 + 3 * (i+1));
+        }
+        return formattedPrice;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

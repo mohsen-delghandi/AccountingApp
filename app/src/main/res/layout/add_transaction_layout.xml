@@ -94,7 +94,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/textView_add_account_fullName"
+            android:id="@+id/textView_add_transaction_date"
             style="@style/etStyle"
             android:layout_width="wrap_content"
             android:text="شنبه 25 شهریور سال 96"
@@ -206,8 +206,8 @@
             android:inputType="text"
             />
         <TextView
+            android:id="@+id/textView_add_transaction_check_date"
             style="@style/etStyle"
-            android:id="@+id/editText_add_account_address"
             android:text="شنبه 25 شهریور سال 96"
             android:inputType="text"
             />
