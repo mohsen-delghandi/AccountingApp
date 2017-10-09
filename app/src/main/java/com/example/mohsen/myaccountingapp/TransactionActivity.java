@@ -1,8 +1,10 @@
 package com.example.mohsen.myaccountingapp;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,17 +12,24 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alirezaafkar.sundatepicker.DatePicker;
 import com.alirezaafkar.sundatepicker.components.DateItem;
 import com.alirezaafkar.sundatepicker.interfaces.DateSetListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
@@ -40,7 +49,7 @@ public class TransactionActivity extends MainActivity {
     TextView tvDaryaft,tvPardakht,tvHame,tvTransactionMablagh
             ,tvAccountName,tvMobile2nd,tvAddress2nd;
 
-    LinearLayout llAccountDetails2nd,llTayid2nd;
+    LinearLayout llTayid2nd;
     AutoCompleteTextView atvAccounts;
     ImageView ivHelp2nd,ivBack2nd;
 
@@ -55,7 +64,7 @@ public class TransactionActivity extends MainActivity {
 
     LinearLayout llTayid3rd;
 
-    String type;
+    String type,mode;
 
     class Date extends DateItem {
         String getDate() {
@@ -83,6 +92,75 @@ public class TransactionActivity extends MainActivity {
         }
     }
 
+    String dateToText(Date mDate){
+        String monthName = "";
+        switch (mDate.getMonth()) {
+            case 1:
+                monthName = "فروردین";
+                break;
+            case 2:
+                monthName = "اردیبهشت";
+                break;
+            case 3:
+                monthName = "خرداد";
+                break;
+            case 4:
+                monthName = "تیر";
+                break;
+            case 5:
+                monthName = "مرداد";
+                break;
+            case 6:
+                monthName = "شهریور";
+                break;
+            case 7:
+                monthName = "مهر";
+                break;
+            case 8:
+                monthName = "آبان";
+                break;
+            case 9:
+                monthName = "آذر";
+                break;
+            case 10:
+                monthName = "دی";
+                break;
+            case 11:
+                monthName = "بهمن";
+                break;
+            case 12:
+                monthName = "اسفند";
+                break;
+        }
+
+        String dayName = "";
+        switch (mDate.getIranianDay()) {
+            case 0:
+                dayName = "شنبه";
+                break;
+            case 1:
+                dayName = "یک شنبه";
+                break;
+            case 2:
+                dayName = "دوشنبه";
+                break;
+            case 3:
+                dayName = "سه شنبه";
+                break;
+            case 4:
+                dayName = "چهارشنبه";
+                break;
+            case 5:
+                dayName = "پنج شنبه";
+                break;
+            case 6:
+                dayName = "جمعه";
+                break;
+        }
+
+        return dayName + " " + mDate.getDay() + " " + monthName + " سال " + mDate.getYear();
+    }
+
     public void openAddLayout(){
         inflaterInclude = (LayoutInflater)TransactionActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         fab.setVisibility(View.GONE);
@@ -96,11 +174,67 @@ public class TransactionActivity extends MainActivity {
         });
         View transactionAddLayer = inflaterInclude.inflate(R.layout.add_transaction_layout,llAddLayer);
 
+        ImageView tvClose = (ImageView) findViewById(R.id.imageView_add_transaction_close);
+        ImageView tvHelp = (ImageView) findViewById(R.id.imageView_add_transaction_close);
+        tvClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fab.setVisibility(View.VISIBLE);
+                llAddLayer.removeAllViews();
+                llAddLayer.setVisibility(View.GONE);
+            }
+        });
+
+        mode = "Naghdi";
+
+        final TextView tvChecki = (TextView)findViewById(R.id.textView_add_transaction_checki);
+        final TextView tvNaghdi = (TextView)findViewById(R.id.textView_add_transaction_naghdi);
+        final LinearLayout llCheckNumber = (LinearLayout)findViewById(R.id.linearLayout_add_transaction_check_number);
+        final LinearLayout llCheckDate = (LinearLayout)findViewById(R.id.linearLayout_add_transaction_check_date);
+        final LinearLayout llBankName = (LinearLayout)findViewById(R.id.linearLayout_add_transaction_bank);
+        tvChecki.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                tvChecki.setBackground(getResources().getDrawable(R.drawable.shape_circle_dark));
+                tvChecki.getBackground().setTint(getResources().getColor(R.color.icons));
+                tvChecki.setTextColor(getResources().getColor(R.color.primary_dark));
+                tvNaghdi.setTextColor(getResources().getColor(R.color.icons));
+                tvNaghdi.setBackground(null);
+                llCheckDate.setVisibility(View.VISIBLE);
+                llCheckNumber.setVisibility(View.VISIBLE);
+                llBankName.setVisibility(View.VISIBLE);
+                mode = "Checki";
+            }
+        });
+        tvNaghdi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tvNaghdi.setBackground(getResources().getDrawable(R.drawable.shape_circle_dark));
+                tvNaghdi.getBackground().setTint(getResources().getColor(R.color.icons));
+                tvNaghdi.setTextColor(getResources().getColor(R.color.primary_dark));
+                tvChecki.setTextColor(getResources().getColor(R.color.icons));
+                tvChecki.setBackground(null);
+                llCheckDate.setVisibility(View.GONE);
+                llCheckNumber.setVisibility(View.GONE);
+                llBankName.setVisibility(View.GONE);
+                mode = "Naghdi";
+            }
+        });
+
+        TextView tvAddTransactionTime = (TextView)findViewById(R.id.textView_add_transaction_time);
+        SimpleDateFormat format= new SimpleDateFormat("HH:mm", Locale.getDefault());
+        String currentTime = format.format(new java.util.Date());
+        tvAddTransactionTime.setText(currentTime);
+
+
         TextView tvAddTransactionDate = (TextView)findViewById(R.id.textView_add_transaction_date);
         mDate = new Date();
-        tvAddTransactionDate.setText(mDate);
+        String currentDate = mDate.getDate();
+        tvAddTransactionDate.setText(dateToText(mDate));
 
         final TextView tvAddTransactionCheckDate = (TextView)findViewById(R.id.textView_add_transaction_check_date);
+        mDate = new Date();
+        tvAddTransactionCheckDate.setText(dateToText(mDate));
         tvAddTransactionCheckDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -117,75 +251,63 @@ public class TransactionActivity extends MainActivity {
                         mDate.setDate(day, month, year);
 
                         //textView
-                        String monthName = "";
-                        switch (mDate.getMonth()) {
-                            case 1:
-                                monthName = "فروردین";
-                                break;
-                            case 2:
-                                monthName = "اردیبهشت";
-                                break;
-                            case 3:
-                                monthName = "خرداد";
-                                break;
-                            case 4:
-                                monthName = "تیر";
-                                break;
-                            case 5:
-                                monthName = "مرداد";
-                                break;
-                            case 6:
-                                monthName = "شهریور";
-                                break;
-                            case 7:
-                                monthName = "مهر";
-                                break;
-                            case 8:
-                                monthName = "آبان";
-                                break;
-                            case 9:
-                                monthName = "آذر";
-                                break;
-                            case 10:
-                                monthName = "دی";
-                                break;
-                            case 11:
-                                monthName = "بهمن";
-                                break;
-                            case 12:
-                                monthName = "اسفند";
-                                break;
-                        }
-
-                        String dayName = "";
-                        switch (mDate.getIranianDay()) {
-                            case 0:
-                                dayName = "شنبه";
-                                break;
-                            case 1:
-                                dayName = "یک شنبه";
-                                break;
-                            case 2:
-                                dayName = "دوشنبه";
-                                break;
-                            case 3:
-                                dayName = "سه شنبه";
-                                break;
-                            case 4:
-                                dayName = "چهارشنبه";
-                                break;
-                            case 5:
-                                dayName = "پنج شنبه";
-                                break;
-                            case 6:
-                                dayName = "جمعه";
-                                break;
-                        }
-
-                        tvAddTransactionCheckDate.setText(dayName + " " + mDate.getDay() + " " + monthName + " سال " + mDate.getYear());
+                        tvAddTransactionCheckDate.setText(dateToText(mDate));
 
                     }
                 }).show(getSupportFragmentManager(), "");
+            }
+        });
+
+        EditText etMablagh = (EditText)findViewById(R.id.editText_add_transaction_mablagh);
+
+        SQLiteDatabase dbAccounts = new MyDatabase(TransactionActivity.this).getReadableDatabase();
+        Cursor cursorAccounts = dbAccounts.query("tblContacts",new String[]{"FullName"},null,null,null,null,null,null);
+        List<String> listAccounts = new ArrayList<String>();
+        if(cursorAccounts.moveToFirst()){
+            do{
+                listAccounts.add(cursorAccounts.getString(0));
+            }while (cursorAccounts.moveToNext());
+        }
+        cursorAccounts.close();
+
+        atvAccounts = (AutoCompleteTextView)findViewById(R.id.autoTextView_add_transaction_account);
+
+        ArrayAdapter<String> adapterAccounts = new ArrayAdapter<String>(TransactionActivity.this,android.R.layout.simple_list_item_1,listAccounts);
+        atvAccounts.setAdapter(adapterAccounts);
+        atvAccounts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                SQLiteDatabase dbShowAccount = new MyDatabase(TransactionActivity.this).getReadableDatabase();
+                Cursor cursorShowAccount = dbShowAccount.query("tblContacts",new String[]{"Tafzili_ID"},"FullName = ?",new String[]{atvAccounts.getText().toString().trim()+""},null,null,null);
+                accountTafziliIDs = new ArrayList<Integer>();
+                if(cursorShowAccount.moveToFirst()){
+                    accountTafziliIDs.add(cursorShowAccount.getInt(0));
+                }
+                cursorShowAccount.close();
+
+                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+            }
+        });
+
+        TextView tvSave = (TextView)findViewById(R.id.textView_add_transaction_save);
+        tvSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(type.toString().trim().equals("Daryaft")){
+                    if(mode.toString().trim().equals("Naghdi")){
+                        SQLiteDatabase dbInsert = new MyDatabase(TransactionActivity.this).getWritableDatabase();
+                        ContentValues
+                    }
+                }
+            }
+        });
+
+        TextView tvClean = (TextView)findViewById(R.id.textView_add_transaction_clean);
+        tvClean.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
     }

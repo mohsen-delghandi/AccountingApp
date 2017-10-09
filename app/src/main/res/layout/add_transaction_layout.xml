@@ -19,10 +19,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <TextView
-                android:id="@+id/textView_buy_and_sell_kharid"
+                android:id="@+id/textView_add_transaction_checki"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="خرید"
+                android:text="چکی"
                 android:textSize="@dimen/font_xmedium"
                 android:gravity="center"
                 android:paddingBottom="@dimen/padding_medium"
@@ -31,10 +31,10 @@
                 android:paddingLeft="@dimen/padding_spinner"
                 android:textColor="@color/icons"/>
             <TextView
-                android:id="@+id/textView_buy_and_sell_forosh"
+                android:id="@+id/textView_add_transaction_naghdi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="فروش"
+                android:text="نقدی"
                 android:textSize="@dimen/font_xmedium"
                 android:gravity="center"
                 android:paddingBottom="@dimen/padding_medium"
@@ -66,7 +66,7 @@
             android:layout_height="wrap_content"
             android:gravity="left">
             <ImageView
-                android:id="@+id/imageView_buy_and_sell_2nd_help"
+                android:id="@+id/imageView_add_transaction_help"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/shape_question"
@@ -75,10 +75,10 @@
                 android:layout_marginLeft="@dimen/padding_small"
                 />
             <ImageView
-                android:id="@+id/imageView_buy_and_sell_2nd_back"
+                android:id="@+id/imageView_add_transaction_close"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/shape_arrow_left"
+                android:src="@drawable/shape_close"
                 android:background="@drawable/shape_circle"
                 android:padding="@dimen/padding_small"
                 />
@@ -99,19 +99,20 @@
             android:layout_width="wrap_content"
             android:text="شنبه 25 شهریور سال 96"
             android:inputType="textPersonName"
-            android:nextFocusForward="@+id/editText_add_account_codeMelli"
             android:textColor="@color/icons"/>
 
         <TextView
+            android:id="@+id/textView_add_transaction_time"
             style="@style/etStyle"
-            android:id="@+id/editText_add_account_fullName"
             android:text="17:16"
             android:gravity="left"
             android:inputType="textPersonName"
-            android:nextFocusForward="@+id/editText_add_account_codeMelli"/>
+            android:nextFocusForward="@+id/editText_add_transaction_check_number"/>
     </LinearLayout>
 
     <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/linearLayout_add_transaction_check_number"
         android:layout_marginTop="@dimen/padding_large"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -119,18 +120,17 @@
         android:gravity="center_vertical"
         android:background="@drawable/shape_border">
         <TextView
+            android:visibility="gone"
             style="@style/etStyle"
             android:layout_width="wrap_content"
             android:id="@+id/textView_add_account_phone"
-            android:text="شماره چک"
-            android:nextFocusForward="@+id/editText_add_account_mobile"
-            android:inputType="phone"
             />
         <EditText
             style="@style/etStyle"
-            android:id="@+id/editText_add_account_phone"
-            android:nextFocusForward="@+id/editText_add_account_mobile"
-            android:inputType="phone"
+            android:id="@+id/editText_add_transaction_check_number"
+            android:hint="شماره چک"
+            android:nextFocusForward="@+id/editText_add_transaction_mablagh"
+            android:inputType="number"
             />
     </LinearLayout>
 
@@ -142,18 +142,22 @@
         android:gravity="center_vertical"
         android:background="@drawable/shape_border">
         <TextView
+            android:visibility="gone"
             style="@style/etStyle"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:id="@+id/textView_add_account_codeMelli"
             android:text="مبلغ"
-            android:nextFocusForward="@+id/editText_add_account_phone"
             />
 
         <EditText
+            android:id="@+id/editText_add_transaction_mablagh"
             style="@style/etStyle"
             android:layout_width="0dp"
-            android:layout_weight="2"/>
+            android:layout_weight="2"
+            android:hint="مبلغ"
+            android:inputType="number"
+            android:nextFocusForward="@+id/autoTextView_add_transaction_account"/>
 
         <TextView
             style="@style/etStyle"
@@ -173,23 +177,17 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:background="@drawable/shape_border">
-        <TextView
+        <AutoCompleteTextView
             style="@style/etStyle"
-            android:layout_width="wrap_content"
-            android:id="@+id/textView_add_account_mobile"
-            android:text="طرف حساب"
-            android:nextFocusForward="@+id/editText_add_account_address"
-            android:inputType="phone"
-            />
-        <EditText
-            style="@style/etStyle"
-            android:id="@+id/editText_add_account_mobile"
-            android:nextFocusForward="@+id/editText_add_account_address"
-            android:inputType="phone"
-            />
+            android:id="@+id/autoTextView_add_transaction_account"
+            android:completionThreshold="1"
+            android:nextFocusForward="@+id/textView_add_account_address"
+            android:hint="نام طرف حساب"/>
     </LinearLayout>
 
     <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/linearLayout_add_transaction_check_date"
         android:layout_marginTop="@dimen/padding_large"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -208,12 +206,15 @@
         <TextView
             android:id="@+id/textView_add_transaction_check_date"
             style="@style/etStyle"
+            android:nextFocusForward="@+id/spinner_add_transaction_banks_list"
             android:text="شنبه 25 شهریور سال 96"
             android:inputType="text"
             />
     </LinearLayout>
 
     <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/linearLayout_add_transaction_bank"
         android:layout_marginTop="@dimen/padding_large"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -221,18 +222,26 @@
         android:gravity="center_vertical"
         android:background="@drawable/shape_border">
         <TextView
-            style="@style/etStyle"
+            android:paddingRight="@dimen/padding_spinner"
+            android:paddingLeft="@dimen/padding_spinner"
+            android:paddingTop="@dimen/padding_large"
+            android:paddingBottom="@dimen/padding_large"
             android:layout_width="wrap_content"
-            android:id="@+id/textView_add_account_mobile"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_small"
             android:text="بانک"
-            android:nextFocusForward="@+id/editText_add_account_address"
-            android:inputType="phone"
+            android:textColor="@color/icons"
+            android:background="@android:color/transparent"
             />
-        <EditText
-            style="@style/etStyle"
-            android:id="@+id/editText_add_account_mobile"
-            android:nextFocusForward="@+id/editText_add_account_address"
-            android:inputType="phone"
+        <Spinner
+            android:id="@+id/spinner_add_transaction_banks_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_small"
+            android:textColorHint="#ababab"
+            android:textColor="@color/icons"
+            android:nextFocusForward="@+id/editText_add_transaction_exp"
+            android:background="@android:color/transparent"
             />
     </LinearLayout>
 
@@ -241,23 +250,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center_vertical"
+        android:gravity="top"
         android:background="@drawable/shape_border">
-        <TextView
-            style="@style/etStyle"
-            android:layout_width="wrap_content"
-            android:id="@+id/textView_add_account_address"
-            android:text="توضیحات"
-            android:lines="5"
-            android:gravity="top"
-            android:inputType="text"
-            />
         <EditText
             style="@style/etStyle"
-            android:id="@+id/editText_add_account_address"
+            android:id="@+id/editText_add_transaction_exp"
             android:lines="5"
+            android:minLines="3"
             android:gravity="top"
-            android:inputType="text"
+            android:hint="توضیحات"
             />
     </LinearLayout>
 
@@ -272,7 +273,7 @@
         android:paddingTop="@dimen/padding_large">
 
         <TextView
-            android:id="@+id/textView_add_account_clean"
+            android:id="@+id/textView_add_transaction_clean"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_circle"
@@ -287,7 +288,7 @@
             android:textSize="@dimen/font_small" />
 
         <TextView
-            android:id="@+id/textView_add_account_save"
+            android:id="@+id/textView_add_transaction_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/padding_medium"
