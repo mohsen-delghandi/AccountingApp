@@ -19,6 +19,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,7 +65,7 @@ public class TransactionActivity extends MainActivity {
 
     LinearLayout llTayid3rd;
 
-    String type,mode;
+    String type,mode,checkDate;
 
     class Date extends DateItem {
         String getDate() {
@@ -223,13 +224,13 @@ public class TransactionActivity extends MainActivity {
 
         TextView tvAddTransactionTime = (TextView)findViewById(R.id.textView_add_transaction_time);
         SimpleDateFormat format= new SimpleDateFormat("HH:mm", Locale.getDefault());
-        String currentTime = format.format(new java.util.Date());
+        final String currentTime = format.format(new java.util.Date());
         tvAddTransactionTime.setText(currentTime);
 
 
         TextView tvAddTransactionDate = (TextView)findViewById(R.id.textView_add_transaction_date);
         mDate = new Date();
-        String currentDate = mDate.getDate();
+        final String currentDate = mDate.getDate();
         tvAddTransactionDate.setText(dateToText(mDate));
 
         final TextView tvAddTransactionCheckDate = (TextView)findViewById(R.id.textView_add_transaction_check_date);
@@ -250,6 +251,7 @@ public class TransactionActivity extends MainActivity {
                     public void onDateSet(int id, @Nullable Calendar calendar, int day, int month, int year) {
                         mDate.setDate(day, month, year);
 
+                        checkDate = mDate.getDate();
                         //textView
                         tvAddTransactionCheckDate.setText(dateToText(mDate));
 
@@ -258,7 +260,46 @@ public class TransactionActivity extends MainActivity {
             }
         });
 
-        EditText etMablagh = (EditText)findViewById(R.id.editText_add_transaction_mablagh);
+        EditText etCheckNumber = (EditText)findViewById(R.id.editText_add_transaction_check_number);
+        final EditText etMablagh = (EditText)findViewById(R.id.editText_add_transaction_mablagh);
+        final EditText etExp = (EditText)findViewById(R.id.editText_add_transaction_exp);
+
+        SQLiteDatabase db2 = new MyDatabase(TransactionActivity.this).getReadableDatabase();
+        Cursor c = db2.query("tblBank",new String[]{"NameBank","ID_Bank"},null,null,null,null,null,null);
+        String[] bankNames = null;
+        int[] bankIDs = null;
+        if(c.moveToFirst()){
+            bankNames = new String[c.getCount()];
+            bankIDs = new int[c.getCount()];
+            int i = 0;
+            do{
+                bankNames[i] = c.getString(0);
+                bankIDs[i] = c.getInt(1);
+                i++;
+            }while (c.moveToNext());
+        }
+        c.close();
+        db2.close();
+
+        Spinner spBanks = (Spinner)findViewById(R.id.spinner_add_transaction_banks_list);
+
+        final int[] bankID = new int[1];
+        final ArrayAdapter adapter = new ArrayAdapter(TransactionActivity.this,R.layout.simple_spinner_item,bankNames);
+        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
+        final int[] finalBankIDs = bankIDs;
+        spBanks.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                bankID[0] = finalBankIDs[i];
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                bankID[0] = finalBankIDs[0];
+            }
+        });
+        spBanks.setAdapter(adapter);
+
 
         SQLiteDatabase dbAccounts = new MyDatabase(TransactionActivity.this).getReadableDatabase();
         Cursor cursorAccounts = dbAccounts.query("tblContacts",new String[]{"FullName"},null,null,null,null,null,null);
@@ -294,11 +335,45 @@ public class TransactionActivity extends MainActivity {
         tvSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(type.toString().trim().equals("Daryaft")){
-                    if(mode.toString().trim().equals("Naghdi")){
-                        SQLiteDatabase dbInsert = new MyDatabase(TransactionActivity.this).getWritableDatabase();
-                        ContentValues
+                if(mode.toString().trim().equals("Naghdi")){
+                    String typeAction = null;
+                    String accoutsId = null;
+                    String moeinId = null;
+                    if(type.toString().trim().equals("Daryaft")){
+                        typeAction = "2";
+                        accoutsId = "130";
+                        moeinId = "13001";
+                    }else if(type.toString().trim().equals("Pardakht")){
+                        typeAction = "1";
+                        accoutsId = "320";
+                        moeinId = "32001";
                     }
+                    SQLiteDatabase dbInsert = new MyDatabase(TransactionActivity.this).getWritableDatabase();
+                    ContentValues cvInsert = new ContentValues();
+                    cvInsert.put("AccountsID",accoutsId);
+                    cvInsert.put("Moein_ID",moeinId);
+                    cvInsert.put("Tafzili_ID","10010001");
+                    cvInsert.put("DateSabt",currentDate + " " + currentTime);
+                    cvInsert.put("PNaghdiExp",etExp.getText().toString().trim());
+                    cvInsert.put("TypeAction",typeAction);
+                    cvInsert.put("SumMabalgh",etMablagh.getText().toString().trim());
+                    Cursor cursorMaxSrialSand = dbInsert.query("tblParentSanad",new String[]{"MAX(Serial_Sanad)"},null,null,null,null,null);
+                    if(cursorMaxSrialSand.moveToFirst()){
+                        cvInsert.put("Serial_Sanad",cursorMaxSrialSand.getString(0));
+                    }else{
+                        cvInsert.put("Serial_Sanad","1");
+                    }
+                    long idPNaghdi = dbInsert.insert("tblPardakhtNaghdi",null,cvInsert);
+                    ContentValues cvInsert2 = new ContentValues();
+                    cvInsert2.put("AccountsID",accoutsId);
+                    cvInsert2.put("Moein_ID",moeinId);
+                    cvInsert2.put("Tafzili_ID",accountTafziliIDs.get(0)+"");
+                    cvInsert2.put("PNaghdi_ID",idPNaghdi+"");
+                    cvInsert2.put("ChMablagh_Naghdi",etMablagh.getText().toString().trim());
+                    cvInsert2.put("ChDate_Pardakht",currentDate + " " + currentTime);
+                    dbInsert.insert("tblChildNaghdi",null,cvInsert2);
+
+                    Toast.makeText(TransactionActivity.this, "ذخیره با موفقیت انجام شد.", Toast.LENGTH_SHORT).show();
                 }
             }
         });

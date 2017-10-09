@@ -1,23 +1,14 @@
 package com.example.mohsen.myaccountingapp;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -97,7 +88,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         }
     }
 
-    private void selectItem(TransactionsAdapter.ViewHolder h){
+    private void selectItem(ViewHolder h, int position){
         h.llExtra.setVisibility(View.VISIBLE);
         h.llMain.setBackground(mContext.getResources().getDrawable(R.drawable.shape_gradient_background));
         h.llName.getBackground().setTint(mContext.getResources().getColor(R.color.icons));
@@ -113,14 +104,14 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         h.tvRial.setTextColor(mContext.getResources().getColor(R.color.icons));
 
         h.ivArrow.setImageResource(R.drawable.shape_arrow_drop_up);
-        if(mType.toString().trim().equals("Checki")){
+        if(mTranactionsModes.get(position).trim().equals("Checki")){
             h.ivLabel.setImageResource(R.drawable.cheki_selected);
-        }else if(mType.toString().trim().equals("Naghdi")){
+        }else if(mTranactionsModes.get(position).trim().equals("Naghdi")){
             h.ivLabel.setImageResource(R.drawable.naghdi_selected);
         }
     }
 
-    private void deSelectItem(TransactionsAdapter.ViewHolder h){
+    private void deSelectItem(ViewHolder h, int position){
         h.llExtra.setVisibility(View.GONE);
         h.llMain.setBackground(mContext.getResources().getDrawable(R.drawable.shape_underline_dashed));
         h.llName.getBackground().setTint(mContext.getResources().getColor(R.color.divider));
@@ -130,9 +121,9 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         h.tvRial.setTextColor(mContext.getResources().getColor(R.color.green));
 
         h.ivArrow.setImageResource(R.drawable.shape_arrow_drop_down);
-        if(mType.toString().trim().equals("Checki")){
+        if(mTranactionsModes.get(position).trim().equals("Checki")){
             h.ivLabel.setImageResource(R.drawable.cheki_normal);
-        }else if(mType.toString().trim().equals("Naghdi")){
+        }else if(mTranactionsModes.get(position).trim().equals("Naghdi")){
             h.ivLabel.setImageResource(R.drawable.naghdi_normal);
         }
     }
@@ -158,14 +149,14 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
             public void onClick(View view) {
                 isCollapsed = holder.llExtra.getVisibility() == View.GONE;
                 if (isCollapsed) {
-                    selectItem(holder);
+                    selectItem(holder,position);
                     if(selectedHolder != holder){
                         if(selectedHolder != null)
-                            deSelectItem(selectedHolder);
+                            deSelectItem(selectedHolder,position);
                         selectedHolder = holder;
                     }
                 } else {
-                    deSelectItem(holder);
+                    deSelectItem(holder, position);
                 }
             }
         });
