@@ -1,6 +1,8 @@
 package com.example.mohsen.myaccountingapp;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,7 +23,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
     Context mContext;
     View v;
     List<String> mTranactionMablaghKols, mTranactionAccounts, mTranactionsExps;
-    List<String> mTranactionBanks, mTranactionCheckNumbers, mTranactionsModes;
+    List<String> mTranactionBanks, mTranactionCheckNumbers, mTranactionsModes,mTransactionDeleteID;
     boolean isCollapsed;
     ViewHolder selectedHolder;
     LayoutInflater mInflaterInclude;
@@ -30,7 +32,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
     String mType;
 
 
-    public TransactionsAdapter(Context context, List<String> transactionsMablaghKols, List<String> transactionsAccounts, List<String> transactionExps, List<String> transactionBanks, List<String> transactionCheckNumbers, List<String> transactionModes, LinearLayout llAddLayer, FloatingActionButton fab, String type) {
+    public TransactionsAdapter(Context context, List<String> transactionsMablaghKols, List<String> transactionsAccounts, List<String> transactionExps, List<String> transactionBanks, List<String> transactionCheckNumbers, List<String> transactionModes, LinearLayout llAddLayer, FloatingActionButton fab, String type, List<String> transactionDeleteID) {
         mContext = context;
         mTranactionMablaghKols = transactionsMablaghKols;
         mTranactionAccounts = transactionsAccounts;
@@ -41,6 +43,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         mLlAddLayer = llAddLayer;
         mFab = fab;
         mType = type;
+        mTransactionDeleteID = transactionDeleteID;
     }
 
     @Override
@@ -53,7 +56,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
     public class ViewHolder extends RecyclerView.ViewHolder {
         LinearLayout llExtra;
         LinearLayout llMain;
-        LinearLayout llName;
+        LinearLayout llName,llChecki;
         TextView tvName, tvMablagh,tvExp,tvBankName, tvCheckNumber, tvType, tvRial,tvBankText,tvCheckNumberText,tvExpText,tvDelete,tvEdit;
         ImageView ivLabel,ivArrow;
 
@@ -62,6 +65,8 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
             llExtra = (LinearLayout) v.findViewById(R.id.linearLayout_transaction_extra);
             llMain = (LinearLayout) v.findViewById(R.id.linearLayout_transaction_main);
             llName = (LinearLayout) v.findViewById(R.id.linearLayout_transaction_mablagh);
+            llChecki = (LinearLayout) v.findViewById(R.id.linearLayout_transaction_checki);
+
             tvName = (TextView) v.findViewById(R.id.textView_transaction_account);
             tvMablagh = (TextView) v.findViewById(R.id.textView_transaction_mablagh);
             tvExp = (TextView) v.findViewById(R.id.textView_transaction_exp);
@@ -77,14 +82,6 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
 
             ivLabel = (ImageView)v.findViewById(R.id.imageView_transaction_label);
             ivArrow = (ImageView)v.findViewById(R.id.imageView_transaction_arrow);
-
-//            tvSellText = (TextView) v.findViewById(R.id.textView_product_sell_text);
-//            tvUnit = (TextView) v.findViewById(R.id.textView_product_unit);
-//            tvMojodi = (TextView) v.findViewById(R.id.textView_product_mojodi);
-//            tvEdit = (TextView) v.findViewById(R.id.textView_product_edit);
-//            tvDelete = (TextView) v.findViewById(R.id.textView_product_delete);
-//            tvRial = (TextView) v.findViewById(R.id.textView_product_rial);
-//            ivArrow = (ImageView) v.findViewById(R.id.imageView_product_arrow);
         }
     }
 
@@ -135,6 +132,9 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         holder.tvExp.setText(mTranactionsExps.get(position));
         holder.tvBankName.setText(mTranactionBanks.get(position));
         holder.tvCheckNumber.setText(mTranactionCheckNumbers.get(position));
+        if(mTranactionsModes.get(position).toString().trim().equals("Naghdi")){
+            holder.llChecki.setVisibility(View.GONE);
+        }
         if(mTranactionsModes.get(position).toString().trim().equals("Checki")){
             holder.ivLabel.setImageResource(R.drawable.cheki_normal);
         }
@@ -164,19 +164,68 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         holder.tvDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                SQLiteDatabase dbb = new MyDatabase(mContext).getWritableDatabase();
-//                dbb.execSQL("DELETE FROM TblKala WHERE ID_Kala = " + mProductIDs.get(position));
-//                dbb.close();
-//
-//                mProductIDs.remove(position);
-//                mProductName.remove(position);
-//                mProductBuyPrice.remove(position);
-//                mProductSellPrice.remove(position);
-//                mProductUnit.remove(position);
-//                mProductMojoodi.remove(position);
-//                notifyItemRemoved(position);
-//                notifyItemRangeChanged(position, mProductName.size());
-//                notifyDataSetChanged();
+                if(mTranactionsModes.get(position).toString().trim().equals("Naghdi")) {
+                    SQLiteDatabase dbb = new MyDatabase(mContext).getWritableDatabase();
+                    dbb.delete("tblChildNaghdi", "PNaghdi_ID = ?", new String[]{mTransactionDeleteID.get(position) + ""});
+                    dbb.delete("tblPardakhtNaghdi", "PNaghdi_ID = ?", new String[]{mTransactionDeleteID.get(position) + ""});
+                    dbb.close();
+
+                    mTranactionMablaghKols.remove(position);
+                    mTranactionAccounts.remove(position);
+                    mTranactionsExps.remove(position);
+                    mTranactionBanks.remove(position);
+                    mTranactionCheckNumbers.remove(position);
+                    mTranactionsModes.remove(position);
+                    mTransactionDeleteID.remove(position);
+                    notifyItemRemoved(position);
+                    notifyItemRangeChanged(position, mTranactionAccounts.size());
+                    notifyDataSetChanged();
+                }else if(mTranactionsModes.get(position).toString().trim().equals("Checki")) {
+                    if(mType.toString().trim().equals("Daryaft")) {
+                        SQLiteDatabase dbb = new MyDatabase(mContext).getWritableDatabase();
+                        dbb.delete("tblCheckDaryaft", "CheckDaryaft_ID = ?", new String[]{mTransactionDeleteID.get(position) + ""});
+                        Cursor cursor = dbb.query("tblCheckDaryaft_Child",new String[]{"CheckDaryaftParent_ID"},"CheckDaryaft_ID = " + mTransactionDeleteID.get(position),null,null,null,null);
+                        if(cursor.moveToFirst()) {
+                            dbb.delete("tblCheckDaryaft_Parent", "CheckDaryaftParent_ID = ?", new String[]{cursor.getString(0)});
+                        }
+                        dbb.delete("tblCheckDaryaft_Child", "CheckDaryaft_ID = ?", new String[]{mTransactionDeleteID.get(position) + ""});
+                        dbb.close();
+
+                        mTranactionMablaghKols.remove(position);
+                        mTranactionAccounts.remove(position);
+                        mTranactionsExps.remove(position);
+                        mTranactionBanks.remove(position);
+                        mTranactionCheckNumbers.remove(position);
+                        mTranactionsModes.remove(position);
+                        mTransactionDeleteID.remove(position);
+                        notifyItemRemoved(position);
+                        notifyItemRangeChanged(position, mTranactionAccounts.size());
+                        notifyDataSetChanged();
+
+                    }else if(mType.toString().trim().equals("Pardakht")) {
+                        SQLiteDatabase dbb = new MyDatabase(mContext).getWritableDatabase();
+                        Cursor cursor = dbb.query("tblCheckPardakht_Child",new String[]{"CheckPardakhtParent_ID"},"CheckPardakht_ID = " + mTransactionDeleteID.get(position),null,null,null,null);
+
+                        dbb.delete("tblCheckPardakht_Child", "CheckPardakht_ID = ?", new String[]{mTransactionDeleteID.get(position) + ""});
+                        if(cursor.moveToFirst()) {
+                            dbb.delete("tblCheckPardakht_Parent", "CheckPardakhtParent_ID = ?", new String[]{cursor.getString(0)});
+                        }
+
+                        dbb.delete("tblCheckPardakht", "CheckPardakht_ID = ?", new String[]{mTransactionDeleteID.get(position) + ""});
+                        dbb.close();
+
+                        mTranactionMablaghKols.remove(position);
+                        mTranactionAccounts.remove(position);
+                        mTranactionsExps.remove(position);
+                        mTranactionBanks.remove(position);
+                        mTranactionCheckNumbers.remove(position);
+                        mTranactionsModes.remove(position);
+                        mTransactionDeleteID.remove(position);
+                        notifyItemRemoved(position);
+                        notifyItemRangeChanged(position, mTranactionAccounts.size());
+                        notifyDataSetChanged();
+                    }
+                }
             }
         });
 //

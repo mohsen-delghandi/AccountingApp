@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,8 +29,6 @@ import com.alirezaafkar.sundatepicker.interfaces.DateSetListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -60,6 +57,7 @@ public class TransactionActivity extends MainActivity {
     List<String> transactionBanks;
     List<String> transactionModes;
     List<String> transactionCheckNumbers;
+    List<String> transactionDeleteID;
 
     List<Integer> accountTafziliIDs;
 
@@ -162,7 +160,7 @@ public class TransactionActivity extends MainActivity {
         return dayName + " " + mDate.getDay() + " " + monthName + " سال " + mDate.getYear();
     }
 
-    public void openAddLayout(){
+    public void openAddLayout(final RecyclerView.Adapter recyclerAdapter){
         inflaterInclude = (LayoutInflater)TransactionActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         fab.setVisibility(View.GONE);
         llAddLayer.removeAllViews();
@@ -235,6 +233,8 @@ public class TransactionActivity extends MainActivity {
 
         final TextView tvAddTransactionCheckDate = (TextView)findViewById(R.id.textView_add_transaction_check_date);
         mDate = new Date();
+
+        checkDate = mDate.getDate();
         tvAddTransactionCheckDate.setText(dateToText(mDate));
         tvAddTransactionCheckDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -260,7 +260,7 @@ public class TransactionActivity extends MainActivity {
             }
         });
 
-        EditText etCheckNumber = (EditText)findViewById(R.id.editText_add_transaction_check_number);
+        final EditText etCheckNumber = (EditText)findViewById(R.id.editText_add_transaction_check_number);
         final EditText etMablagh = (EditText)findViewById(R.id.editText_add_transaction_mablagh);
         final EditText etExp = (EditText)findViewById(R.id.editText_add_transaction_exp);
 
@@ -281,7 +281,7 @@ public class TransactionActivity extends MainActivity {
         c.close();
         db2.close();
 
-        Spinner spBanks = (Spinner)findViewById(R.id.spinner_add_transaction_banks_list);
+        final Spinner spBanks = (Spinner)findViewById(R.id.spinner_add_transaction_banks_list);
 
         final int[] bankID = new int[1];
         final ArrayAdapter adapter = new ArrayAdapter(TransactionActivity.this,R.layout.simple_spinner_item,bankNames);
@@ -335,45 +335,109 @@ public class TransactionActivity extends MainActivity {
         tvSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mode.toString().trim().equals("Naghdi")){
-                    String typeAction = null;
-                    String accoutsId = null;
-                    String moeinId = null;
-                    if(type.toString().trim().equals("Daryaft")){
-                        typeAction = "2";
-                        accoutsId = "130";
-                        moeinId = "13001";
-                    }else if(type.toString().trim().equals("Pardakht")){
-                        typeAction = "1";
-                        accoutsId = "320";
-                        moeinId = "32001";
-                    }
-                    SQLiteDatabase dbInsert = new MyDatabase(TransactionActivity.this).getWritableDatabase();
-                    ContentValues cvInsert = new ContentValues();
-                    cvInsert.put("AccountsID",accoutsId);
-                    cvInsert.put("Moein_ID",moeinId);
-                    cvInsert.put("Tafzili_ID","10010001");
-                    cvInsert.put("DateSabt",currentDate + " " + currentTime);
-                    cvInsert.put("PNaghdiExp",etExp.getText().toString().trim());
-                    cvInsert.put("TypeAction",typeAction);
-                    cvInsert.put("SumMabalgh",etMablagh.getText().toString().trim());
-                    Cursor cursorMaxSrialSand = dbInsert.query("tblParentSanad",new String[]{"MAX(Serial_Sanad)"},null,null,null,null,null);
-                    if(cursorMaxSrialSand.moveToFirst()){
-                        cvInsert.put("Serial_Sanad",cursorMaxSrialSand.getString(0));
-                    }else{
-                        cvInsert.put("Serial_Sanad","1");
-                    }
-                    long idPNaghdi = dbInsert.insert("tblPardakhtNaghdi",null,cvInsert);
-                    ContentValues cvInsert2 = new ContentValues();
-                    cvInsert2.put("AccountsID",accoutsId);
-                    cvInsert2.put("Moein_ID",moeinId);
-                    cvInsert2.put("Tafzili_ID",accountTafziliIDs.get(0)+"");
-                    cvInsert2.put("PNaghdi_ID",idPNaghdi+"");
-                    cvInsert2.put("ChMablagh_Naghdi",etMablagh.getText().toString().trim());
-                    cvInsert2.put("ChDate_Pardakht",currentDate + " " + currentTime);
-                    dbInsert.insert("tblChildNaghdi",null,cvInsert2);
 
-                    Toast.makeText(TransactionActivity.this, "ذخیره با موفقیت انجام شد.", Toast.LENGTH_SHORT).show();
+                if(atvAccounts.getText().toString().trim().equals("")){
+                    Toast.makeText(TransactionActivity.this, "لطفا طرف حساب را مشخص کنید.", Toast.LENGTH_SHORT).show();
+                }else {
+                    if (mode.toString().trim().equals("Naghdi")) {
+                        String typeAction = null;
+                        String accoutsId = null;
+                        String moeinId = null;
+                        if (type.toString().trim().equals("Daryaft")) {
+                            typeAction = "2";
+                            accoutsId = "130";
+                            moeinId = "13001";
+                        } else if (type.toString().trim().equals("Pardakht")) {
+                            typeAction = "1";
+                            accoutsId = "320";
+                            moeinId = "32001";
+                        }
+                        SQLiteDatabase dbInsert = new MyDatabase(TransactionActivity.this).getWritableDatabase();
+                        ContentValues cvInsert = new ContentValues();
+                        cvInsert.put("AccountsID", accoutsId);
+                        cvInsert.put("Moein_ID", moeinId);
+                        cvInsert.put("Tafzili_ID", "10010001");
+                        cvInsert.put("DateSabt", currentDate + " " + currentTime);
+                        cvInsert.put("PNaghdiExp", etExp.getText().toString().trim());
+                        cvInsert.put("TypeAction", typeAction);
+                        cvInsert.put("SumMabalgh", etMablagh.getText().toString().trim());
+                        Cursor cursorMaxSrialSand = dbInsert.query("tblParentSanad", new String[]{"MAX(Serial_Sanad)"}, null, null, null, null, null);
+                        if (cursorMaxSrialSand.moveToFirst()) {
+                            cvInsert.put("Serial_Sanad", cursorMaxSrialSand.getString(0));
+                        } else {
+                            cvInsert.put("Serial_Sanad", "1");
+                        }
+                        long idPNaghdi = dbInsert.insert("tblPardakhtNaghdi", null, cvInsert);
+                        ContentValues cvInsert2 = new ContentValues();
+                        cvInsert2.put("AccountsID", accoutsId);
+                        cvInsert2.put("Moein_ID", moeinId);
+                        cvInsert2.put("Tafzili_ID", accountTafziliIDs.get(0) + "");
+                        cvInsert2.put("PNaghdi_ID", idPNaghdi + "");
+                        cvInsert2.put("ChMablagh_Naghdi", etMablagh.getText().toString().trim());
+                        cvInsert2.put("ChDate_Pardakht", currentDate + " " + currentTime);
+                        dbInsert.insert("tblChildNaghdi", null, cvInsert2);
+                        Toast.makeText(TransactionActivity.this, "ذخیره با موفقیت انجام شد.", Toast.LENGTH_SHORT).show();
+
+                        transactionsMablaghKols.add(etMablagh.getText().toString().trim());
+                        Cursor cursorAccountName = dbInsert.query("tblContacts", new String[]{"FullName"}, "Tafzili_ID = " + accountTafziliIDs.get(0), null, null, null,null,null);
+                        cursorAccountName.moveToFirst();
+                        transactionsAccounts.add(cursorAccountName.getString(0)+"");
+                        transactionExps.add(etExp.getText().toString().trim());
+                        transactionBanks.add("");
+                        transactionCheckNumbers.add("");
+                        transactionModes.add("Naghdi");
+                        transactionDeleteID.add(idPNaghdi+"");
+
+                    } else if (mode.toString().trim().equals("Checki")) {
+                        if (type.toString().trim().equals("Daryaft")) {
+                            SQLiteDatabase dbInsert = new MyDatabase(TransactionActivity.this).getWritableDatabase();
+                            ContentValues cvInsert = new ContentValues();
+                            cvInsert.put("Moein_ID", "13004");
+                            cvInsert.put("AccountsID", "130");
+                            cvInsert.put("Tafzili_ID", accountTafziliIDs.get(0).toString());
+                            cvInsert.put("Date_Sabt", currentDate);
+                            cvInsert.put("Tozih_DaryaftCheck", etExp.getText().toString().trim());
+                            Cursor cursorMaxSrialSand = dbInsert.query("tblParentSanad", new String[]{"MAX(Serial_Sanad)"}, null, null, null, null, null);
+                            if (cursorMaxSrialSand.moveToFirst()) {
+                                cvInsert.put("SerialSanad", cursorMaxSrialSand.getString(0));
+                            } else {
+                                cvInsert.put("SerialSanad", "1");
+                            }
+                            long idParent = dbInsert.insert("tblCheckDaryaft_Parent", null, cvInsert);
+
+                            ContentValues cvInsert2 = new ContentValues();
+                            cvInsert2.put("StatusDaryaft_ID", "1");
+                            cvInsert2.put("CheckDaryaft_Number", etCheckNumber.getText().toString().trim());
+                            cvInsert2.put("CheckDaryaft_DateSarResid", checkDate);
+                            cvInsert2.put("CheckDaryaft_Mablagh", etMablagh.getText().toString().trim());
+                            cvInsert2.put("CheckDaryaft_Exp", etExp.getText().toString().trim());
+                            cvInsert2.put("CheckDaryaft_BankID", bankID[0]);
+                            long idCheck = dbInsert.insert("tblCheckDaryaft", null, cvInsert2);
+
+                            ContentValues cvInsert3 = new ContentValues();
+                            cvInsert3.put("Tafzili_ID", accountTafziliIDs.get(0).toString());
+                            cvInsert3.put("AccountsID", "130");
+                            cvInsert3.put("CheckDaryaft_ID", idCheck + "");
+                            cvInsert3.put("Moein_ID", "13004");
+                            cvInsert3.put("CheckDaryaftParent_ID", idParent + "");
+                            cvInsert3.put("CheckDaryaft_DateDaryaft", checkDate);
+                            cvInsert3.put("CheckDaryaftChild_Tozih", etExp.getText().toString().trim());
+                            long idChild = dbInsert.insert("tblCheckDaryaft_Child", null, cvInsert3);
+                            Toast.makeText(TransactionActivity.this, "ذخیره با موفقیت انجام شد.", Toast.LENGTH_SHORT).show();
+
+                        } else if (type.toString().trim().equals("Pardakht")) {
+
+                        }
+                    }
+
+
+                    etCheckNumber.setText("");
+                    etMablagh.setText("");
+                    atvAccounts.setText("");
+                    spBanks.setSelection(0);
+                    etExp.setText("");
+
+                    recyclerAdapter.notifyDataSetChanged();
                 }
             }
         });
@@ -382,7 +446,11 @@ public class TransactionActivity extends MainActivity {
         tvClean.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                etCheckNumber.setText("");
+                etMablagh.setText("");
+                atvAccounts.setText("");
+                spBanks.setSelection(0);
+                etExp.setText("");
             }
         });
     }
@@ -391,8 +459,6 @@ public class TransactionActivity extends MainActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setInflater(this,R.layout.transaction_layout);
-
-
 
         tvFarsiTitle.setText("تراکنش ها");
         tvEngliashNormalTitle.setText("TRANSACTIONS");
@@ -420,7 +486,7 @@ public class TransactionActivity extends MainActivity {
                     @Override
                     public void onClick(View view) {
                         type = "Daryaft";
-                        openAddLayout();
+                        openAddLayout(recyclerAdapter);
                     }
                 });
 
@@ -428,7 +494,7 @@ public class TransactionActivity extends MainActivity {
                     @Override
                     public void onClick(View view) {
                         type = "Pardakht";
-                        openAddLayout();
+                        openAddLayout(recyclerAdapter);
                     }
                 });
             }
@@ -446,7 +512,7 @@ public class TransactionActivity extends MainActivity {
 
         newLists();
         readTransactionsFromDatabase("Daryaft");
-        recyclerAdapter = new TransactionsAdapter(TransactionActivity.this,transactionsMablaghKols,transactionsAccounts,transactionExps,transactionBanks,transactionCheckNumbers,transactionModes, llAddLayer, fab,"Daryaft");
+        recyclerAdapter = new TransactionsAdapter(TransactionActivity.this,transactionsMablaghKols,transactionsAccounts,transactionExps,transactionBanks,transactionCheckNumbers,transactionModes, llAddLayer, fab,"Daryaft",transactionDeleteID);
         transactionRecyclerView.setAdapter(recyclerAdapter);
 
         tvDaryaft.setOnClickListener(new View.OnClickListener() {
@@ -457,7 +523,7 @@ public class TransactionActivity extends MainActivity {
 //                tvHame.setBackground(null);
                 newLists();
                 readTransactionsFromDatabase("Daryaft");
-                recyclerAdapter = new TransactionsAdapter(TransactionActivity.this,transactionsMablaghKols,transactionsAccounts,transactionExps,transactionBanks,transactionCheckNumbers,transactionModes, llAddLayer, fab, "Daryaft");
+                recyclerAdapter = new TransactionsAdapter(TransactionActivity.this,transactionsMablaghKols,transactionsAccounts,transactionExps,transactionBanks,transactionCheckNumbers,transactionModes, llAddLayer, fab, "Daryaft", transactionDeleteID);
                 transactionRecyclerView.setAdapter(recyclerAdapter);
             }
         });
@@ -470,7 +536,7 @@ public class TransactionActivity extends MainActivity {
 //                tvKharidButton.setBackground(null);
                 newLists();
                 readTransactionsFromDatabase("Pardakht");
-                recyclerAdapter = new TransactionsAdapter(TransactionActivity.this,transactionsMablaghKols,transactionsAccounts,transactionExps,transactionBanks,transactionCheckNumbers,transactionModes, llAddLayer, fab, "Pardakht");
+                recyclerAdapter = new TransactionsAdapter(TransactionActivity.this,transactionsMablaghKols,transactionsAccounts,transactionExps,transactionBanks,transactionCheckNumbers,transactionModes, llAddLayer, fab, "Pardakht", transactionDeleteID);
                 transactionRecyclerView.setAdapter(recyclerAdapter);
             }
         });
@@ -496,7 +562,7 @@ public class TransactionActivity extends MainActivity {
         transactionBanks = new ArrayList<String>();
         transactionCheckNumbers = new ArrayList<String>();
         transactionModes = new ArrayList<String>();
-
+        transactionDeleteID = new ArrayList<String>();
     }
 
     public void readTransactionsFromDatabase(String mode){
@@ -512,7 +578,7 @@ public class TransactionActivity extends MainActivity {
             tableColumnsNaghdi = new String[]{"PNaghdi_ID","PNaghdiExp"};
             whereNaghdi = "TypeAction = 2";
 
-            tableNameCheki = "tblCheckDaryaft";
+            tableNameCheki = "tb";
             tableColumnsCheki = new String[]{"CheckDaryaft_ID","CheckDaryaft_Number","CheckDaryaft_Mablagh","CheckDaryaft_Exp","CheckDaryaft_BankID"};
         }else if(mode.trim().equals("Pardakht")){
             tableNameNaghdi = "tblPardakhtNaghdi";
@@ -537,13 +603,16 @@ public class TransactionActivity extends MainActivity {
             Cursor cursor2 = mydb.query(tableNameNaghdi, tableColumnsNaghdi, whereNaghdi, null, null, null, null);
             if (cursor2.moveToFirst()) {
                 do {
-                    Cursor c3 = mydb.query("tblChildNaghdi", new String[]{"Tafzili_ID", "ChMablagh_Naghdi"}, "PNaghdi_ID = " + cursor2.getString(0), null, null, null, null, null);
-                    c3.moveToFirst();
-                    transactionsMablaghKols.add(c3.getString(1));
+                    transactionDeleteID.add(cursor2.getString(0)+"");
 
-                    Cursor c4 = mydb.query("tblContacts", new String[]{"FullName"}, "Tafzili_ID = " + c3.getString(0), null, null, null, null, null);
-                    if(c4.moveToFirst()) {
-                        transactionsAccounts.add(c4.getString(0));
+                    Cursor c3 = mydb.query("tblChildNaghdi", new String[]{"Tafzili_ID", "ChMablagh_Naghdi"}, "PNaghdi_ID = " + cursor2.getString(0), null, null, null, null, null);
+                    if(c3.moveToFirst()) {
+                        transactionsMablaghKols.add(c3.getString(1));
+
+                        Cursor c4 = mydb.query("tblContacts", new String[]{"FullName"}, "Tafzili_ID = " + c3.getString(0), null, null, null, null, null);
+                        if (c4.moveToFirst()) {
+                            transactionsAccounts.add(c4.getString(0));
+                        }
                     }
                     transactionExps.add(cursor2.getString(1));
                     transactionBanks.add("");
@@ -557,58 +626,60 @@ public class TransactionActivity extends MainActivity {
         }
 
         if(tableNameCheki!=null && tableColumnsCheki!=null && mode.trim().equals("Daryaft")) {
-            SQLiteDatabase mydb = new MyDatabase(this).getReadableDatabase();
-            Cursor cursor3 = mydb.query(tableNameCheki, tableColumnsCheki,null, null, null, null, null);
-            if (cursor3.moveToFirst()) {
+            SQLiteDatabase dbCheckiDaryaft = new MyDatabase(this).getReadableDatabase();
+            Cursor cursorCheckiDaryaft = dbCheckiDaryaft.rawQuery("SELECT " +
+                    "tblCheckDaryaft.CheckDaryaft_ID, " +
+                    "tblCheckDaryaft.CheckDaryaft_Number, " +
+                    "tblCheckDaryaft.CheckDaryaft_Mablagh, " +
+                    "tblCheckDaryaft.CheckDaryaft_Exp, " +
+                    "tblContacts.FullName, " +
+                    "tblBank.NameBank " +
+                    "FROM tblCheckDaryaft_Child " +
+                    "INNER JOIN tblCheckDaryaft ON tblCheckDaryaft_Child.CheckDaryaft_ID = tblCheckDaryaft.CheckDaryaft_ID " +
+                    "INNER JOIN tblContacts ON tblCheckDaryaft_Child.Tafzili_ID = tblContacts.Tafzili_ID " +
+                    "INNER JOIN tblBank ON tblCheckDaryaft.CheckDaryaft_BankID = tblBank.ID_Bank",null);
+            if (cursorCheckiDaryaft.moveToFirst()) {
                 do {
-                    Cursor c5 = mydb.query("tblCheckDaryaft_Child", new String[]{"Tafzili_ID"}, "CheckDaryaft_ID = " + cursor3.getString(0), null, null, null, null, null);
-                    if(c5.moveToFirst()) {
-                        Cursor c6 = mydb.query("tblContacts", new String[]{"FullName"}, "Tafzili_ID = " + c5.getString(0), null, null, null, null, null);
-                        if (c6.moveToFirst()) {
-                            transactionsAccounts.add(c6.getString(0));
-                        }
-                    }
-                    transactionExps.add(cursor3.getString(3));
-                    Cursor c7 = mydb.query("tblBank", new String[]{"NameBank"}, "ID_Bank = " + cursor3.getString(4), null, null, null, null, null);
-                    c7.moveToFirst();
-                    transactionBanks.add(c7.getString(0));
-                    transactionCheckNumbers.add(cursor3.getString(1));
+                    transactionDeleteID.add(cursorCheckiDaryaft.getString(cursorCheckiDaryaft.getColumnIndex("CheckDaryaft_ID")));
+                    transactionsAccounts.add(cursorCheckiDaryaft.getString(cursorCheckiDaryaft.getColumnIndex("FullName")));
+                    transactionExps.add(cursorCheckiDaryaft.getString(cursorCheckiDaryaft.getColumnIndex("CheckDaryaft_Exp")));
+                    transactionBanks.add(cursorCheckiDaryaft.getString(cursorCheckiDaryaft.getColumnIndex("NameBank")));
+                    transactionCheckNumbers.add(cursorCheckiDaryaft.getString(cursorCheckiDaryaft.getColumnIndex("CheckDaryaft_Number")));
+                    transactionsMablaghKols.add(cursorCheckiDaryaft.getString(cursorCheckiDaryaft.getColumnIndex("CheckDaryaft_Mablagh")));
                     transactionModes.add("Checki");
-                    transactionsMablaghKols.add(cursor3.getString(2));
-
-                } while ((cursor3.moveToNext()));
+                } while ((cursorCheckiDaryaft.moveToNext()));
             }
-            cursor3.close();
-            mydb.close();
+            cursorCheckiDaryaft.close();
+            dbCheckiDaryaft.close();
         }
 
         if(tableNameCheki!=null && tableColumnsCheki!=null && mode.trim().equals("Pardakht")) {
-            SQLiteDatabase mydb = new MyDatabase(this).getReadableDatabase();
-            Cursor cursor3 = mydb.query(tableNameCheki, tableColumnsCheki,null, null, null, null, null);
-            if (cursor3.moveToFirst()) {
+            SQLiteDatabase dbCheckiPardakht = new MyDatabase(this).getReadableDatabase();
+            Cursor cursorCheckiPardakht = dbCheckiPardakht.rawQuery("SELECT " +
+                    "tblCheckPardakht.CheckPardakht_ID, " +
+                    "tblCheckPardakht.CheckPardakht_Number, " +
+                    "tblCheckPardakht.CheckPardakht_Mablagh, " +
+                    "tblCheckPardakht.CheckPardakht_Exp, " +
+                    "tblContacts.FullName, " +
+                    "tblTafzili.Tafzili_Name " +
+                    "FROM tblCheckPardakht_Parent " +
+                    "INNER JOIN tblCheckPardakht_Child ON tblCheckPardakht_Child.CheckPardakhtParent_ID = tblCheckPardakht_Parent.checkPardakhtParent_ID " +
+                    "INNER JOIN tblCheckPardakht ON tblCheckPardakht.CheckPardakht_ID = tblCheckPardakht_Child.CheckPardakht_ID " +
+                    "INNER JOIN tblContacts ON tblContacts.Tafzili_ID = tblCheckPardakht_Child.Tafzili_ID " +
+                    "INNER JOIN tblTafzili ON tblTafzili.Tafzili_ID = tblCheckPardakht_Parent.Tafzili_ID",null);
+            if (cursorCheckiPardakht.moveToFirst()) {
                 do {
-                    Cursor c5 = mydb.query("tblCheckPardakht_Child", new String[]{"Tafzili_ID","CheckPardakhtParent_ID"}, "CheckPardakht_ID = " + cursor3.getString(0), null, null, null, null, null);
-                    if(c5.moveToFirst()) {
-                        Cursor c6 = mydb.query("tblContacts", new String[]{"FullName"}, "Tafzili_ID = " + c5.getString(0), null, null, null, null, null);
-                        if (c6.moveToFirst()) {
-                            transactionsAccounts.add(c6.getString(0));
-                        }
-                        Cursor c8 = mydb.query("tblCheckPardakht_Parent", new String[]{"Tafzili_ID"}, "CheckPardakhtParent_ID = " + c5.getString(1), null, null, null, null, null);
-                        if (c8.moveToFirst()) {
-                            Cursor c9 = mydb.query("tblTafzili", new String[]{"Tafzili_Name"}, "Tafzili_ID = " + c8.getString(0), null, null, null, null, null);
-                            if (c9.moveToFirst()) {
-                                transactionBanks.add(c9.getString(0));
-                            }
-                        }
-                    }
-                    transactionExps.add(cursor3.getString(3));
-                    transactionCheckNumbers.add(cursor3.getString(1));
+                    transactionDeleteID.add(cursorCheckiPardakht.getString(cursorCheckiPardakht.getColumnIndex("CheckPardakht_ID")));
+                    transactionsAccounts.add(cursorCheckiPardakht.getString(cursorCheckiPardakht.getColumnIndex("FullName")));
+                    transactionExps.add(cursorCheckiPardakht.getString(cursorCheckiPardakht.getColumnIndex("CheckPardakht_Exp")));
+                    transactionBanks.add(cursorCheckiPardakht.getString(cursorCheckiPardakht.getColumnIndex("Tafzili_Name")));
+                    transactionCheckNumbers.add(cursorCheckiPardakht.getString(cursorCheckiPardakht.getColumnIndex("CheckPardakht_Number")));
+                    transactionsMablaghKols.add(cursorCheckiPardakht.getString(cursorCheckiPardakht.getColumnIndex("CheckPardakht_Mablagh")));
                     transactionModes.add("Checki");
-                    transactionsMablaghKols.add(cursor3.getString(2));
-                } while ((cursor3.moveToNext()));
+                } while ((cursorCheckiPardakht.moveToNext()));
             }
-            cursor3.close();
-            mydb.close();
+            cursorCheckiPardakht.close();
+            dbCheckiPardakht.close();
         }
     }
 }

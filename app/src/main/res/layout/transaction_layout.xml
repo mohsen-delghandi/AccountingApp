@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingRight="@dimen/padding_bit"
-    android:paddingLeft="@dimen/padding_bit">
+    android:paddingLeft="@dimen/padding_bit"
+    android:background="@color/icons">
 
     <LinearLayout
         android:paddingTop="@dimen/padding_medium"

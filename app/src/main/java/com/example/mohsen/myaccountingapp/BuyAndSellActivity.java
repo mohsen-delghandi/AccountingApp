@@ -47,7 +47,7 @@ public class BuyAndSellActivity extends MainActivity {
 
     List<Integer> accountTafziliIDs;
 
-    LinearLayout llTayid3rd;
+    LinearLayout llTayid3rd,llAttached;
 
     String mode;
 
@@ -254,6 +254,8 @@ public class BuyAndSellActivity extends MainActivity {
         tvFarsiTitle.setText("خرید و فروش");
         tvEngliashNormalTitle.setText("BUY ");
         tvEnglishBoldTitle.setText("& SELL");
+
+        llAttached = (LinearLayout)findViewById(R.id.linearLayout_attached);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

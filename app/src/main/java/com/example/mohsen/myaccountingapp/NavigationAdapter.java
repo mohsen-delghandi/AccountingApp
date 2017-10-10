@@ -1,5 +1,6 @@
 package com.example.mohsen.myaccountingapp;
 
+import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -63,9 +64,12 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Vi
                 @Override
                 public void onClick(View view) {
                     try {
-                        Intent intent = new Intent(mContext, mClasses.get(position));
-                        mContext.startActivity(intent);
-                    }catch (Exception e){
+                        if(mClasses.get(position) != mContext.getClass()) {
+                            Intent intent = new Intent(mContext, mClasses.get(position));
+                            ((Activity)mContext).finish();
+                            mContext.startActivity(intent);
+                        }
+                    } catch (Exception e) {
                         Toast.makeText(mContext, "ERROR.", Toast.LENGTH_SHORT).show();
                     }
                     mDrawer.closeDrawer(Gravity.START);

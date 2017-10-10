@@ -175,13 +175,13 @@
                     android:layout_marginTop="@dimen/padding_large">
 
                     <LinearLayout
+                        android:id="@+id/linearLayout_transaction_checki"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
                         <TextView
                             android:id="@+id/textView_transaction_bank_text"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="right"
                             android:text="نام بانک : "
@@ -190,26 +190,19 @@
 
                         <TextView
                             android:id="@+id/textView_transaction_bank_name"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:paddingRight="@dimen/padding_bit"
                             android:text="صادرات"
                             android:maxLines="1"
+                            android:layout_marginLeft="@dimen/padding_spinner"
                             android:textColor="@color/primary_text"
                             android:textSize="@dimen/font_small"/>
 
-                        <Space
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight=".1"/>
-
-
                         <TextView
                             android:id="@+id/textView_transaction_check_number_text"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:text="شماره چک : "
@@ -219,8 +212,7 @@
 
                         <TextView
                             android:id="@+id/textView_transaction_check_number"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:paddingRight="@dimen/padding_bit"
@@ -246,8 +238,7 @@
 
                         <TextView
                             android:id="@+id/textView_transaction_exp"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:paddingRight="@dimen/padding_bit"
