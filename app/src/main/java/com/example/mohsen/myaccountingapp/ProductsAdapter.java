@@ -99,7 +99,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
     private void deSelectItem(ProductsAdapter.ViewHolder h){
         h.llExtra.setVisibility(View.GONE);
         h.llMain.setBackground(mContext.getResources().getDrawable(R.drawable.shape_underline_dashed));
-        h.llName.getBackground().setTint(mContext.getResources().getColor(R.color.divider));
+        h.llName.getBackground().setTint(mContext.getResources().getColor(R.color.shiri));
         h.tvName.setTextColor(mContext.getResources().getColor(R.color.primary_text));
         h.tvMojodi.setTextColor(mContext.getResources().getColor(R.color.secondary_text));
         h.tvUnit.setTextColor(mContext.getResources().getColor(R.color.secondary_text));

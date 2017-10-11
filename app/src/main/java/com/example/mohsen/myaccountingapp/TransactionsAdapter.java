@@ -111,7 +111,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
     private void deSelectItem(ViewHolder h, int position){
         h.llExtra.setVisibility(View.GONE);
         h.llMain.setBackground(mContext.getResources().getDrawable(R.drawable.shape_underline_dashed));
-        h.llName.getBackground().setTint(mContext.getResources().getColor(R.color.divider));
+        h.llName.getBackground().setTint(mContext.getResources().getColor(R.color.shiri));
         h.tvName.setTextColor(mContext.getResources().getColor(R.color.primary_text));
         h.tvMablagh.setTextColor(mContext.getResources().getColor(R.color.green));
         h.tvType.setTextColor(mContext.getResources().getColor(R.color.primary_text));

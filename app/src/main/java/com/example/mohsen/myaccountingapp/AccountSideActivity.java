@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -238,44 +239,56 @@ public class AccountSideActivity extends MainActivity {
                 tvSave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        SQLiteDatabase db = new MyDatabase(AccountSideActivity.this).getWritableDatabase();
-                        Cursor cursor = db.query("tblTafzili",new String[]{"MAX(Tafzili_ID)"},null,null,null,null,null);
-                        cursor.moveToFirst();
-                        ContentValues cv = new ContentValues();
-                        cv.put("GroupTafzili_ID",20);
-                        cv.put("Tafzili_Name",etFullName.getText().toString().trim());
-                        cv.put("Tafzili_ID",cursor.getInt(0)+1);
-                        db.insert("tblTafzili",null,cv);
+                        if (etFullName.getText().toString().trim().equals("")) {
+                            Toast.makeText(AccountSideActivity.this, "لظفا نام را وارد کنید.", Toast.LENGTH_SHORT).show();
+                            etFullName.requestFocus();
+                            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.showSoftInput(etFullName, InputMethodManager.SHOW_IMPLICIT);
+                        } else if (etMobile.getText().toString().trim().equals("")) {
+                            Toast.makeText(AccountSideActivity.this, "لظفا شماره همراه را وارد کنید.", Toast.LENGTH_SHORT).show();
+                            etMobile.requestFocus();
+                            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.showSoftInput(etMobile, InputMethodManager.SHOW_IMPLICIT);
+                        } else {
+                            SQLiteDatabase db = new MyDatabase(AccountSideActivity.this).getWritableDatabase();
+                            Cursor cursor = db.query("tblTafzili", new String[]{"MAX(Tafzili_ID)"}, null, null, null, null, null);
+                            cursor.moveToFirst();
+                            ContentValues cv = new ContentValues();
+                            cv.put("GroupTafzili_ID", 20);
+                            cv.put("Tafzili_Name", etFullName.getText().toString().trim());
+                            cv.put("Tafzili_ID", cursor.getInt(0) + 1);
+                            db.insert("tblTafzili", null, cv);
 
-                        ContentValues cv2 = new ContentValues();
-                        cv2.put("Tafzili_ID",cursor.getInt(0)+1);
-                        cv2.put("FullName",etFullName.getText().toString().trim());
-                        cv2.put("Phone",etPhone.getText().toString().trim());
-                        cv2.put("Mobile",etMobile.getText().toString().trim());
-                        cv2.put("AdressContacts",etAddress.getText().toString().trim());
-                        cv2.put("Code_Melli",etCodeMelli.getText().toString().trim());
-                        cv2.put("GroupContact",groupContactID[0]);
-                        cv2.put("Pishvand_ID",pishvandID[0]);
-                        long id = db.insert("tblContacts",null,cv2);
+                            ContentValues cv2 = new ContentValues();
+                            cv2.put("Tafzili_ID", cursor.getInt(0) + 1);
+                            cv2.put("FullName", etFullName.getText().toString().trim());
+                            cv2.put("Phone", etPhone.getText().toString().trim());
+                            cv2.put("Mobile", etMobile.getText().toString().trim());
+                            cv2.put("AdressContacts", etAddress.getText().toString().trim());
+                            cv2.put("Code_Melli", etCodeMelli.getText().toString().trim());
+                            cv2.put("GroupContact", groupContactID[0]);
+                            cv2.put("Pishvand_ID", pishvandID[0]);
+                            long id = db.insert("tblContacts", null, cv2);
 
-                        accountFullName.add(etFullName.getText().toString().trim());
-                        accountPhone.add(etPhone.getText().toString().trim());
-                        accountMobile.add(etMobile.getText().toString().trim());
-                        accountAddress.add(etAddress.getText().toString().trim());
-                        accountIDs.add((int)id);
-                        Cursor c4 = db.query("tblPishvand",new String[]{"Pishvand"},"Pishvand_ID = ?",new String[]{pishvandID[0]+""},null,null,null,null);
-                        c4.moveToFirst();
-                        accountPishvands.add(c4.getString(0));
-                        c4.close();
+                            accountFullName.add(etFullName.getText().toString().trim());
+                            accountPhone.add(etPhone.getText().toString().trim());
+                            accountMobile.add(etMobile.getText().toString().trim());
+                            accountAddress.add(etAddress.getText().toString().trim());
+                            accountIDs.add((int) id);
+                            Cursor c4 = db.query("tblPishvand", new String[]{"Pishvand"}, "Pishvand_ID = ?", new String[]{pishvandID[0] + ""}, null, null, null, null);
+                            c4.moveToFirst();
+                            accountPishvands.add(c4.getString(0));
+                            c4.close();
 
-                        recyclerAdapter.notifyItemInserted(accountIDs.size()-1);
-                        recyclerAdapter.notifyDataSetChanged();
+//                        recyclerAdapter.notifyItemInserted(accountIDs.size()-1);
+                            recyclerAdapter.notifyDataSetChanged();
 
-                        cursor.close();
-                        db.close();
+                            cursor.close();
+                            db.close();
 
-                        Toast.makeText(AccountSideActivity.this, "با موفقیت ذخیره شد.", Toast.LENGTH_SHORT).show();
-                        cleanFrom();
+                            Toast.makeText(AccountSideActivity.this, "با موفقیت ذخیره شد.", Toast.LENGTH_SHORT).show();
+                            cleanFrom();
+                        }
                     }
                 });
 

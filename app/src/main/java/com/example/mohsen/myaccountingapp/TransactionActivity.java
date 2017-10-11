@@ -65,19 +65,7 @@ public class TransactionActivity extends MainActivity {
 
     String type,mode,checkDate;
 
-    class Date extends DateItem {
-        String getDate() {
-            Calendar calendar = getCalendar();
-            return String.format(Locale.US,
-                    "%d/%d/%d",
-                    getYear(), getMonth(), getDay(),
-                    calendar.get(Calendar.YEAR),
-                    +calendar.get(Calendar.MONTH) + 1,
-                    +calendar.get(Calendar.DAY_OF_MONTH));
-        }
-    }
-
-    private Date mDate;
+    private DatePersian mDate;
 
     int factorCode;
 
@@ -89,75 +77,6 @@ public class TransactionActivity extends MainActivity {
         }else {
             super.onBackPressed();
         }
-    }
-
-    String dateToText(Date mDate){
-        String monthName = "";
-        switch (mDate.getMonth()) {
-            case 1:
-                monthName = "فروردین";
-                break;
-            case 2:
-                monthName = "اردیبهشت";
-                break;
-            case 3:
-                monthName = "خرداد";
-                break;
-            case 4:
-                monthName = "تیر";
-                break;
-            case 5:
-                monthName = "مرداد";
-                break;
-            case 6:
-                monthName = "شهریور";
-                break;
-            case 7:
-                monthName = "مهر";
-                break;
-            case 8:
-                monthName = "آبان";
-                break;
-            case 9:
-                monthName = "آذر";
-                break;
-            case 10:
-                monthName = "دی";
-                break;
-            case 11:
-                monthName = "بهمن";
-                break;
-            case 12:
-                monthName = "اسفند";
-                break;
-        }
-
-        String dayName = "";
-        switch (mDate.getIranianDay()) {
-            case 0:
-                dayName = "شنبه";
-                break;
-            case 1:
-                dayName = "یک شنبه";
-                break;
-            case 2:
-                dayName = "دوشنبه";
-                break;
-            case 3:
-                dayName = "سه شنبه";
-                break;
-            case 4:
-                dayName = "چهارشنبه";
-                break;
-            case 5:
-                dayName = "پنج شنبه";
-                break;
-            case 6:
-                dayName = "جمعه";
-                break;
-        }
-
-        return dayName + " " + mDate.getDay() + " " + monthName + " سال " + mDate.getYear();
     }
 
     public void openAddLayout(final RecyclerView.Adapter recyclerAdapter){
@@ -227,12 +146,12 @@ public class TransactionActivity extends MainActivity {
 
 
         TextView tvAddTransactionDate = (TextView)findViewById(R.id.textView_add_transaction_date);
-        mDate = new Date();
+        mDate = new DatePersian();
         final String currentDate = mDate.getDate();
         tvAddTransactionDate.setText(dateToText(mDate));
 
         final TextView tvAddTransactionCheckDate = (TextView)findViewById(R.id.textView_add_transaction_check_date);
-        mDate = new Date();
+        mDate = new DatePersian();
 
         checkDate = mDate.getDate();
         tvAddTransactionCheckDate.setText(dateToText(mDate));
@@ -244,7 +163,7 @@ public class TransactionActivity extends MainActivity {
                         .theme(R.style.DialogTheme)
                         .minYear(1390)
                         .future(true);
-                mDate = new Date();
+                mDate = new DatePersian();
                 builder.date(mDate.getDay(), mDate.getMonth(), mDate.getYear());
                 builder.build(new DateSetListener() {
                     @Override

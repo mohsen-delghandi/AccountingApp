@@ -40,12 +40,13 @@
                     android:padding="@dimen/padding_box"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="نوید مندیس"
+                    android:text="پارمین"
                     android:textColor="@color/icons"
                     android:textSize="@dimen/font_xlarge"
                     android:background="@drawable/shape_underline"
                     android:backgroundTint="@color/icons"/>
                 <TextView
+                    android:id="@+id/textView_navigation_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="امروز سه شنبه 28 شهریور 1396"

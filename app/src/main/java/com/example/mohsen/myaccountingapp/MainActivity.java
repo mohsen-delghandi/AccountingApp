@@ -81,11 +81,86 @@ public class MainActivity extends BaseActivity {
         return formattedPrice;
     }
 
+
+    public String dateToText(DatePersian mDate){
+        String monthName = "";
+        switch (mDate.getMonth()) {
+            case 1:
+                monthName = "فروردین";
+                break;
+            case 2:
+                monthName = "اردیبهشت";
+                break;
+            case 3:
+                monthName = "خرداد";
+                break;
+            case 4:
+                monthName = "تیر";
+                break;
+            case 5:
+                monthName = "مرداد";
+                break;
+            case 6:
+                monthName = "شهریور";
+                break;
+            case 7:
+                monthName = "مهر";
+                break;
+            case 8:
+                monthName = "آبان";
+                break;
+            case 9:
+                monthName = "آذر";
+                break;
+            case 10:
+                monthName = "دی";
+                break;
+            case 11:
+                monthName = "بهمن";
+                break;
+            case 12:
+                monthName = "اسفند";
+                break;
+        }
+
+        String dayName = "";
+        switch (mDate.getIranianDay()) {
+            case 0:
+                dayName = "شنبه";
+                break;
+            case 1:
+                dayName = "یک شنبه";
+                break;
+            case 2:
+                dayName = "دوشنبه";
+                break;
+            case 3:
+                dayName = "سه شنبه";
+                break;
+            case 4:
+                dayName = "چهارشنبه";
+                break;
+            case 5:
+                dayName = "پنج شنبه";
+                break;
+            case 6:
+                dayName = "جمعه";
+                break;
+        }
+
+        return dayName + " " + mDate.getDay() + " " + monthName + " سال " + mDate.getYear();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
+
+        TextView tvNavigationDate = (TextView)findViewById(R.id.textView_navigation_date);
+        DatePersian mDate = new DatePersian();
+        final String currentDate = mDate.getDate();
+        tvNavigationDate.setText(dateToText(mDate));
 
         tvFarsiTitle = (TextView)findViewById(R.id.textView_title_farsi);
         tvEngliashNormalTitle = (TextView)findViewById(R.id.textView_title_english_normal);
@@ -123,7 +198,6 @@ public class MainActivity extends BaseActivity {
         display.getSize(size);
         width = size.x;
 
-        navigationView = (NavigationView)findViewById(R.id.nav_view);
         DrawerLayout.LayoutParams layoutParams1 = (DrawerLayout.LayoutParams) navigationView.getLayoutParams();
         layoutParams1.width = width*2/3;
         navigationView.setLayoutParams(layoutParams1);
@@ -134,6 +208,7 @@ public class MainActivity extends BaseActivity {
         classes.add(ProductsActivity.class);
         classes.add(BuyAndSellActivity.class);
         classes.add(TransactionActivity.class);
+        classes.add(AccountsActivity.class);
 
         mNavigationRecycler = (RecyclerView)findViewById(R.id.nav_recyclerView);
         mNavigationRecycler.setHasFixedSize(true);

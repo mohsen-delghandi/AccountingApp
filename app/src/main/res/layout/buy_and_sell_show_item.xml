@@ -26,7 +26,7 @@
 
     <LinearLayout
         android:id="@+id/linearLayout_buy_and_sell_main"
-        android:padding="@dimen/padding_small"
+        android:padding="@dimen/padding_bit"
         android:background="@drawable/shape_underline_dashed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
                     android:paddingRight="@dimen/padding_bit"
                     android:text="کد فاکتور : "
                     android:textColor="@color/primary_text"
-                    android:textSize="@dimen/font_medium" />
+                    android:textSize="@dimen/font_small" />
 
                 <TextView
                     android:id="@+id/textView_buy_and_sell_factor_code"
@@ -127,6 +127,7 @@
                     android:layout_marginRight="@dimen/padding_bit"
                     android:gravity="center_vertical"
                     android:text="ریال"
+                    android:maxLines="1"
                     app:fontPath="fonts/IRANSansWeb_Bold.ttf"
                     android:textColor="@color/primary_text"
                     android:textSize="@dimen/font_medium" />

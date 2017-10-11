@@ -70,7 +70,7 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Vi
                             mContext.startActivity(intent);
                         }
                     } catch (Exception e) {
-                        Toast.makeText(mContext, "ERROR.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, "Nothing.", Toast.LENGTH_SHORT).show();
                     }
                     mDrawer.closeDrawer(Gravity.START);
                 }

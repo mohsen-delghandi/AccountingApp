@@ -30,6 +30,7 @@ android:background="@drawable/shape_underline_dashed">
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_underline"
+                android:backgroundTint="@color/shiri"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -257,6 +258,7 @@ android:background="@drawable/shape_underline_dashed">
 </LinearLayout>
 
     </LinearLayout>
+
         <LinearLayout
             android:layout_marginBottom="@dimen/padding_large"
             android:layout_marginLeft="@dimen/padding_large"
@@ -295,6 +297,7 @@ android:background="@drawable/shape_underline_dashed">
                 android:backgroundTint="@color/red"
                 android:textSize="@dimen/font_small"/>
         </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>

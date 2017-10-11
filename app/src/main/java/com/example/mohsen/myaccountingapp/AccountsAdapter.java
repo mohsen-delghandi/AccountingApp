@@ -56,6 +56,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
         mFab = fab;
     }
 
+
     @Override
     public AccountsAdapter.ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
         v = LayoutInflater.from(parent.getContext()).inflate(R.layout.account_side_item, parent, false);
@@ -115,7 +116,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
     public void deSelectItem(ViewHolder h){
         h.llExtra.setVisibility(View.GONE);
         h.llMain.setBackground(mContext.getResources().getDrawable(R.drawable.shape_underline_dashed));
-        h.llName.getBackground().setTint(mContext.getResources().getColor(R.color.divider));
+        h.llName.getBackground().setTint(mContext.getResources().getColor(R.color.shiri));
         h.tvFullName.setTextColor(mContext.getResources().getColor(R.color.primary_text));
         h.tvPishvand.setTextColor(mContext.getResources().getColor(R.color.primary_text));
         h.tvCompanyName.setTextColor(mContext.getResources().getColor(R.color.primary_text));
