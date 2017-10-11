@@ -28,6 +28,7 @@ import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -59,7 +60,8 @@ public class MainActivity extends BaseActivity {
     DrawerLayout drawer;
     ArrayList<Class> classes;
 
-    LinearLayout llAddLayer;
+    LinearLayout llAddLayer,llBuyAndSellAttached,llTransactionAttached;
+    FrameLayout flAttached;
 
     ImageView ivNav;
 
@@ -157,10 +159,15 @@ public class MainActivity extends BaseActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
 
+
         TextView tvNavigationDate = (TextView)findViewById(R.id.textView_navigation_date);
         DatePersian mDate = new DatePersian();
         final String currentDate = mDate.getDate();
         tvNavigationDate.setText(dateToText(mDate));
+
+        llBuyAndSellAttached = (LinearLayout)findViewById(R.id.linearLayout_buy_and_sell_attached);
+        llTransactionAttached = (LinearLayout)findViewById(R.id.linearLayout_transaction_attached);
+        flAttached = (FrameLayout)findViewById(R.id.frameLayout_attached);
 
         tvFarsiTitle = (TextView)findViewById(R.id.textView_title_farsi);
         tvEngliashNormalTitle = (TextView)findViewById(R.id.textView_title_english_normal);

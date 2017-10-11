@@ -45,6 +45,7 @@
                 android:layout_marginLeft="@dimen/padding_large">
 
                 <ImageView
+                    android:padding="@dimen/padding_small"
                     android:adjustViewBounds="true"
                     android:id="@+id/imageView_transaction_label"
                     android:layout_width="@dimen/dimen_xxmedium"

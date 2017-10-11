@@ -47,7 +47,7 @@ public class BuyAndSellActivity extends MainActivity {
 
     List<Integer> accountTafziliIDs;
 
-    LinearLayout llTayid3rd,llAttached;
+    LinearLayout llTayid3rd;
 
     String mode;
 
@@ -249,13 +249,15 @@ public class BuyAndSellActivity extends MainActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        llBuyAndSellAttached.setVisibility(View.VISIBLE);
+        llTransactionAttached.setVisibility(View.GONE);
+
         setInflater(this,R.layout.buy_and_sell_show_layout);
 
         tvFarsiTitle.setText("خرید و فروش");
         tvEngliashNormalTitle.setText("BUY ");
         tvEnglishBoldTitle.setText("& SELL");
-
-        llAttached = (LinearLayout)findViewById(R.id.linearLayout_attached);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

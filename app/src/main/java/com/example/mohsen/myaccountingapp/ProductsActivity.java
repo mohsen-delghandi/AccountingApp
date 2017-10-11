@@ -56,6 +56,10 @@ public class ProductsActivity extends MainActivity {
         super.onCreate(savedInstanceState);
         setInflater(this,R.layout.products_layout);
 
+        llBuyAndSellAttached.setVisibility(View.GONE);
+        llTransactionAttached.setVisibility(View.GONE);
+        flAttached.setVisibility(View.GONE);
+
         tvFarsiTitle.setText("محصولات");
         tvEngliashNormalTitle.setText("PRODUCT ");
         tvEnglishBoldTitle.setText("LIST");

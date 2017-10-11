@@ -72,8 +72,8 @@ public class TransactionActivity extends MainActivity {
     @Override
     public void onBackPressed() {
         if(llAddLayer.getVisibility()==View.VISIBLE){
-//            llAddLayer.setVisibility(View.GONE);
-//            fab.setVisibility(View.VISIBLE);
+            llAddLayer.setVisibility(View.GONE);
+            fab.setVisibility(View.VISIBLE);
         }else {
             super.onBackPressed();
         }
@@ -183,38 +183,64 @@ public class TransactionActivity extends MainActivity {
         final EditText etMablagh = (EditText)findViewById(R.id.editText_add_transaction_mablagh);
         final EditText etExp = (EditText)findViewById(R.id.editText_add_transaction_exp);
 
-        SQLiteDatabase db2 = new MyDatabase(TransactionActivity.this).getReadableDatabase();
-        Cursor c = db2.query("tblBank",new String[]{"NameBank","ID_Bank"},null,null,null,null,null,null);
+
         String[] bankNames = null;
         int[] bankIDs = null;
-        if(c.moveToFirst()){
-            bankNames = new String[c.getCount()];
-            bankIDs = new int[c.getCount()];
-            int i = 0;
-            do{
-                bankNames[i] = c.getString(0);
-                bankIDs[i] = c.getInt(1);
-                i++;
-            }while (c.moveToNext());
+
+        if (type.toString().trim().equals("Daryaft")) {
+            SQLiteDatabase dbBankList = new MyDatabase(TransactionActivity.this).getReadableDatabase();
+            Cursor cursorBankNames = dbBankList.query("tblBank", new String[]{"NameBank", "ID_Bank"}, null, null, null, null, null, null);
+            if (cursorBankNames.moveToFirst()) {
+                bankNames = new String[cursorBankNames.getCount()];
+                bankIDs = new int[cursorBankNames.getCount()];
+                int i = 0;
+                do {
+                    bankNames[i] = cursorBankNames.getString(0);
+                    bankIDs[i] = cursorBankNames.getInt(1);
+                    i++;
+                } while (cursorBankNames.moveToNext());
+            }
+            cursorBankNames.close();
+            dbBankList.close();
+        } else if (type.toString().trim().equals("Pardakht")) {
+            SQLiteDatabase dbBankList = new MyDatabase(TransactionActivity.this).getReadableDatabase();
+            Cursor cursorBankTafzilis = dbBankList.query("tblHesabBanki", new String[]{"Tafzili_ID"}, null, null, null, null, null, null);
+            if (cursorBankTafzilis.moveToFirst()) {
+                bankNames = new String[cursorBankTafzilis.getCount()];
+                bankIDs = new int[cursorBankTafzilis.getCount()];
+                int i = 0;
+                do {
+                    Cursor cursorBankName = dbBankList.query("tblTafzili", new String[]{"Tafzili_Name"}, "Tafzili_ID = ?", new String[]{cursorBankTafzilis.getString(0)}, null, null, null, null);
+                    if(cursorBankName.moveToFirst()) {
+                        bankNames[i] = cursorBankName.getString(0);
+                    }
+                    bankIDs[i] = cursorBankTafzilis.getInt(0);
+                    i++;
+                } while (cursorBankTafzilis.moveToNext());
+            }
+            cursorBankTafzilis.close();
+            dbBankList.close();
         }
-        c.close();
-        db2.close();
 
         final Spinner spBanks = (Spinner)findViewById(R.id.spinner_add_transaction_banks_list);
 
         final int[] bankID = new int[1];
+        final String[] bankName = new String[1];
         final ArrayAdapter adapter = new ArrayAdapter(TransactionActivity.this,R.layout.simple_spinner_item,bankNames);
         adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
         final int[] finalBankIDs = bankIDs;
+        final String[] finalBankNames = bankNames;
         spBanks.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 bankID[0] = finalBankIDs[i];
+                bankName[0] = finalBankNames[i];
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 bankID[0] = finalBankIDs[0];
+                bankName[0] = finalBankNames[0];
             }
         });
         spBanks.setAdapter(adapter);
@@ -344,11 +370,65 @@ public class TransactionActivity extends MainActivity {
                             long idChild = dbInsert.insert("tblCheckDaryaft_Child", null, cvInsert3);
                             Toast.makeText(TransactionActivity.this, "ذخیره با موفقیت انجام شد.", Toast.LENGTH_SHORT).show();
 
-                        } else if (type.toString().trim().equals("Pardakht")) {
+                            transactionsMablaghKols.add(etMablagh.getText().toString().trim());
+                            Cursor cursorAccountName = dbInsert.query("tblContacts", new String[]{"FullName"}, "Tafzili_ID = " + accountTafziliIDs.get(0), null, null, null,null,null);
+                            cursorAccountName.moveToFirst();
+                            transactionsAccounts.add(cursorAccountName.getString(0)+"");
+                            transactionExps.add(etExp.getText().toString().trim());
+                            transactionBanks.add(bankName[0]);
+                            transactionCheckNumbers.add(etCheckNumber.getText().toString().trim());
+                            transactionModes.add("Checki");
+                            transactionDeleteID.add(idCheck+"");
 
+                            recyclerAdapter.notifyDataSetChanged();
+                        } else if (type.toString().trim().equals("Pardakht")) {
+                            SQLiteDatabase dbInsert = new MyDatabase(TransactionActivity.this).getWritableDatabase();
+                            ContentValues cvInsert = new ContentValues();
+                            cvInsert.put("Moein_ID", "31001");
+                            cvInsert.put("AccountsID", "310");
+                            cvInsert.put("Tafzili_ID", bankID[0]);
+                            cvInsert.put("Date_Sabt", currentDate);
+                            cvInsert.put("Tozih_PardakhtCheck", etExp.getText().toString().trim());
+                            Cursor cursorMaxSrialSand = dbInsert.query("tblParentSanad", new String[]{"MAX(Serial_Sanad)"}, null, null, null, null, null);
+                            if (cursorMaxSrialSand.moveToFirst()) {
+                                cvInsert.put("SerialSanad", cursorMaxSrialSand.getString(0));
+                            } else {
+                                cvInsert.put("SerialSanad", "1");
+                            }
+                            long idParent = dbInsert.insert("tblCheckPardakht_Parent", null, cvInsert);
+
+                            ContentValues cvInsert2 = new ContentValues();
+                            cvInsert2.put("StatusPardakht_ID", "1003");
+                            cvInsert2.put("CheckPardakht_Number", etCheckNumber.getText().toString().trim());
+                            cvInsert2.put("CheckPardakht_DateSarResid", checkDate);
+                            cvInsert2.put("CheckPardakht_Mablagh", etMablagh.getText().toString().trim());
+                            cvInsert2.put("CheckPardakht_Exp", etExp.getText().toString().trim());
+                            long idCheck = dbInsert.insert("tblCheckPardakht", null, cvInsert2);
+
+                            ContentValues cvInsert3 = new ContentValues();
+                            cvInsert3.put("Tafzili_ID", accountTafziliIDs.get(0).toString());
+                            cvInsert3.put("AccountsID", "310");
+                            cvInsert3.put("CheckPardakht_ID", idCheck + "");
+                            cvInsert3.put("Moein_ID", "31001");
+                            cvInsert3.put("CheckPardakhtParent_ID", idParent + "");
+                            cvInsert3.put("Date_Pardakht", checkDate);
+                            cvInsert3.put("CheckChildPadakht_Tozih", etExp.getText().toString().trim());
+                            long idChild = dbInsert.insert("tblCheckPardakht_Child", null, cvInsert3);
+                            Toast.makeText(TransactionActivity.this, "ذخیره با موفقیت انجام شد.", Toast.LENGTH_SHORT).show();
+
+                            transactionsMablaghKols.add(etMablagh.getText().toString().trim());
+                            Cursor cursorAccountName = dbInsert.query("tblContacts", new String[]{"FullName"}, "Tafzili_ID = " + accountTafziliIDs.get(0), null, null, null,null,null);
+                            cursorAccountName.moveToFirst();
+                            transactionsAccounts.add(cursorAccountName.getString(0)+"");
+                            transactionExps.add(etExp.getText().toString().trim());
+                            transactionBanks.add(bankName[0]);
+                            transactionCheckNumbers.add(etCheckNumber.getText().toString().trim());
+                            transactionModes.add("Checki");
+                            transactionDeleteID.add(idCheck+"");
+
+                            recyclerAdapter.notifyDataSetChanged();
                         }
                     }
-
 
                     etCheckNumber.setText("");
                     etMablagh.setText("");
@@ -356,7 +436,6 @@ public class TransactionActivity extends MainActivity {
                     spBanks.setSelection(0);
                     etExp.setText("");
 
-                    recyclerAdapter.notifyDataSetChanged();
                 }
             }
         });
@@ -378,6 +457,9 @@ public class TransactionActivity extends MainActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setInflater(this,R.layout.transaction_layout);
+
+        llBuyAndSellAttached.setVisibility(View.GONE);
+        llTransactionAttached.setVisibility(View.VISIBLE);
 
         tvFarsiTitle.setText("تراکنش ها");
         tvEngliashNormalTitle.setText("TRANSACTIONS");
