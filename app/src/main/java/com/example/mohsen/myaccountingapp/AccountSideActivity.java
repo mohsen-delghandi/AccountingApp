@@ -24,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -129,9 +130,11 @@ public class AccountSideActivity extends MainActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
         llBuyAndSellAttached.setVisibility(View.GONE);
         llTransactionAttached.setVisibility(View.GONE);
         flAttached.setVisibility(View.GONE);
+
         setInflater(this,R.layout.account_side_layout);
 
         tvFarsiTitle.setText("طرف حساب");

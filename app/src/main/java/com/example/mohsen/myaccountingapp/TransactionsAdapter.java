@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -228,35 +229,46 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
                 }
             }
         });
-//
-//        holder.tvEdit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                mInflaterInclude = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//                mFab.setVisibility(View.GONE);
-//                mLlAddLayer.removeAllViews();
-//                mLlAddLayer.setVisibility(View.VISIBLE);
-//                mLlAddLayer.setOnTouchListener(new View.OnTouchListener() {
-//                    @Override
-//                    public boolean onTouch(View v, MotionEvent event) {
-//                        return true;
-//                    }
-//                });
-//
-//                final View v = mInflaterInclude.inflate(R.layout.add_product_layout,mLlAddLayer);
-//                v.findViewById(R.id.textView_add_product_clean).setVisibility(View.INVISIBLE);
-//                ((TextView)v.findViewById(R.id.textView_add_product_save)).setText("بروزرسانی");
-//
-//                SQLiteDatabase db11 = new MyDatabase(mContext).getWritableDatabase();
-//                Cursor c11 = db11.query("TblKala",new String[]{"Name_Kala","Fk_VahedKalaAsli","GheymatKharidAsli","GheymatForoshAsli","MojodiAvalDore","MianginFiAvalDovre"},"ID_Kala = ?",
-//                        new String[]{mProductIDs.get(position)+""},null,null,null);
-//                c11.moveToFirst();
-//                ((EditText)v.findViewById(R.id.editText_add_product_name)).setText(c11.getString(0));
-//                ((EditText)v.findViewById(R.id.editText_add_product_buy_price)).setText(c11.getString(2));
-//                ((EditText)v.findViewById(R.id.editText_add_product_sell_price)).setText(c11.getString(3));
-//                ((EditText)v.findViewById(R.id.editText_add_product_mojoodi)).setText(c11.getString(4));
-//                ((EditText)v.findViewById(R.id.editText_add_product_average_price)).setText(c11.getString(5));
-//
+
+
+        holder.tvEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mInflaterInclude = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                mFab.setVisibility(View.GONE);
+                mLlAddLayer.removeAllViews();
+                mLlAddLayer.setVisibility(View.VISIBLE);
+                mLlAddLayer.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        return true;
+                    }
+                });
+
+                final View v = mInflaterInclude.inflate(R.layout.add_transaction_layout,mLlAddLayer);
+                v.findViewById(R.id.textView_add_transaction_clean).setVisibility(View.GONE);
+                v.findViewById(R.id.linearLayout_add_transaction_select).setVisibility(View.GONE);
+                v.findViewById(R.id.linearLayout_add_transaction_date).setVisibility(View.GONE);
+                ((TextView)v.findViewById(R.id.textView_add_transaction_save)).setText("بروزرسانی");
+
+
+                if(mTranactionsModes.get(position).trim().equals("Naghdi")){
+                    SQLiteDatabase dbReadTransactions = new MyDatabase(mContext).getWritableDatabase();
+                    Cursor cursorReadTransactions = dbReadTransactions.query("tblPardakhtNaghdi",new String[]{"SumMabalgh","Tafzili_ID","PNaghdiExp"},"PNaghdi_ID = ?",
+                            new String[]{mTransactionDeleteID.get(position)+""},null,null,null);
+                    cursorReadTransactions.moveToFirst();
+
+                    ((TextView)v.findViewById(R.id.textView_add_transaction_mablagh)).setVisibility(View.VISIBLE);
+                    ((TextView)v.findViewById(R.id.editText_add_transaction_mablagh)).setText(cursorReadTransactions.getString(0));
+
+                    ((TextView)v.findViewById(R.id.editText_add_transaction_exp)).setText(cursorReadTransactions.getString(2));
+
+
+
+
+
+                }
+
 //                SQLiteDatabase db2 = new MyDatabase(mContext).getReadableDatabase();
 //                Cursor c = db2.query("TblVahedKalaAsli",new String[]{"NameVahed","ID_Vahed"},null,null,null,null,null,null);
 //                String[] groupNames = null;
@@ -353,8 +365,8 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
 //
 //                c11.close();
 //                db11.close();
-//            }
-//        });
+            }
+        });
 
     }
 

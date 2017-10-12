@@ -130,7 +130,8 @@
 
         </LinearLayout>
 
-        <FrameLayout
+
+        <RelativeLayout
             android:id="@+id/frameLayout_attached"
             android:visibility="visible"
             android:layout_width="match_parent"
@@ -256,7 +257,7 @@
 
         </LinearLayout>
 
-        </FrameLayout>
+        </RelativeLayout>
 
     </LinearLayout>
 

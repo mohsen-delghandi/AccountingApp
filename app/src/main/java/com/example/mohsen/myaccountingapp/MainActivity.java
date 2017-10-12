@@ -61,7 +61,7 @@ public class MainActivity extends BaseActivity {
     ArrayList<Class> classes;
 
     LinearLayout llAddLayer,llBuyAndSellAttached,llTransactionAttached;
-    FrameLayout flAttached;
+    RelativeLayout flAttached;
 
     ImageView ivNav;
 
@@ -167,7 +167,7 @@ public class MainActivity extends BaseActivity {
 
         llBuyAndSellAttached = (LinearLayout)findViewById(R.id.linearLayout_buy_and_sell_attached);
         llTransactionAttached = (LinearLayout)findViewById(R.id.linearLayout_transaction_attached);
-        flAttached = (FrameLayout)findViewById(R.id.frameLayout_attached);
+        flAttached = (RelativeLayout)findViewById(R.id.frameLayout_attached);
 
         tvFarsiTitle = (TextView)findViewById(R.id.textView_title_farsi);
         tvEngliashNormalTitle = (TextView)findViewById(R.id.textView_title_english_normal);

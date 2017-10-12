@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <LinearLayout
+            android:id="@+id/linearLayout_add_transaction_select"
             android:background="@drawable/shape_circle"
             android:backgroundTint="@color/primary"
             android:gravity="center"
@@ -86,6 +87,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout_add_transaction_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding_large"
@@ -146,7 +148,7 @@
             style="@style/etStyle"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:id="@+id/textView_add_account_codeMelli"
+            android:id="@+id/textView_add_transaction_mablagh"
             android:text="مبلغ"
             />
 
@@ -164,7 +166,8 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:id="@+id/editText_add_account_codeMelli"
-            android:text="تومان"
+            android:text="ریال"
+            android:gravity="left"
             android:nextFocusForward="@+id/editText_add_account_phone"
             android:inputType="phone"
             />
@@ -177,8 +180,22 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:background="@drawable/shape_border">
+
+        <TextView
+            android:visibility="gone"
+            style="@style/etStyle"
+            android:layout_width="0dp"
+            android:layout_weight="1.5"
+            android:maxLines="1"
+            android:id="@+id/textView_add_transaction_taraf_hesab"
+            android:text="طرف حساب"
+            android:paddingLeft="0dp"
+            />
+
         <AutoCompleteTextView
             style="@style/etStyle"
+            android:layout_width="0dp"
+            android:layout_weight="3"
             android:id="@+id/autoTextView_add_transaction_account"
             android:completionThreshold="1"
             android:nextFocusForward="@+id/textView_add_account_address"
