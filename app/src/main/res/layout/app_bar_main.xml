@@ -133,12 +133,10 @@
 
         <RelativeLayout
             android:id="@+id/frameLayout_attached"
-            android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
         <LinearLayout
-            android:visibility="visible"
             android:id="@+id/linearLayout_buy_and_sell_attached"
             android:paddingTop="@dimen/padding_medium"
             android:paddingBottom="@dimen/padding_large"
@@ -198,7 +196,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:visibility="visible"
             android:id="@+id/linearLayout_transaction_attached"
             android:paddingTop="@dimen/padding_medium"
             android:paddingBottom="@dimen/padding_large"

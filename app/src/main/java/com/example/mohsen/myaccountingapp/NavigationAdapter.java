@@ -14,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,13 +33,19 @@ public class NavigationAdapter extends RecyclerView.Adapter<NavigationAdapter.Vi
     static DrawerLayout mDrawer;
     String[] mNavigationMenuItemNames;
     ArrayList<Class> mClasses;
+    LinearLayout llTransactionAttached,llBuyAndSellAttached;
+    RelativeLayout flAttached;
 
-    public NavigationAdapter(Context context, int width,DrawerLayout drawer,String[] navigationMenuItemNames, ArrayList<Class> classes) {
+    public NavigationAdapter(Context context, int width, DrawerLayout drawer, String[] navigationMenuItemNames, ArrayList<Class> classes,
+                             LinearLayout llTransactionAttached, LinearLayout llBuyAndSellAttached, RelativeLayout flAttached) {
         mContext = context;
         mWidth = width;
         mDrawer = drawer;
         mNavigationMenuItemNames = navigationMenuItemNames;
         mClasses = classes;
+        this.llBuyAndSellAttached = llBuyAndSellAttached;
+        this.llTransactionAttached = llTransactionAttached;
+        this.flAttached = flAttached;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

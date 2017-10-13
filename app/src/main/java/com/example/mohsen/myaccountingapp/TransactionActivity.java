@@ -455,11 +455,9 @@ public class TransactionActivity extends MainActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        MainActivity.page = "Transaction";
         super.onCreate(savedInstanceState);
         setInflater(this,R.layout.transaction_layout);
-
-        llBuyAndSellAttached.setVisibility(View.GONE);
-        llTransactionAttached.setVisibility(View.VISIBLE);
 
         tvFarsiTitle.setText("تراکنش ها");
         tvEngliashNormalTitle.setText("TRANSACTIONS");

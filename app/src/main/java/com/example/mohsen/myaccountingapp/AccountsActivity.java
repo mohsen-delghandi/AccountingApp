@@ -67,12 +67,9 @@ public class AccountsActivity extends MainActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        MainActivity.page = "Accounts";
         super.onCreate(savedInstanceState);
         setInflater(this,R.layout.accounts_layout);
-
-        llBuyAndSellAttached.setVisibility(View.GONE);
-        llTransactionAttached.setVisibility(View.GONE);
-        flAttached.setVisibility(View.GONE);
 
         tvFarsiTitle.setText("حساب ها");
         tvEngliashNormalTitle.setText("ACCOUNTS");

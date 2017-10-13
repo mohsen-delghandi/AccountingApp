@@ -48,6 +48,8 @@ public class MainActivity extends BaseActivity {
 
     int width;
 
+    public static String page;
+
     LayoutInflater inflater;
     NestedScrollView ns;
 
@@ -159,7 +161,6 @@ public class MainActivity extends BaseActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
 
-
         TextView tvNavigationDate = (TextView)findViewById(R.id.textView_navigation_date);
         DatePersian mDate = new DatePersian();
         final String currentDate = mDate.getDate();
@@ -168,6 +169,14 @@ public class MainActivity extends BaseActivity {
         llBuyAndSellAttached = (LinearLayout)findViewById(R.id.linearLayout_buy_and_sell_attached);
         llTransactionAttached = (LinearLayout)findViewById(R.id.linearLayout_transaction_attached);
         flAttached = (RelativeLayout)findViewById(R.id.frameLayout_attached);
+
+        if(page!=null && page.toString().trim().equals("BuyAndSell")){
+            llTransactionAttached.setVisibility(View.GONE);
+        }else if(page!=null && page.toString().trim().equals("Transaction")){
+            llBuyAndSellAttached.setVisibility(View.GONE);
+        }else {
+            flAttached.setVisibility(View.GONE);
+        }
 
         tvFarsiTitle = (TextView)findViewById(R.id.textView_title_farsi);
         tvEngliashNormalTitle = (TextView)findViewById(R.id.textView_title_english_normal);
@@ -223,7 +232,8 @@ public class MainActivity extends BaseActivity {
         mRecyclerManager = new LinearLayoutManager(this);
         mNavigationRecycler.setLayoutManager(mRecyclerManager);
         String[] navigationMenuItemNames = getResources().getStringArray(R.array.navigation_menu_item_names);
-        mRecyclerAdapter = new NavigationAdapter(this,width,drawer,navigationMenuItemNames,classes);
+        mRecyclerAdapter = new NavigationAdapter(this,width,drawer,navigationMenuItemNames,classes,
+                llTransactionAttached,llBuyAndSellAttached,flAttached);
         mNavigationRecycler.setAdapter(mRecyclerAdapter);
 
 

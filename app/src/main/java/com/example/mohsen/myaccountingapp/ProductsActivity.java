@@ -53,12 +53,9 @@ public class ProductsActivity extends MainActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        MainActivity.page = "Products";
         super.onCreate(savedInstanceState);
         setInflater(this,R.layout.products_layout);
-
-        llBuyAndSellAttached.setVisibility(View.GONE);
-        llTransactionAttached.setVisibility(View.GONE);
-        flAttached.setVisibility(View.GONE);
 
         tvFarsiTitle.setText("محصولات");
         tvEngliashNormalTitle.setText("PRODUCT ");

@@ -248,10 +248,8 @@ public class BuyAndSellActivity extends MainActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        MainActivity.page = "BuyAndSell";
         super.onCreate(savedInstanceState);
-
-        llBuyAndSellAttached.setVisibility(View.VISIBLE);
-        llTransactionAttached.setVisibility(View.GONE);
 
         setInflater(this,R.layout.buy_and_sell_show_layout);
 
