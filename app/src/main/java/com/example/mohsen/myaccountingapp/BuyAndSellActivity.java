@@ -358,8 +358,9 @@ public class BuyAndSellActivity extends MainActivity {
                     buyAndSellFactorCodes.add(cursor2.getString(0));
                     buyAndSellMablaghKols.add(cursor2.getString(1));
                     Cursor c3 = mydb.query("tblContacts", new String[]{"FullName"}, "Tafzili_ID = " + cursor2.getString(2), null, null, null, null, null);
-                    c3.moveToFirst();
-                    buyAndSellAccounts.add(c3.getString(0));
+                    if(c3.moveToFirst()) {
+                        buyAndSellAccounts.add(c3.getString(0));
+                    }
                     c3.close();
                     buyAndSellModes.add(type);
                 } while ((cursor2.moveToNext()));
