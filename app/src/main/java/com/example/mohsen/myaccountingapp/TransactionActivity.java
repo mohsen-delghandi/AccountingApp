@@ -308,7 +308,7 @@ public class TransactionActivity extends MainActivity {
                         cvInsert.put("SumMabalgh", etMablagh.getText().toString().trim());
                         Cursor cursorMaxSrialSand = dbInsert.query("tblParentSanad", new String[]{"MAX(Serial_Sanad)"}, null, null, null, null, null);
                         if (cursorMaxSrialSand.moveToFirst()) {
-                            cvInsert.put("Serial_Sanad", cursorMaxSrialSand.getString(0));
+                            cvInsert.put("Serial_Sanad", cursorMaxSrialSand.getString(0)+1);
                         } else {
                             cvInsert.put("Serial_Sanad", "1");
                         }
@@ -344,7 +344,7 @@ public class TransactionActivity extends MainActivity {
                             cvInsert.put("Tozih_DaryaftCheck", etExp.getText().toString().trim());
                             Cursor cursorMaxSrialSand = dbInsert.query("tblParentSanad", new String[]{"MAX(Serial_Sanad)"}, null, null, null, null, null);
                             if (cursorMaxSrialSand.moveToFirst()) {
-                                cvInsert.put("SerialSanad", cursorMaxSrialSand.getString(0));
+                                cvInsert.put("SerialSanad", cursorMaxSrialSand.getString(0)+1);
                             } else {
                                 cvInsert.put("SerialSanad", "1");
                             }
@@ -391,7 +391,7 @@ public class TransactionActivity extends MainActivity {
                             cvInsert.put("Tozih_PardakhtCheck", etExp.getText().toString().trim());
                             Cursor cursorMaxSrialSand = dbInsert.query("tblParentSanad", new String[]{"MAX(Serial_Sanad)"}, null, null, null, null, null);
                             if (cursorMaxSrialSand.moveToFirst()) {
-                                cvInsert.put("SerialSanad", cursorMaxSrialSand.getString(0));
+                                cvInsert.put("SerialSanad", cursorMaxSrialSand.getString(0)+1);
                             } else {
                                 cvInsert.put("SerialSanad", "1");
                             }

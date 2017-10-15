@@ -86,7 +86,7 @@ public class MainActivity extends BaseActivity {
     }
 
 
-    public String dateToText(DatePersian mDate){
+    public static String dateToText(DatePersian mDate){
         String monthName = "";
         switch (mDate.getMonth()) {
             case 1:

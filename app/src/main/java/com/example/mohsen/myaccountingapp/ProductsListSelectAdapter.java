@@ -160,11 +160,30 @@ public class ProductsListSelectAdapter extends RecyclerView.Adapter<ProductsList
                 if (mMode.equals("Sell")) {
                     SQLiteDatabase dbTayidList = new MyDatabase(mContext).getWritableDatabase();
                     ContentValues cvTayidList = new ContentValues();
+                    ContentValues cvParentSanad = new ContentValues();
                     cvTayidList.put("ForooshKalaParent_ID", mFactorCode + "");
                     cvTayidList.put("ForooshKalaParent_Tafzili", mTafziliID + "");
                     cvTayidList.put("ForooshKalaParent_JameKol", jameMablagh + "");
+                    Cursor cursorMaxSrialSand = dbTayidList.query("tblParentSanad", new String[]{"MAX(Serial_Sanad)"}, null, null, null, null, null);
+                    if (cursorMaxSrialSand.moveToFirst()) {
+                        cvTayidList.put("ForooshKalaParent_SerialSanad", cursorMaxSrialSand.getString(0)+1);
+                        cvParentSanad.put("Serial_Sanad",cursorMaxSrialSand.getString(0)+1);
+                    } else {
+                        cvTayidList.put("ForooshKalaParent_SerialSanad", "1");
+                        cvParentSanad.put("Serial_Sanad","1");
+                    }
                     dbTayidList.insert("TblParent_FrooshKala", null, cvTayidList);
                     Toast.makeText(mContext, "خرید با موفقیت ثبت شد.", Toast.LENGTH_SHORT).show();
+
+                    Cursor cursorMaxNumberSand = dbTayidList.query("tblParentSanad", new String[]{"MAX(Number_Sanad)"}, null, null, null, null, null);
+                    if (cursorMaxNumberSand.moveToFirst()) {
+                        cvParentSanad.put("Number_Sanad", cursorMaxNumberSand.getString(0)+1);
+                    } else {
+                        cvParentSanad.put("Number_Sanad","1");
+                    }
+                    cvParentSanad.put("StatusSanadID","3");
+                    cvParentSanad.put("TypeSanad_ID","4");
+
 
                     for (int i = 0; i < mBasketProduct.size(); i++) {
                         ContentValues cvTayidLIstChild = new ContentValues();

@@ -124,8 +124,9 @@
         <TextView
             android:visibility="gone"
             style="@style/etStyle"
+            android:text="شماره چک"
             android:layout_width="wrap_content"
-            android:id="@+id/textView_add_account_phone"
+            android:id="@+id/textView_add_transaction_check_number"
             />
         <EditText
             style="@style/etStyle"
