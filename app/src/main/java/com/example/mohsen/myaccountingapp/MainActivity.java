@@ -14,6 +14,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -37,6 +38,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import resideMenu.ResideMenu;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends BaseActivity {
@@ -69,6 +71,7 @@ public class MainActivity extends BaseActivity {
 
     NavigationView navigationView;
 
+//    ResideMenu resideMenu;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -155,11 +158,40 @@ public class MainActivity extends BaseActivity {
         return dayName + " " + mDate.getDay() + " " + monthName + " سال " + mDate.getYear();
     }
 
+//    private ResideMenu.OnMenuListener menuListener = new ResideMenu.OnMenuListener() {
+//        @Override
+//        public void openMenu() {
+//            Toast.makeText(MainActivity.this, "Menu is opened!", Toast.LENGTH_SHORT).show();
+//        }
+//
+//        @Override
+//        public void closeMenu() {
+//            Toast.makeText(MainActivity.this, "Menu is closed!", Toast.LENGTH_SHORT).show();
+//        }
+//    };
+//    @Override
+//    public boolean dispatchTouchEvent(MotionEvent ev) {             //static
+//        return resideMenu.dispatchTouchEvent(ev);
+//    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
+
+
+
+//        resideMenu = new ResideMenu(MainActivity.this, R.layout.residemenu_custom_left_scrollview, R.layout.residemenu_custom_right_scrollview);
+//        resideMenu.setBackground(R.drawable.shape_gradient_background);    //set background
+//        resideMenu.attachToActivity(MainActivity.this);
+//        resideMenu.setScaleValue(0.5f);
+//        resideMenu.setMenuListener(menuListener);          //listener
+//        resideMenu.setUse3D(true);                                 //support 3d
+//        resideMenu.setSwipeDirectionDisable(ResideMenu.DIRECTION_LEFT);        //dsible swipe left
+
+
+
 
         TextView tvNavigationDate = (TextView)findViewById(R.id.textView_navigation_date);
         DatePersian mDate = new DatePersian();
@@ -193,11 +225,14 @@ public class MainActivity extends BaseActivity {
         ivNav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if (drawer.isDrawerOpen(GravityCompat.START)) {
                     drawer.closeDrawer(GravityCompat.START);
                 } else {
                     drawer.openDrawer(GravityCompat.START);
                 }
+
+//                resideMenu.openMenu(ResideMenu.DIRECTION_LEFT);
             }
         });
 

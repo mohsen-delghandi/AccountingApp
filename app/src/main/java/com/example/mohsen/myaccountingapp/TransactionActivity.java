@@ -299,6 +299,9 @@ public class TransactionActivity extends MainActivity {
                         }
                         SQLiteDatabase dbInsert = new MyDatabase(TransactionActivity.this).getWritableDatabase();
                         ContentValues cvInsert = new ContentValues();
+                        ContentValues cvParentSanad = new ContentValues();
+                        ContentValues cvChildSanad = new ContentValues();
+                        ContentValues cvChildSanad2 = new ContentValues();
                         cvInsert.put("AccountsID", accoutsId);
                         cvInsert.put("Moein_ID", moeinId);
                         cvInsert.put("Tafzili_ID", "10010001");
@@ -309,10 +312,64 @@ public class TransactionActivity extends MainActivity {
                         Cursor cursorMaxSrialSand = dbInsert.query("tblParentSanad", new String[]{"MAX(Serial_Sanad)"}, null, null, null, null, null);
                         if (cursorMaxSrialSand.moveToFirst()) {
                             cvInsert.put("Serial_Sanad", cursorMaxSrialSand.getString(0)+1);
+                            cvParentSanad.put("Serial_Sanad", cursorMaxSrialSand.getString(0)+1);
+                            cvChildSanad.put("Serial_Sanad",cursorMaxSrialSand.getString(0)+1);
+                            cvChildSanad2.put("Serial_Sanad",cursorMaxSrialSand.getString(0)+1);
                         } else {
                             cvInsert.put("Serial_Sanad", "1");
+                            cvParentSanad.put("Serial_Sanad", "1");
+                            cvChildSanad.put("Serial_Sanad","1");
+                            cvChildSanad2.put("Serial_Sanad","1");
                         }
                         long idPNaghdi = dbInsert.insert("tblPardakhtNaghdi", null, cvInsert);
+
+                        Cursor cursorMaxNumberSand = dbInsert.query("tblParentSanad", new String[]{"MAX(Number_Sanad)"}, null, null, null, null, null);
+                        if (cursorMaxNumberSand.moveToFirst()) {
+                            cvParentSanad.put("Number_Sanad", cursorMaxNumberSand.getString(0)+1);
+                        } else {
+                            cvParentSanad.put("Number_Sanad","1");
+                        }
+                        cvParentSanad.put("StatusSanadID","3");
+                        cvParentSanad.put("TypeSanad_ID","2");
+                        cvParentSanad.put("Date_Sanad",currentDate);
+                        cvParentSanad.put("Time_Sanad",currentTime);
+                        cvParentSanad.put("Taraz_Sanad","1");
+                        cvParentSanad.put("Error_Sanad","0");
+                        cvParentSanad.put("Edited_Sanad","0");
+                        cvParentSanad.put("Deleted_Sanad","0");
+
+                        dbInsert.insert("tblParentSanad",null,cvParentSanad);
+
+                        if (type.toString().trim().equals("Daryaft")) {
+                            cvChildSanad.put("Accounts_ID","110");
+                            cvChildSanad.put("Moein_ID","11001");
+                            cvChildSanad.put("Tafzili_ID","10010001");
+                        } else if (type.toString().trim().equals("Pardakht")) {
+                            cvChildSanad.put("Accounts_ID","320");
+                            cvChildSanad.put("Moein_ID","32001");
+                            cvChildSanad.put("Tafzili_ID", accountTafziliIDs.get(0) + "");
+                        }
+                        cvChildSanad.put("ID_Amaliyat",idPNaghdi + "");
+                        cvChildSanad.put("ID_TypeAmaliyat","1");
+                        cvChildSanad.put("Bedehkar",etMablagh.getText().toString().trim());
+                        cvChildSanad.put("Bestankar","0");
+                        dbInsert.insert("tblChildeSanad",null,cvChildSanad);
+
+                        if (type.toString().trim().equals("Daryaft")) {
+                            cvChildSanad2.put("Accounts_ID","130");
+                            cvChildSanad2.put("Moein_ID","13001");
+                            cvChildSanad.put("Tafzili_ID", accountTafziliIDs.get(0) + "");
+                        } else if (type.toString().trim().equals("Pardakht")) {
+                            cvChildSanad2.put("Accounts_ID","110");
+                            cvChildSanad2.put("Moein_ID","11001");
+                            cvChildSanad.put("Tafzili_ID","11001");
+                        }
+                        cvChildSanad2.put("ID_Amaliyat",idPNaghdi + "");
+                        cvChildSanad2.put("ID_TypeAmaliyat","1");
+                        cvChildSanad2.put("Bestankar",etMablagh.getText().toString().trim());
+                        cvChildSanad2.put("Bedehkar","0");
+                        dbInsert.insert("tblChildeSanad",null,cvChildSanad2);
+
                         ContentValues cvInsert2 = new ContentValues();
                         cvInsert2.put("AccountsID", accoutsId);
                         cvInsert2.put("Moein_ID", moeinId);
@@ -337,6 +394,9 @@ public class TransactionActivity extends MainActivity {
                         if (type.toString().trim().equals("Daryaft")) {
                             SQLiteDatabase dbInsert = new MyDatabase(TransactionActivity.this).getWritableDatabase();
                             ContentValues cvInsert = new ContentValues();
+                            ContentValues cvParentSanad = new ContentValues();
+                            ContentValues cvChildSanad = new ContentValues();
+                            ContentValues cvChildSanad2 = new ContentValues();
                             cvInsert.put("Moein_ID", "13004");
                             cvInsert.put("AccountsID", "130");
                             cvInsert.put("Tafzili_ID", accountTafziliIDs.get(0).toString());
@@ -345,10 +405,52 @@ public class TransactionActivity extends MainActivity {
                             Cursor cursorMaxSrialSand = dbInsert.query("tblParentSanad", new String[]{"MAX(Serial_Sanad)"}, null, null, null, null, null);
                             if (cursorMaxSrialSand.moveToFirst()) {
                                 cvInsert.put("SerialSanad", cursorMaxSrialSand.getString(0)+1);
+                                cvParentSanad.put("Serial_Sanad", cursorMaxSrialSand.getString(0)+1);
+                                cvChildSanad.put("Serial_Sanad",cursorMaxSrialSand.getString(0)+1);
+                                cvChildSanad2.put("Serial_Sanad",cursorMaxSrialSand.getString(0)+1);
                             } else {
                                 cvInsert.put("SerialSanad", "1");
+                                cvParentSanad.put("Serial_Sanad", "1");
+                                cvChildSanad.put("Serial_Sanad","1");
+                                cvChildSanad2.put("Serial_Sanad","1");
                             }
+
                             long idParent = dbInsert.insert("tblCheckDaryaft_Parent", null, cvInsert);
+
+                            Cursor cursorMaxNumberSand = dbInsert.query("tblParentSanad", new String[]{"MAX(Number_Sanad)"}, null, null, null, null, null);
+                            if (cursorMaxNumberSand.moveToFirst()) {
+                                cvParentSanad.put("Number_Sanad", cursorMaxNumberSand.getString(0)+1);
+                            } else {
+                                cvParentSanad.put("Number_Sanad","1");
+                            }
+                            cvParentSanad.put("StatusSanadID","3");
+                            cvParentSanad.put("TypeSanad_ID","2");
+                            cvParentSanad.put("Date_Sanad",currentDate);
+                            cvParentSanad.put("Time_Sanad",currentTime);
+                            cvParentSanad.put("Taraz_Sanad","1");
+                            cvParentSanad.put("Error_Sanad","0");
+                            cvParentSanad.put("Edited_Sanad","0");
+                            cvParentSanad.put("Deleted_Sanad","0");
+
+                            dbInsert.insert("tblParentSanad",null,cvParentSanad);
+
+                            cvChildSanad.put("Accounts_ID","130");
+                            cvChildSanad.put("Moein_ID","13004");
+                            cvChildSanad.put("Tafzili_ID",accountTafziliIDs.get(0) + "");
+                            cvChildSanad.put("ID_Amaliyat",idParent + "");
+                            cvChildSanad.put("ID_TypeAmaliyat","4");
+                            cvChildSanad.put("Bedehkar",etMablagh.getText().toString().trim());
+                            cvChildSanad.put("Bestankar","0");
+                            dbInsert.insert("tblChildeSanad",null,cvChildSanad);
+
+                            cvChildSanad2.put("Accounts_ID","130");
+                            cvChildSanad2.put("Moein_ID","13004");
+                            cvChildSanad.put("Tafzili_ID", accountTafziliIDs.get(0) + "");
+                            cvChildSanad2.put("ID_Amaliyat",idParent + "");
+                            cvChildSanad2.put("ID_TypeAmaliyat","4");
+                            cvChildSanad2.put("Bestankar",etMablagh.getText().toString().trim());
+                            cvChildSanad2.put("Bedehkar","0");
+                            dbInsert.insert("tblChildeSanad",null,cvChildSanad2);
 
                             ContentValues cvInsert2 = new ContentValues();
                             cvInsert2.put("StatusDaryaft_ID", "1");
@@ -384,6 +486,9 @@ public class TransactionActivity extends MainActivity {
                         } else if (type.toString().trim().equals("Pardakht")) {
                             SQLiteDatabase dbInsert = new MyDatabase(TransactionActivity.this).getWritableDatabase();
                             ContentValues cvInsert = new ContentValues();
+                            ContentValues cvParentSanad = new ContentValues();
+                            ContentValues cvChildSanad = new ContentValues();
+                            ContentValues cvChildSanad2 = new ContentValues();
                             cvInsert.put("Moein_ID", "31001");
                             cvInsert.put("AccountsID", "310");
                             cvInsert.put("Tafzili_ID", bankID[0]);
@@ -392,10 +497,51 @@ public class TransactionActivity extends MainActivity {
                             Cursor cursorMaxSrialSand = dbInsert.query("tblParentSanad", new String[]{"MAX(Serial_Sanad)"}, null, null, null, null, null);
                             if (cursorMaxSrialSand.moveToFirst()) {
                                 cvInsert.put("SerialSanad", cursorMaxSrialSand.getString(0)+1);
+                                cvParentSanad.put("Serial_Sanad", cursorMaxSrialSand.getString(0)+1);
+                                cvChildSanad.put("Serial_Sanad",cursorMaxSrialSand.getString(0)+1);
+                                cvChildSanad2.put("Serial_Sanad",cursorMaxSrialSand.getString(0)+1);
                             } else {
                                 cvInsert.put("SerialSanad", "1");
+                                cvParentSanad.put("Serial_Sanad", "1");
+                                cvChildSanad.put("Serial_Sanad","1");
+                                cvChildSanad2.put("Serial_Sanad","1");
                             }
                             long idParent = dbInsert.insert("tblCheckPardakht_Parent", null, cvInsert);
+
+                            Cursor cursorMaxNumberSand = dbInsert.query("tblParentSanad", new String[]{"MAX(Number_Sanad)"}, null, null, null, null, null);
+                            if (cursorMaxNumberSand.moveToFirst()) {
+                                cvParentSanad.put("Number_Sanad", cursorMaxNumberSand.getString(0)+1);
+                            } else {
+                                cvParentSanad.put("Number_Sanad","1");
+                            }
+                            cvParentSanad.put("StatusSanadID","3");
+                            cvParentSanad.put("TypeSanad_ID","2");
+                            cvParentSanad.put("Date_Sanad",currentDate);
+                            cvParentSanad.put("Time_Sanad",currentTime);
+                            cvParentSanad.put("Taraz_Sanad","1");
+                            cvParentSanad.put("Error_Sanad","0");
+                            cvParentSanad.put("Edited_Sanad","0");
+                            cvParentSanad.put("Deleted_Sanad","0");
+
+                            dbInsert.insert("tblParentSanad",null,cvParentSanad);
+
+                            cvChildSanad.put("Accounts_ID","310");
+                            cvChildSanad.put("Moein_ID","31001");
+                            cvChildSanad.put("Tafzili_ID",accountTafziliIDs.get(0) + "");
+                            cvChildSanad.put("ID_Amaliyat",idParent + "");
+                            cvChildSanad.put("ID_TypeAmaliyat","3");
+                            cvChildSanad.put("Bedehkar",etMablagh.getText().toString().trim());
+                            cvChildSanad.put("Bestankar","0");
+                            dbInsert.insert("tblChildeSanad",null,cvChildSanad);
+
+                            cvChildSanad2.put("Accounts_ID","110");
+                            cvChildSanad2.put("Moein_ID","11003");
+                            cvChildSanad.put("Tafzili_ID", accountTafziliIDs.get(0) + "");
+                            cvChildSanad2.put("ID_Amaliyat",idParent + "");
+                            cvChildSanad2.put("ID_TypeAmaliyat","3");
+                            cvChildSanad2.put("Bestankar",etMablagh.getText().toString().trim());
+                            cvChildSanad2.put("Bedehkar","0");
+                            dbInsert.insert("tblChildeSanad",null,cvChildSanad2);
 
                             ContentValues cvInsert2 = new ContentValues();
                             cvInsert2.put("StatusPardakht_ID", "1003");

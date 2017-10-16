@@ -31,8 +31,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.net.URI;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Mohsen on 2017-06-29.
@@ -161,6 +163,8 @@ public class ProductsListSelectAdapter extends RecyclerView.Adapter<ProductsList
                     SQLiteDatabase dbTayidList = new MyDatabase(mContext).getWritableDatabase();
                     ContentValues cvTayidList = new ContentValues();
                     ContentValues cvParentSanad = new ContentValues();
+                    ContentValues cvChildSanad = new ContentValues();
+                    ContentValues cvChildSanad2 = new ContentValues();
                     cvTayidList.put("ForooshKalaParent_ID", mFactorCode + "");
                     cvTayidList.put("ForooshKalaParent_Tafzili", mTafziliID + "");
                     cvTayidList.put("ForooshKalaParent_JameKol", jameMablagh + "");
@@ -168,10 +172,23 @@ public class ProductsListSelectAdapter extends RecyclerView.Adapter<ProductsList
                     if (cursorMaxSrialSand.moveToFirst()) {
                         cvTayidList.put("ForooshKalaParent_SerialSanad", cursorMaxSrialSand.getString(0)+1);
                         cvParentSanad.put("Serial_Sanad",cursorMaxSrialSand.getString(0)+1);
+                        cvChildSanad.put("Serial_Sanad",cursorMaxSrialSand.getString(0)+1);
+                        cvChildSanad2.put("Serial_Sanad",cursorMaxSrialSand.getString(0)+1);
                     } else {
                         cvTayidList.put("ForooshKalaParent_SerialSanad", "1");
                         cvParentSanad.put("Serial_Sanad","1");
+                        cvChildSanad.put("Serial_Sanad","1");
+                        cvChildSanad2.put("Serial_Sanad","1");
                     }
+
+                    SimpleDateFormat format= new SimpleDateFormat("HH:mm", Locale.getDefault());
+                    final String currentTime = format.format(new java.util.Date());
+
+                    DatePersian mDate = new DatePersian();
+                    final String currentDate = mDate.getDate();
+
+                    cvTayidList.put("ForooshKalaParent_Date",currentDate + currentTime);
+
                     dbTayidList.insert("TblParent_FrooshKala", null, cvTayidList);
                     Toast.makeText(mContext, "خرید با موفقیت ثبت شد.", Toast.LENGTH_SHORT).show();
 
@@ -183,6 +200,31 @@ public class ProductsListSelectAdapter extends RecyclerView.Adapter<ProductsList
                     }
                     cvParentSanad.put("StatusSanadID","3");
                     cvParentSanad.put("TypeSanad_ID","4");
+                    cvParentSanad.put("Date_Sanad",currentDate);
+                    cvParentSanad.put("Time_Sanad",currentTime);
+                    cvParentSanad.put("Taraz_Sanad","1");
+                    cvParentSanad.put("Error_Sanad","0");
+                    cvParentSanad.put("Edited_Sanad","0");
+                    cvParentSanad.put("Deleted_Sanad","0");
+
+                    dbTayidList.insert("tblParentSanad",null,cvParentSanad);
+
+                    cvChildSanad.put("Accounts_ID","130");
+                    cvChildSanad.put("Moein_ID","13001");
+                    cvChildSanad.put("Tafzili_ID",mTafziliID + "");
+                    cvChildSanad.put("ID_Amaliyat",mFactorCode + "");
+                    cvChildSanad.put("ID_TypeAmaliyat","5");
+                    cvChildSanad.put("Bedehkar",jameMablagh + "");
+                    cvChildSanad.put("Bestankar","0");
+                    dbTayidList.insert("tblChildeSanad",null,cvChildSanad);
+
+                    cvChildSanad2.put("Accounts_ID","610");
+                    cvChildSanad2.put("Moein_ID","61001");
+                    cvChildSanad2.put("ID_Amaliyat",mFactorCode + "");
+                    cvChildSanad2.put("ID_TypeAmaliyat","5");
+                    cvChildSanad2.put("Bestankar",jameMablagh + "");
+                    cvChildSanad2.put("Bedehkar","0");
+                    dbTayidList.insert("tblChildeSanad",null,cvChildSanad2);
 
 
                     for (int i = 0; i < mBasketProduct.size(); i++) {
@@ -196,11 +238,70 @@ public class ProductsListSelectAdapter extends RecyclerView.Adapter<ProductsList
                 } else if (mMode.equals("Buy")) {
                     SQLiteDatabase dbTayidList = new MyDatabase(mContext).getWritableDatabase();
                     ContentValues cvTayidList = new ContentValues();
+                    ContentValues cvParentSanad = new ContentValues();
+                    ContentValues cvChildSanad = new ContentValues();
+                    ContentValues cvChildSanad2 = new ContentValues();
                     cvTayidList.put("KharidKalaParent_ID", mFactorCode + "");
                     cvTayidList.put("KharidKalaParent_Tafzili", mTafziliID + "");
                     cvTayidList.put("KharidKalaParent_JameKol", jameMablagh + "");
+
+                    Cursor cursorMaxSrialSand = dbTayidList.query("tblParentSanad", new String[]{"MAX(Serial_Sanad)"}, null, null, null, null, null);
+                    if (cursorMaxSrialSand.moveToFirst()) {
+                        cvTayidList.put("KharidKalaParent_SerialSanad", cursorMaxSrialSand.getString(0)+1);
+                        cvParentSanad.put("Serial_Sanad",cursorMaxSrialSand.getString(0)+1);
+                        cvChildSanad.put("Serial_Sanad",cursorMaxSrialSand.getString(0)+1);
+                        cvChildSanad2.put("Serial_Sanad",cursorMaxSrialSand.getString(0)+1);
+                    } else {
+                        cvTayidList.put("KharidKalaParent_SerialSanad", "1");
+                        cvParentSanad.put("Serial_Sanad","1");
+                        cvChildSanad.put("Serial_Sanad","1");
+                        cvChildSanad2.put("Serial_Sanad","1");
+                    }
+
+                    SimpleDateFormat format= new SimpleDateFormat("HH:mm", Locale.getDefault());
+                    final String currentTime = format.format(new java.util.Date());
+
+                    DatePersian mDate = new DatePersian();
+                    final String currentDate = mDate.getDate();
+
+                    cvTayidList.put("KharidKalaParent_Date",currentDate + currentTime);
+
                     dbTayidList.insert("TblParent_KharidKala", null, cvTayidList);
                     Toast.makeText(mContext, "خرید با موفقیت ثبت شد.", Toast.LENGTH_SHORT).show();
+
+                    Cursor cursorMaxNumberSand = dbTayidList.query("tblParentSanad", new String[]{"MAX(Number_Sanad)"}, null, null, null, null, null);
+                    if (cursorMaxNumberSand.moveToFirst()) {
+                        cvParentSanad.put("Number_Sanad", cursorMaxNumberSand.getString(0)+1);
+                    } else {
+                        cvParentSanad.put("Number_Sanad","1");
+                    }
+                    cvParentSanad.put("StatusSanadID","3");
+                    cvParentSanad.put("TypeSanad_ID","4");
+                    cvParentSanad.put("Date_Sanad",currentDate);
+                    cvParentSanad.put("Time_Sanad",currentTime);
+                    cvParentSanad.put("Taraz_Sanad","1");
+                    cvParentSanad.put("Error_Sanad","0");
+                    cvParentSanad.put("Edited_Sanad","0");
+                    cvParentSanad.put("Deleted_Sanad","0");
+
+                    dbTayidList.insert("tblParentSanad",null,cvParentSanad);
+
+                    cvChildSanad.put("Accounts_ID","150");
+                    cvChildSanad.put("Moein_ID","15001");
+                    cvChildSanad.put("Tafzili_ID",mTafziliID + "");
+                    cvChildSanad.put("ID_Amaliyat",mFactorCode + "");
+                    cvChildSanad.put("ID_TypeAmaliyat","11");
+                    cvChildSanad.put("Bedehkar",jameMablagh + "");
+                    cvChildSanad.put("Bestankar","0");
+                    dbTayidList.insert("tblChildeSanad",null,cvChildSanad);
+
+                    cvChildSanad2.put("Accounts_ID","320");
+                    cvChildSanad2.put("Moein_ID","32001");
+                    cvChildSanad2.put("ID_Amaliyat",mFactorCode + "");
+                    cvChildSanad2.put("ID_TypeAmaliyat","11");
+                    cvChildSanad2.put("Bestankar",jameMablagh + "");
+                    cvChildSanad2.put("Bedehkar","0");
+                    dbTayidList.insert("tblChildeSanad",null,cvChildSanad2);
 
                     for (int i = 0; i < mBasketProduct.size(); i++) {
                         ContentValues cvTayidLIstChild = new ContentValues();
