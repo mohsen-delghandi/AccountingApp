@@ -36,6 +36,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import resideMenu.ResideMenu;
@@ -88,6 +89,10 @@ public class MainActivity extends BaseActivity {
         return formattedPrice;
     }
 
+    public static String persianDateToGeorgianDate(DatePersian mDate){
+        String fDate = new SimpleDateFormat("yyyy-MM-dd").format(mDate.getCalendar().getTime());
+        return fDate;
+    }
 
     public static String dateToText(DatePersian mDate){
         String monthName = "";
@@ -260,6 +265,7 @@ public class MainActivity extends BaseActivity {
         classes.add(BuyAndSellActivity.class);
         classes.add(TransactionActivity.class);
         classes.add(AccountsActivity.class);
+        classes.add(BillActivity.class);
 
         mNavigationRecycler = (RecyclerView)findViewById(R.id.nav_recyclerView);
         mNavigationRecycler.setHasFixedSize(true);

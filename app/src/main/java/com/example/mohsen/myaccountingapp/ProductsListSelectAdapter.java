@@ -33,6 +33,7 @@ import android.widget.Toast;
 import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -184,8 +185,8 @@ public class ProductsListSelectAdapter extends RecyclerView.Adapter<ProductsList
                     SimpleDateFormat format= new SimpleDateFormat("HH:mm", Locale.getDefault());
                     final String currentTime = format.format(new java.util.Date());
 
-                    DatePersian mDate = new DatePersian();
-                    final String currentDate = mDate.getDate();
+                    SimpleDateFormat format2= new SimpleDateFormat("YYYY-MM-dd", Locale.getDefault());
+                    final String currentDate = format2.format(new java.util.Date());
 
                     cvTayidList.put("ForooshKalaParent_Date",currentDate + currentTime);
 
@@ -261,8 +262,8 @@ public class ProductsListSelectAdapter extends RecyclerView.Adapter<ProductsList
                     SimpleDateFormat format= new SimpleDateFormat("HH:mm", Locale.getDefault());
                     final String currentTime = format.format(new java.util.Date());
 
-                    DatePersian mDate = new DatePersian();
-                    final String currentDate = mDate.getDate();
+                    SimpleDateFormat format2= new SimpleDateFormat("YYYY-MM-dd", Locale.getDefault());
+                    final String currentDate = format2.format(new java.util.Date());
 
                     cvTayidList.put("KharidKalaParent_Date",currentDate + currentTime);
 

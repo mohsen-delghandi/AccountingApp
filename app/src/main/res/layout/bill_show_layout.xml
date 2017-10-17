@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layoutDirection="rtl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingRight="@dimen/padding_bit"
+    android:paddingLeft="@dimen/padding_bit">
+
+    <LinearLayout
+        android:id="@+id/linearLayout_bill_filter"
+        android:orientation="vertical"
+        android:layoutDirection="rtl"
+        android:padding="@dimen/padding_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/icons">
+
+        <LinearLayout
+            android:layout_gravity="center"
+            android:paddingTop="@dimen/padding_spinner"
+            android:paddingBottom="@dimen/padding_spinner"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:weightSum="2">
+
+
+            <ImageView
+                android:adjustViewBounds="true"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:src="@drawable/sorathesab"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/padding_large"
+            android:paddingRight="@dimen/padding_spinner"
+            android:paddingLeft="@dimen/padding_spinner"
+            android:paddingTop="@dimen/padding_xlarge"
+            android:paddingBottom="@dimen/padding_xlarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_border_tire">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="از تاریخ"
+                android:textSize="@dimen/font_medium"
+                android:textColor="@color/new_text"/>
+
+            <TextView
+                android:id="@+id/textView_bill_filter_startDate"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_medium"
+                android:textColor="@color/new_text"
+                android:background="@android:color/transparent"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/padding_large"
+            android:paddingRight="@dimen/padding_spinner"
+            android:paddingLeft="@dimen/padding_spinner"
+            android:paddingTop="@dimen/padding_xlarge"
+            android:paddingBottom="@dimen/padding_xlarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_border_tire">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="تا تاریخ"
+                android:textSize="@dimen/font_medium"
+                android:textColor="@color/new_text"/>
+
+            <TextView
+                android:id="@+id/textView_bill_filter_endDate"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="wrap_content"
+                app:fontPath="fonts/IRANSansWeb_Bold.ttf"
+                android:textSize="@dimen/font_medium"
+                android:textColor="@color/new_text"
+                android:text=""
+                android:background="@android:color/transparent"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/padding_large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_border_tire">
+
+            <AutoCompleteTextView
+                android:id="@+id/autoTextView_bill_filter_account"
+                android:paddingRight="@dimen/padding_spinner"
+                android:paddingLeft="@dimen/padding_spinner"
+                android:paddingTop="@dimen/padding_xlarge"
+                android:paddingBottom="@dimen/padding_xlarge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:completionThreshold="1"
+                android:hint="طرف حساب"
+                android:textColorHint="@color/new_text"
+                android:textColor="@color/new_text"
+                android:background="@android:color/transparent"
+                android:textSize="@dimen/font_medium"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout_bil_filter_tayid"
+            android:layout_marginTop="@dimen/padding_spinner"
+            android:padding="@dimen/padding_large"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_circle"
+            android:backgroundTint="@color/green">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/shape_arrow_right"/>
+
+            <TextView
+                android:paddingRight="@dimen/padding_bit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="تایید و تهیه صورت حساب"
+                android:textSize="@dimen/font_medium"
+                android:textColor="@color/icons"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/linearLayout_bill_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView_buy_and_sell"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

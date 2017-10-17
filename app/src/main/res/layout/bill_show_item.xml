@@ -1,0 +1,220 @@
+<LinearLayout
+android:orientation="vertical"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layoutDirection="rtl"
+android:gravity="center_vertical"
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<LinearLayout
+    android:visibility="visible"
+    android:id="@+id/linearLayout_bill_date"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center">
+    <TextView
+        android:id="@+id/textView_bill_date"
+        android:padding="@dimen/padding_bit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="1396/05/23"
+        android:gravity="center"
+        android:background="#efefef"
+        android:textColor="@color/primary_text"/>
+</LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout_bill_main"
+        android:padding="@dimen/padding_bit"
+        android:background="@drawable/shape_underline_dashed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="5"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_underline"
+                    android:backgroundTint="@color/shiri"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView_bill_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:paddingRight="@dimen/padding_bit"
+                        android:text="دریافت نقدی "
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/font_medium"
+                        app:fontPath="fonts/IRANSansWeb_Bold.ttf"
+                        />
+
+                    <TextView
+                        android:id="@+id/textView_bill_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/padding_bit"
+                        android:gravity="center_vertical"
+                        android:text="به مبلغ "
+                        android:textStyle="bold"
+                        android:maxLines="1"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/font_small" />
+
+                    <TextView
+                        android:id="@+id/textView_bill_mablagh"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:paddingRight="@dimen/padding_bit"
+                        android:text="23,000,000 "
+                        android:maxLines="1"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/font_medium"
+                        app:fontPath="fonts/IRANSansWeb_Bold.ttf" />
+
+                    <TextView
+                        android:id="@+id/textView_bill_rial"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/padding_bit"
+                        android:gravity="center_vertical"
+                        android:text="ریال"
+                        android:textStyle="bold"
+                        android:maxLines="1"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/font_small" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingRight="@dimen/padding_bit"
+                        android:paddingLeft="@dimen/padding_bit">
+
+                        <TextView
+                            android:id="@+id/textView_bill_vaziat_hesab_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:text="وضعیت حساب : "
+                            android:textColor="@color/primary_text"
+                            android:textSize="@dimen/font_small" />
+
+                        <TextView
+                            android:id="@+id/textView_bill_vaziat_hesab_mablagh"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:paddingRight="@dimen/padding_bit"
+                            android:text="134,000,000"
+                            android:maxLines="1"
+                            android:textColor="@color/green"
+                            android:textSize="@dimen/font_medium" />
+
+                        <TextView
+                            android:id="@+id/textView_bill_vaziat_hesab_rial"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/padding_bit"
+                            android:gravity="center_vertical"
+                            android:text="ریال"
+                            android:maxLines="1"
+                            app:fontPath="fonts/IRANSansWeb_Bold.ttf"
+                            android:textColor="@color/green"
+                            android:textSize="@dimen/font_small" />
+
+                        <ImageView
+                            android:padding="@dimen/padding_small"
+                            android:adjustViewBounds="true"
+                            android:id="@+id/imageView_bill_label"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dimen_xxmedium"
+                            android:src="@drawable/bestankar"/>
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/padding_large"
+                android:gravity="left">
+
+
+
+                <ImageView
+                    android:adjustViewBounds="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/shape_arrow_drop_down"
+                    android:backgroundTint="@color/primary_dark"
+                    android:padding="@dimen/padding_medium"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingRight="@dimen/padding_large"
+            android:paddingLeft="@dimen/padding_large">
+
+            <TextView
+                android:id="@+id/textView_bill_exp_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="توضیحات : "
+                android:textColor="@color/icons"
+                android:textSize="@dimen/font_small" />
+
+            <TextView
+                android:id="@+id/textView_bill_exp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingRight="@dimen/padding_bit"
+                android:text=""
+                android:maxLines="1"
+                android:textColor="@color/icons"
+                android:textSize="@dimen/font_small" />
+        </LinearLayout>
+
+        </LinearLayout>
+
+</LinearLayout>

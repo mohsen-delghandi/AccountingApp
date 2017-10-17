@@ -147,7 +147,10 @@ public class TransactionActivity extends MainActivity {
 
         TextView tvAddTransactionDate = (TextView)findViewById(R.id.textView_add_transaction_date);
         mDate = new DatePersian();
-        final String currentDate = mDate.getDate();
+
+        SimpleDateFormat format2= new SimpleDateFormat("YYYY-MM-dd", Locale.getDefault());
+        final String currentDate = format2.format(new java.util.Date());
+
         tvAddTransactionDate.setText(dateToText(mDate));
 
         final TextView tvAddTransactionCheckDate = (TextView)findViewById(R.id.textView_add_transaction_check_date);
