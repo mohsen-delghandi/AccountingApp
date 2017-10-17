@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alirezaafkar.sundatepicker.DatePicker;
+import com.alirezaafkar.sundatepicker.components.JDF;
 import com.alirezaafkar.sundatepicker.interfaces.DateSetListener;
 
 import java.text.SimpleDateFormat;
@@ -96,7 +97,16 @@ public class BillActivity extends MainActivity {
         tvEndDate = (TextView)findViewById(R.id.textView_bill_filter_endDate);
 
         mDateStart = new DatePersian();
+        dateStart = persianDateToGeorgianDate(mDateStart);
         tvStartDate.setText(dateToText(mDateStart));
+
+        Calendar cal = mDateStart.getCalendar();
+        cal.add(Calendar.DAY_OF_MONTH,1);
+        mDateEnd = new DatePersian();
+        mDateEnd.setDate(new JDF(cal));
+        dateEnd = persianDateToGeorgianDate(mDateEnd);
+        tvEndDate.setText(dateToText(mDateEnd));
+
         tvStartDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,23 +118,47 @@ public class BillActivity extends MainActivity {
                 builder.date(mDateStart.getDay(), mDateStart.getMonth(), mDateStart.getYear());
                 builder.build(new DateSetListener() {
                     @Override
-                    public void onDateSet(int id, @Nullable Calendar calendar, int day, int month, int year) {
+                    public void onDateSet(int id, @Nullable Calendar calendar, int day, int month, final int year) {
                         mDateStart.setDate(day, month, year);
                         dateStart = persianDateToGeorgianDate(mDateStart);
                         tvStartDate.setText(dateToText(mDateStart));
 
-                        mDateEnd = new DatePersian();
-                        mDateStart.
-                        mDateEnd.setDate(day+1,month,year);
-                        tvEndDate.setText(dateToText(mDateEnd));
+                        if(mDateEnd.getCalendar().compareTo(mDateStart.getCalendar())<=0) {
+                            calendar.add(Calendar.DAY_OF_MONTH, 1);
+                            mDateEnd.setDate(new JDF(calendar));
+                            dateEnd = persianDateToGeorgianDate(mDateEnd);
+                            tvEndDate.setText(dateToText(mDateEnd));
+                        }
                     }
                 }).show(getSupportFragmentManager(), "");
             }
         });
 
-
-
-
+        tvEndDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePicker.Builder builder = new DatePicker
+                        .Builder()
+                        .theme(R.style.DialogTheme)
+                        .minYear(1390)
+                        .future(true);
+                builder.date(mDateEnd.getDay(), mDateEnd.getMonth(), mDateEnd.getYear());
+                builder.build(new DateSetListener() {
+                    @Override
+                    public void onDateSet(int id, @Nullable Calendar calendar, int day, int month, int year) {
+                        DatePersian dp = new DatePersian();
+                        dp.setDate(day, month, year);
+                        if(dp.getCalendar().compareTo(mDateStart.getCalendar())<=0){
+                            Toast.makeText(BillActivity.this, "تاریخ صحیح را وارد کنید.", Toast.LENGTH_SHORT).show();
+                        }else{
+                            mDateEnd.setDate(day, month, year);
+                            dateEnd = persianDateToGeorgianDate(mDateEnd);
+                            tvEndDate.setText(dateToText(mDateEnd));
+                        }
+                    }
+                }).show(getSupportFragmentManager(), "");
+            }
+        });
 
         llTayidFilter = (LinearLayout)findViewById(R.id.linearLayout_bil_filter_tayid);
 
@@ -161,7 +195,16 @@ public class BillActivity extends MainActivity {
         llTayidFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                SQLiteDatabase dbBillList = new MyDatabase(BillActivity.this).getReadableDatabase();
+                Cursor cursorBilList = dbBillList.rawQuery("SELECT " +
+                        "TblActionTypeSanad.OnvanAction, " +
+                        "tblChildeSanad.Bedehkar, " +
+                        "tblChildeSanad.Bestankar " +
+                        "FROM tblChildeSanad " +
+                        "INNER JOIN tblParentSanad ON tblChildeSanad.Serial_Sanad = tblParentSanad.Serial_Sanad " +
+                        "INNER JOIN TblActionTypeSanad ON tblChildeSanad.ID_TypeAmaliyat = TblActionTypeSanad.ID_Action " +
+                        "WHERE tblParentSanad.Date_Sanad BETWEEN '" + dateStart + "' AND '" + dateEnd + "' " +
+                        "AND tblChildeSanad.Tafzili_ID = '" + accountTafziliIDs.get(0) + "';",null);
             }
         });
 
