@@ -47,6 +47,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/linearLayout_bill_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/shape_underline"
@@ -175,6 +176,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
                 <ImageView
+                    android:id="@+id/imageView_bill_arrow"
                     android:adjustViewBounds="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -187,6 +189,8 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linearLayout_bill_extra"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"

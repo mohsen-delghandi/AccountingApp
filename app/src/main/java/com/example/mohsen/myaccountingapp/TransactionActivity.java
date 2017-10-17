@@ -148,7 +148,7 @@ public class TransactionActivity extends MainActivity {
         TextView tvAddTransactionDate = (TextView)findViewById(R.id.textView_add_transaction_date);
         mDate = new DatePersian();
 
-        SimpleDateFormat format2= new SimpleDateFormat("YYYY-MM-dd", Locale.getDefault());
+        SimpleDateFormat format2= new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         final String currentDate = format2.format(new java.util.Date());
 
         tvAddTransactionDate.setText(dateToText(mDate));
@@ -341,7 +341,7 @@ public class TransactionActivity extends MainActivity {
                         cvParentSanad.put("Edited_Sanad","0");
                         cvParentSanad.put("Deleted_Sanad","0");
 
-                        dbInsert.insert("tblParentSanad",null,cvParentSanad);
+                        long id = dbInsert.insert("tblParentSanad",null,cvParentSanad);
 
                         if (type.toString().trim().equals("Daryaft")) {
                             cvChildSanad.put("Accounts_ID","110");
@@ -356,7 +356,7 @@ public class TransactionActivity extends MainActivity {
                         cvChildSanad.put("ID_TypeAmaliyat","1");
                         cvChildSanad.put("Bedehkar",etMablagh.getText().toString().trim());
                         cvChildSanad.put("Bestankar","0");
-                        dbInsert.insert("tblChildeSanad",null,cvChildSanad);
+                        long id2 = dbInsert.insert("tblChildeSanad",null,cvChildSanad);
 
                         if (type.toString().trim().equals("Daryaft")) {
                             cvChildSanad2.put("Accounts_ID","130");
@@ -371,7 +371,7 @@ public class TransactionActivity extends MainActivity {
                         cvChildSanad2.put("ID_TypeAmaliyat","1");
                         cvChildSanad2.put("Bestankar",etMablagh.getText().toString().trim());
                         cvChildSanad2.put("Bedehkar","0");
-                        dbInsert.insert("tblChildeSanad",null,cvChildSanad2);
+                        long id3 = dbInsert.insert("tblChildeSanad",null,cvChildSanad2);
 
                         ContentValues cvInsert2 = new ContentValues();
                         cvInsert2.put("AccountsID", accoutsId);

@@ -44,14 +44,14 @@ public class BillActivity extends MainActivity {
             ,tvPhone2nd,tvMobile2nd,tvAddress2nd
             ,tvStartDate,tvEndDate;
 
-    LinearLayout llAccountDetails2nd,llTayidFilter;
+    LinearLayout llBillMain,llBillFilter,llTayidFilter;
     AutoCompleteTextView atvAccounts;
     ImageView ivHelpFilter,ivBackFilter;
 
-    List<String> buyAndSellFactorCodes;
-    List<String> buyAndSellMablaghKols;
-    List<String> buyAndSellAccounts;
-    List<String> buyAndSellModes;
+    List<String> billTypes;
+    List<String> billMablaghs;
+    List<String> billVaziatMablaghs;
+    List<String> billExps;
 
     List<Integer> accountTafziliIDs;
 
@@ -85,6 +85,12 @@ public class BillActivity extends MainActivity {
         tvEnglishBoldTitle.setText("BILLS");
 
         fab.setVisibility(View.GONE);
+
+        llBillFilter = (LinearLayout)findViewById(R.id.linearLayout_bill_filter);
+        llBillMain = (LinearLayout)findViewById(R.id.linearLayout_bill_main);
+
+        llBillFilter.setVisibility(View.VISIBLE);
+        llBillMain.setVisibility(View.GONE);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,118 +201,55 @@ public class BillActivity extends MainActivity {
         llTayidFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SQLiteDatabase dbBillList = new MyDatabase(BillActivity.this).getReadableDatabase();
-                Cursor cursorBilList = dbBillList.rawQuery("SELECT " +
-                        "TblActionTypeSanad.OnvanAction, " +
-                        "tblChildeSanad.Bedehkar, " +
-                        "tblChildeSanad.Bestankar " +
-                        "FROM tblChildeSanad " +
-                        "INNER JOIN tblParentSanad ON tblChildeSanad.Serial_Sanad = tblParentSanad.Serial_Sanad " +
-                        "INNER JOIN TblActionTypeSanad ON tblChildeSanad.ID_TypeAmaliyat = TblActionTypeSanad.ID_Action " +
-                        "WHERE tblParentSanad.Date_Sanad BETWEEN '" + dateStart + "' AND '" + dateEnd + "' " +
-                        "AND tblChildeSanad.Tafzili_ID = '" + accountTafziliIDs.get(0) + "';",null);
+                if(atvAccounts.getText().toString().trim().equals("")){
+                    Toast.makeText(BillActivity.this, "لطفا طرف حساب را مشخص کنید.", Toast.LENGTH_SHORT).show();
+                }else {
+                    SQLiteDatabase dbBillList = new MyDatabase(BillActivity.this).getReadableDatabase();
+                    Cursor cursorBilList = dbBillList.rawQuery("SELECT " +
+                            "TblActionTypeSanad.OnvanAction, " +
+                            "tblChildeSanad.Bedehkar, " +
+                            "tblChildeSanad.Bestankar, " +
+                            "tblChildeSanad.Sharh_Child_Sanad " +
+                            "FROM tblChildeSanad " +
+                            "INNER JOIN tblParentSanad ON tblChildeSanad.Serial_Sanad = tblParentSanad.Serial_Sanad " +
+                            "INNER JOIN TblActionTypeSanad ON tblChildeSanad.ID_TypeAmaliyat = TblActionTypeSanad.ID_Action " +
+                            "WHERE tblParentSanad.Date_Sanad BETWEEN '" + dateStart + "' AND '" + dateEnd + "' " +
+                            "AND tblChildeSanad.Tafzili_ID = '" + accountTafziliIDs.get(0) + "';", null);
+
+                    if (cursorBilList.moveToFirst()) {
+                        billExps = new ArrayList<String>();
+                        billMablaghs = new ArrayList<String>();
+                        billTypes = new ArrayList<String>();
+                        billVaziatMablaghs = new ArrayList<String>();
+
+                        do {
+                            billVaziatMablaghs.add("");
+                            billTypes.add(cursorBilList.getString(cursorBilList.getColumnIndex("OnvanAction")));
+                            if (cursorBilList.getString(cursorBilList.getColumnIndex("Bedehkar")).toString().trim().equals("0")) {
+                                billMablaghs.add(cursorBilList.getString(cursorBilList.getColumnIndex("Bestankar")));
+                            } else {
+                                billMablaghs.add(cursorBilList.getString(cursorBilList.getColumnIndex("Bedehkar")));
+                            }
+                            billExps.add(cursorBilList.getString(cursorBilList.getColumnIndex("Sharh_Child_Sanad")));
+                        } while (cursorBilList.moveToNext());
+
+                        billListRecyclerView = (RecyclerView) findViewById(R.id.recyclerView_bill);
+                        billListRecyclerView.setHasFixedSize(true);
+                        billListRecyclerView.setNestedScrollingEnabled(false);
+                        recyclerManager = new LinearLayoutManager(BillActivity.this);
+                        billListRecyclerView.setLayoutManager(recyclerManager);
+                        recyclerAdapter = new BillAdapter(billExps, billMablaghs, billTypes, billVaziatMablaghs);
+                        billListRecyclerView.setAdapter(recyclerAdapter);
+
+                        llBillFilter.setVisibility(View.GONE);
+                        llBillMain.setVisibility(View.VISIBLE);
+                    } else {
+                        Toast.makeText(BillActivity.this, "موردی یافت نشد.", Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         });
 
-//        buyAndSellRecyclerView = (RecyclerView)findViewById(R.id.recyclerView_buy_and_sell);
-//        buyAndSellRecyclerView.setHasFixedSize(true);
-//        buyAndSellRecyclerView.setNestedScrollingEnabled(false);
-//        recyclerManager = new LinearLayoutManager(this);
-//        buyAndSellRecyclerView.setLayoutManager(recyclerManager);
-//
-//        newLists();
-//        readBuyAndSellsFromDatabase("Sell");
-//        recyclerAdapter = new BuyAndSellAdapter(BuyAndSellActivity.this,buyAndSellFactorCodes,buyAndSellMablaghKols,buyAndSellAccounts,buyAndSellModes, llAddLayer, fab);
-//        buyAndSellRecyclerView.setAdapter(recyclerAdapter);
-//
-//        tvKharidButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                tvKharidButton.setBackground(getResources().getDrawable(R.drawable.shape_circle_dark));
-//                tvHameButton.setBackground(null);
-//                tvForoshButton.setBackground(null);
-//                newLists();
-//                readBuyAndSellsFromDatabase("Buy");
-//                recyclerAdapter = new BuyAndSellAdapter(BuyAndSellActivity.this,buyAndSellFactorCodes,buyAndSellMablaghKols,buyAndSellAccounts,buyAndSellModes,llAddLayer,fab);
-//                buyAndSellRecyclerView.setAdapter(recyclerAdapter);
-//            }
-//        });
-//
-//        tvForoshButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                tvForoshButton.setBackground(getResources().getDrawable(R.drawable.shape_circle_dark));
-//                tvHameButton.setBackground(null);
-//                tvKharidButton.setBackground(null);
-//                newLists();
-//                readBuyAndSellsFromDatabase("Sell");
-//                recyclerAdapter = new BuyAndSellAdapter(BuyAndSellActivity.this,buyAndSellFactorCodes,buyAndSellMablaghKols,buyAndSellAccounts,buyAndSellModes, llAddLayer, fab);
-//                buyAndSellRecyclerView.setAdapter(recyclerAdapter);
-//            }
-//        });
-//
-//        tvHameButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                tvHameButton.setBackground(getResources().getDrawable(R.drawable.shape_circle_dark));
-//                tvForoshButton.setBackground(null);
-//                tvKharidButton.setBackground(null);
-//                newLists();
-//                readBuyAndSellsFromDatabase("All");
-//                recyclerAdapter = new BuyAndSellAdapter(BuyAndSellActivity.this,buyAndSellFactorCodes,buyAndSellMablaghKols,buyAndSellAccounts,buyAndSellModes, llAddLayer, fab);
-//                buyAndSellRecyclerView.setAdapter(recyclerAdapter);
-//            }
-//        });
-    }
 
-    public void newLists(){
-        buyAndSellFactorCodes = new ArrayList<String>();
-        buyAndSellMablaghKols = new ArrayList<String>();
-        buyAndSellAccounts = new ArrayList<String>();
-        buyAndSellModes = new ArrayList<String>();
-    }
-
-    public void readBuyAndSellsFromDatabase(String mode){
-
-        String tableName = null;
-        String[] tableColumns = null;
-        String type = null;
-
-        if(mode.trim().equals("Buy")){
-            tableName = "TblParent_KharidKala";
-            tableColumns = new String[]{"KharidKalaParent_ID","KharidKalaParent_JameKol","KharidKalaParent_Tafzili"};
-            type = "Buy";
-        }else if(mode.trim().equals("Sell")){
-            tableName = "TblParent_FrooshKala";
-            tableColumns = new String[]{"ForooshKalaParent_ID","ForooshKalaParent_JameKol","ForooshKalaParent_Tafzili"};
-            type = "Sell";
-        }else if(mode.trim().equals("All")){
-            readBuyAndSellsFromDatabase("Buy");
-            readBuyAndSellsFromDatabase("Sell");
-            List<List> allList = new ArrayList<List>();
-            allList.add(buyAndSellFactorCodes);
-            allList.add(buyAndSellMablaghKols);
-            allList.add(buyAndSellAccounts);
-            allList.add(buyAndSellModes);
-        }
-
-        if(tableName!=null && tableColumns!=null) {
-            SQLiteDatabase mydb = new MyDatabase(this).getReadableDatabase();
-            Cursor cursor2 = mydb.query(tableName, tableColumns, null, null, null, null, null);
-            if (cursor2.moveToFirst()) {
-                do {
-                    buyAndSellFactorCodes.add(cursor2.getString(0));
-                    buyAndSellMablaghKols.add(cursor2.getString(1));
-                    Cursor c3 = mydb.query("tblContacts", new String[]{"FullName"}, "Tafzili_ID = " + cursor2.getString(2), null, null, null, null, null);
-                    if(c3.moveToFirst()) {
-                        buyAndSellAccounts.add(c3.getString(0));
-                    }
-                    c3.close();
-                    buyAndSellModes.add(type);
-                } while ((cursor2.moveToNext()));
-            }
-            cursor2.close();
-            mydb.close();
-        }
     }
 }

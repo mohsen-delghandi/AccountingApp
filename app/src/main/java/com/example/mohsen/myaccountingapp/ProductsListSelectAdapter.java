@@ -185,7 +185,7 @@ public class ProductsListSelectAdapter extends RecyclerView.Adapter<ProductsList
                     SimpleDateFormat format= new SimpleDateFormat("HH:mm", Locale.getDefault());
                     final String currentTime = format.format(new java.util.Date());
 
-                    SimpleDateFormat format2= new SimpleDateFormat("YYYY-MM-dd", Locale.getDefault());
+                    SimpleDateFormat format2= new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                     final String currentDate = format2.format(new java.util.Date());
 
                     cvTayidList.put("ForooshKalaParent_Date",currentDate + currentTime);
@@ -262,7 +262,7 @@ public class ProductsListSelectAdapter extends RecyclerView.Adapter<ProductsList
                     SimpleDateFormat format= new SimpleDateFormat("HH:mm", Locale.getDefault());
                     final String currentTime = format.format(new java.util.Date());
 
-                    SimpleDateFormat format2= new SimpleDateFormat("YYYY-MM-dd", Locale.getDefault());
+                    SimpleDateFormat format2= new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                     final String currentDate = format2.format(new java.util.Date());
 
                     cvTayidList.put("KharidKalaParent_Date",currentDate + currentTime);
