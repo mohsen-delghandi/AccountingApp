@@ -36,8 +36,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alirezaafkar.sundatepicker.components.JDF;
+
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import resideMenu.ResideMenu;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -92,6 +100,22 @@ public class MainActivity extends BaseActivity {
     public static String persianDateToGeorgianDate(DatePersian mDate){
         String fDate = new SimpleDateFormat("yyyy-MM-dd").format(mDate.getCalendar().getTime());
         return fDate;
+    }
+
+    public static String georgianDateToPersianDate(String date){
+        DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date1 = null;
+        try {
+            date1 = inputFormat.parse(date.toString().trim());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        DatePersian dp = new DatePersian();
+//        JDF jdf = new JDF(date1.getYear(),date1.getMonth(),date1.getDay());
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date1);
+        dp.setDate(new JDF(cal));
+        return dp.getDate();
     }
 
     public static String dateToText(DatePersian mDate){

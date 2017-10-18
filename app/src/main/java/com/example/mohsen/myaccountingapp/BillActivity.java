@@ -52,6 +52,7 @@ public class BillActivity extends MainActivity {
     List<String> billMablaghs;
     List<String> billVaziatMablaghs;
     List<String> billExps;
+    List<String> billDates;
 
     List<Integer> accountTafziliIDs;
 
@@ -79,6 +80,9 @@ public class BillActivity extends MainActivity {
         super.onCreate(savedInstanceState);
 
         setInflater(this,R.layout.bill_show_layout);
+
+        final LinearLayout llBillVaziatKol = (LinearLayout)findViewById(R.id.linearLayout_bill_vazia_kol);
+        final TextView tvBillVaziatKol = (TextView) findViewById(R.id.textView_bill_vaziat_kol);
 
         tvFarsiTitle.setText("صورت حساب");
         tvEngliashNormalTitle.setText("PEOPLES'S ");
@@ -209,7 +213,9 @@ public class BillActivity extends MainActivity {
                             "TblActionTypeSanad.OnvanAction, " +
                             "tblChildeSanad.Bedehkar, " +
                             "tblChildeSanad.Bestankar, " +
-                            "tblChildeSanad.Sharh_Child_Sanad " +
+                            "tblChildeSanad.Sharh_Child_Sanad, " +
+                            "tblParentSanad.Date_Sanad, " +
+                            "tblChildeSanad.ID_Child_Sanad " +
                             "FROM tblChildeSanad " +
                             "INNER JOIN tblParentSanad ON tblChildeSanad.Serial_Sanad = tblParentSanad.Serial_Sanad " +
                             "INNER JOIN TblActionTypeSanad ON tblChildeSanad.ID_TypeAmaliyat = TblActionTypeSanad.ID_Action " +
@@ -221,9 +227,20 @@ public class BillActivity extends MainActivity {
                         billMablaghs = new ArrayList<String>();
                         billTypes = new ArrayList<String>();
                         billVaziatMablaghs = new ArrayList<String>();
+                        billDates = new ArrayList<String>();
 
                         do {
-                            billVaziatMablaghs.add("");
+                            Cursor cursorVaziatHesab = dbBillList.rawQuery("SELECT " +
+                                    "(SUM(IFNULL(Bedehkar,0)) - SUM(IFNULL(Bestankar,0))) " +
+                                    "AS MandeHesab " +
+                                    "FROM  tblChildeSanad " +
+                                    "WHERE Tafzili_ID = '" + accountTafziliIDs.get(0) + "' " +
+                                    "AND ID_Child_Sanad <= " + cursorBilList.getString(cursorBilList.getColumnIndex("ID_Child_Sanad")),null);
+                            if(cursorVaziatHesab.moveToFirst()){
+                                billVaziatMablaghs.add(cursorVaziatHesab.getString(cursorVaziatHesab.getColumnIndex("MandeHesab")));
+                            }else {
+                                billVaziatMablaghs.add("");
+                            }
                             billTypes.add(cursorBilList.getString(cursorBilList.getColumnIndex("OnvanAction")));
                             if (cursorBilList.getString(cursorBilList.getColumnIndex("Bedehkar")).toString().trim().equals("0")) {
                                 billMablaghs.add(cursorBilList.getString(cursorBilList.getColumnIndex("Bestankar")));
@@ -231,6 +248,7 @@ public class BillActivity extends MainActivity {
                                 billMablaghs.add(cursorBilList.getString(cursorBilList.getColumnIndex("Bedehkar")));
                             }
                             billExps.add(cursorBilList.getString(cursorBilList.getColumnIndex("Sharh_Child_Sanad")));
+                            billDates.add(cursorBilList.getString(cursorBilList.getColumnIndex("Date_Sanad")));
                         } while (cursorBilList.moveToNext());
 
                         billListRecyclerView = (RecyclerView) findViewById(R.id.recyclerView_bill);
@@ -238,11 +256,23 @@ public class BillActivity extends MainActivity {
                         billListRecyclerView.setNestedScrollingEnabled(false);
                         recyclerManager = new LinearLayoutManager(BillActivity.this);
                         billListRecyclerView.setLayoutManager(recyclerManager);
-                        recyclerAdapter = new BillAdapter(billExps, billMablaghs, billTypes, billVaziatMablaghs);
+                        recyclerAdapter = new BillAdapter(billExps, billMablaghs, billTypes, billVaziatMablaghs,billDates);
                         billListRecyclerView.setAdapter(recyclerAdapter);
 
                         llBillFilter.setVisibility(View.GONE);
                         llBillMain.setVisibility(View.VISIBLE);
+                        llBillVaziatKol.setVisibility(View.VISIBLE);
+                        fab.setVisibility(View.VISIBLE);
+                        fab.setImageDrawable(getResources().getDrawable(R.drawable.shape_filter));
+                        fab.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                llBillFilter.setVisibility(View.VISIBLE);
+                                llBillMain.setVisibility(View.GONE);
+                                llBillVaziatKol.setVisibility(View.GONE);
+                            }
+                        });
+                        tvBillVaziatKol.setText(MainActivity.priceFormatter(Math.abs(Long.parseLong(billVaziatMablaghs.get(billVaziatMablaghs.size()-1)))+""));
                     } else {
                         Toast.makeText(BillActivity.this, "موردی یافت نشد.", Toast.LENGTH_SHORT).show();
                     }

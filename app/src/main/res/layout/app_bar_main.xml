@@ -290,6 +290,78 @@
 
     <LinearLayout
         android:visibility="gone"
+        android:nestedScrollingEnabled="false"
+        android:layout_gravity="bottom"
+        android:id="@+id/linearLayout_bill_vazia_kol"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true">
+
+        <LinearLayout
+            android:paddingTop="@dimen/dimen_xxxxlarge"
+            android:background="@drawable/background_white_gradient"
+            android:gravity="center"
+            android:paddingRight="@dimen/dimen_xxmedium"
+            android:paddingBottom="@dimen/padding_bit"
+            android:paddingLeft="@dimen/padding_bit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:padding="@dimen/padding_medium"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="@dimen/dimen_xxmedium"
+                    android:layout_height="@dimen/dimen_xxmedium"
+                    android:src="@drawable/shape_cash"
+                    android:tint="@color/primary_text"/>
+                <TextView
+                    android:layout_marginRight="@dimen/padding_medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="وضعیت کل"
+                    android:gravity="center"
+                    android:textSize="@dimen/font_xmedium"
+                    android:textColor="@color/primary_text"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:background="@color/primary_text"/>
+
+            <LinearLayout
+                android:padding="@dimen/padding_medium"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/textView_bill_vaziat_kol"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="150,000,000"
+                    android:maxLines="1"
+                    android:textSize="@dimen/font_xmedium"
+                    android:textColor="@color/green"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ریال"
+                    app:fontPath="fonts/IRANSansWeb_Bold.ttf"
+                    android:textSize="@dimen/font_medium"
+                    android:textColor="@color/green"/>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="gone"
         android:id="@+id/linearLayout_add_layer"
         android:layout_height="match_parent"
         android:layout_width="match_parent"/>

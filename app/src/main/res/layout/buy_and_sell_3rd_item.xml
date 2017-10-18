@@ -7,8 +7,10 @@
     android:layout_height="wrap_content"
     android:layoutDirection="rtl"
     android:gravity="center_vertical"
-    android:paddingTop="@dimen/padding_bit"
-    android:paddingBottom="@dimen/padding_bit"
+    android:paddingTop="@dimen/padding_medium"
+    android:paddingBottom="@dimen/padding_medium"
+    android:paddingRight="@dimen/padding_medium"
+    android:layout_marginBottom="@dimen/padding_bit"
     android:background="@drawable/shape_underline_dashed"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -38,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_underline"
-                android:backgroundTint="@color/divider"
+                android:backgroundTint="@color/shiri"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 

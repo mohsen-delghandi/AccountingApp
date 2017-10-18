@@ -102,11 +102,11 @@ public class BuyAndSellActivity extends MainActivity {
         cursorAccounts.close();
 
         factorCode = -1;
-        Cursor cursorFactorCode1 = dbAccounts.query("TblParent_FrooshKala",new String[]{"MAX(ForooshKalaParent_ID)"},null,null,null,null,null,null);
+        Cursor cursorFactorCode1 = dbAccounts.query("TblParent_FrooshKala",new String[]{"IFNULL(MAX(ForooshKalaParent_ID),0)"},null,null,null,null,null,null);
         if(cursorFactorCode1.moveToFirst()){
             factorCode = cursorFactorCode1.getInt(0)+1;
         }
-        Cursor cursorFactorCode2 = dbAccounts.query("TblParent_KharidKala",new String[]{"MAX(KharidKalaParent_ID)"},null,null,null,null,null,null);
+        Cursor cursorFactorCode2 = dbAccounts.query("TblParent_KharidKala",new String[]{"IFNULL(MAX(KharidKalaParent_ID),0)"},null,null,null,null,null,null);
         if(cursorFactorCode2.moveToFirst()){
             if(cursorFactorCode2.getInt(0) >= factorCode){
                 factorCode = cursorFactorCode2.getInt(0)+1;
@@ -233,7 +233,7 @@ public class BuyAndSellActivity extends MainActivity {
             recyclerManagerProductList = new LinearLayoutManager(BuyAndSellActivity.this);
             productListRecyclerView.setLayoutManager(recyclerManagerProductList);
             recyclerAdapterProductList = new ProductsListSelectAdapter(BuyAndSellActivity.this, productName, productSellPrice, productUnit
-                    , productMojoodi, productIDs, llAddLayer, factorCode, accountTafziliIDs.get(0), mode,llTayid3rd,tvJameRadif,tvJameMeghdar,tvJameMablagh);
+                    , productMojoodi, productIDs, llAddLayer, factorCode, accountTafziliIDs.get(0), mode,llTayid3rd,tvJameRadif,tvJameMeghdar,tvJameMablagh,fab);
             productListRecyclerView.setAdapter(recyclerAdapterProductList);
 
             ImageView tvBack3rd = (ImageView) findViewById(R.id.imageView_buy_and_sell_3rd_back);

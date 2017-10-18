@@ -5,11 +5,10 @@
     android:orientation="vertical"
     android:layoutDirection="rtl"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingRight="@dimen/padding_bit"
-    android:paddingLeft="@dimen/padding_bit">
+    android:layout_height="match_parent">
 
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/linearLayout_bill_filter"
         android:orientation="vertical"
         android:layoutDirection="rtl"
@@ -151,20 +150,57 @@
 
     </LinearLayout>
 
-
-
     <LinearLayout
-        android:visibility="gone"
+        android:visibility="visible"
         android:id="@+id/linearLayout_bill_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView_bill"
+        <FrameLayout
+            android:orientation="vertical"
+            android:layoutDirection="rtl"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent"
+            android:background="@color/icons">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ScrollView
+                    android:scrollbars="none"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <android.support.v7.widget.RecyclerView
+
+                            android:layout_below="@+id/linearLayout_titleBar"
+                            android:id="@+id/recyclerView_bill"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                        </android.support.v7.widget.RecyclerView>
+
+                        <TextView
+                            android:layout_below="@id/recyclerView_accountSide"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/nav_header_height" />
+
+                    </LinearLayout>
+
+                </ScrollView>
+
+            </LinearLayout>
+
+
+        </FrameLayout>
 
     </LinearLayout>
-
 
 </LinearLayout>

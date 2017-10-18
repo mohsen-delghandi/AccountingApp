@@ -172,16 +172,13 @@ public class AccountsActivity extends MainActivity {
                         } else {
                             long newTafziliCode;
                             SQLiteDatabase dbAddBankAccount = new MyDatabase(AccountsActivity.this).getWritableDatabase();
-                            Cursor cursorNewTafzili = dbAddBankAccount.query("tblTafzili", new String[]{"MAX(Tafzili_ID)"}, null, null, null, null, null);
+                            Cursor cursorNewTafzili = dbAddBankAccount.query("tblTafzili", new String[]{"IFNULL(MAX(Tafzili_ID),1001000)"}, null, null, null, null, null);
                             ContentValues cvAddNewTafzili = new ContentValues();
                             ContentValues cvAddNewBankAccount = new ContentValues();
                             cvAddNewTafzili.put("GroupTafzili_ID", 18);
                             if(cursorNewTafzili.moveToFirst()){
-                                cvAddNewTafzili.put("Tafzili_ID", cursorNewTafzili.getInt(0) + 1);
-                                cvAddNewBankAccount.put("Tafzili_ID", cursorNewTafzili.getInt(0) + 1);
-                            }else{
-                                cvAddNewTafzili.put("Tafzili_ID", 10010001);
-                                cvAddNewBankAccount.put("Tafzili_ID", 10010001);
+                                cvAddNewTafzili.put("Tafzili_ID", cursorNewTafzili.getInt(0) + 1+"");
+                                cvAddNewBankAccount.put("Tafzili_ID", cursorNewTafzili.getInt(0) + 1+"");
                             }
                             cvAddNewTafzili.put("Tafzili_Name", bankName[0]);
                             dbAddBankAccount.insert("tblTafzili", null, cvAddNewTafzili);

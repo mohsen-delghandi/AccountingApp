@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
@@ -16,6 +17,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.transition.ChangeBounds;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -46,8 +48,9 @@ public class ProductsListSelectAdapter extends RecyclerView.Adapter<ProductsList
     Context mContext;
     View v;
     List<String> mProductName, mProductSellPrice, mProductUnit;
-    List<Integer> mProductIDs,mProductMojoodi,mBasketProductMeghdar,mBasketProduct,mBasketProductMablagh;
-    LinearLayout mLlAddLayer,mLlTayid3rd;
+    List<Integer> mProductIDs,mProductMojoodi,mBasketProductMeghdar,mBasketProduct,mbasketPosition;
+    List<Long> mBasketProductMablagh;
+    LinearLayout llAddLayer,mLlTayid3rd;
     LayoutInflater mInflaterInclude;
     RecyclerView orderRecyclerView;
     RecyclerView.LayoutManager recyclerManager;
@@ -56,25 +59,28 @@ public class ProductsListSelectAdapter extends RecyclerView.Adapter<ProductsList
     String mMode;
     TextView mTvJameRadif,mTvJameMeghdar,mTvJameMablagh;
     int jameMablagh,jameMeghdar;
+    FloatingActionButton fab;
 
-    public ProductsListSelectAdapter(Context context, List<String> productName, List<String> productSellPrice, List<String> productUnit, List<Integer> productMojoodi, List<Integer> productIDs, LinearLayout llAddLayer, int factorCode, Integer tafziliID, String mode, LinearLayout llTayid3rd, TextView tvJameRadif, TextView tvJameMeghdar, TextView tvJameMablagh) {
+    public ProductsListSelectAdapter(Context context, List<String> productName, List<String> productSellPrice, List<String> productUnit, List<Integer> productMojoodi, List<Integer> productIDs, LinearLayout llAddLayer, int factorCode, Integer tafziliID, String mode, LinearLayout llTayid3rd, TextView tvJameRadif, TextView tvJameMeghdar, TextView tvJameMablagh, FloatingActionButton fab) {
         mContext = context;
         mProductName = productName;
         mProductSellPrice = productSellPrice;
         mProductUnit = productUnit;
         mProductMojoodi = productMojoodi;
         mProductIDs = productIDs;
-        mLlAddLayer = llAddLayer;
+        this.llAddLayer = llAddLayer;
         mFactorCode = factorCode;
         mLlTayid3rd = llTayid3rd;
         mBasketProductMeghdar = new ArrayList<>();
         mBasketProduct = new ArrayList<>();
         mBasketProductMablagh = new ArrayList<>();
+        mbasketPosition = new ArrayList<>();
         mMode = mode;
         mTafziliID = tafziliID;
         mTvJameMablagh = tvJameMablagh;
         mTvJameMeghdar = tvJameMeghdar;
         mTvJameRadif = tvJameRadif;
+        this.fab = fab;
     }
 
     @Override
@@ -86,8 +92,8 @@ public class ProductsListSelectAdapter extends RecyclerView.Adapter<ProductsList
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvName, tvSellPrice, tvUnit, tvMeghdar;
-        LinearLayout llMain;
+        TextView tvName, tvSellPrice, tvUnit, tvMeghdar,tvText;
+        LinearLayout llMain,llName;
         ImageView ivUp,ivDown,ivProductImage;
 
         public ViewHolder(View v) {
@@ -96,13 +102,40 @@ public class ProductsListSelectAdapter extends RecyclerView.Adapter<ProductsList
             tvSellPrice = (TextView) v.findViewById(R.id.textView_product_sell_price_3rd);
             tvUnit = (TextView) v.findViewById(R.id.textView_product_unit_3rd);
             tvMeghdar = (TextView) v.findViewById(R.id.textView_product_quintity_3rd);
+            tvText = (TextView) v.findViewById(R.id.textView_product_sell_text);
 
             ivUp = (ImageView)v.findViewById(R.id.imageView_product_up_3rd);
             ivDown = (ImageView)v.findViewById(R.id.imageView_product_down_3rd);
             ivProductImage = (ImageView)v.findViewById(R.id.imageView_product_image_3rd);
 
             llMain = (LinearLayout)v.findViewById(R.id.linearLayout_product_main_3rd);
+            llName = (LinearLayout) v.findViewById(R.id.linearLayout_product_name);
         }
+    }
+
+
+    private void selectItem(ViewHolder h, int position){
+        h.llMain.setBackground(mContext.getResources().getDrawable(R.drawable.shape_gradient_background));
+        h.llName.getBackground().setTint(mContext.getResources().getColor(R.color.icons));
+        h.tvMeghdar.setTextColor(mContext.getResources().getColor(R.color.icons));
+        h.tvName.setTextColor(mContext.getResources().getColor(R.color.icons));
+        h.tvUnit.setTextColor(mContext.getResources().getColor(R.color.icons));
+        h.tvText.setTextColor(mContext.getResources().getColor(R.color.icons));
+
+        h.ivUp.setColorFilter(mContext.getResources().getColor(R.color.icons));
+        h.ivDown.setColorFilter(mContext.getResources().getColor(R.color.icons));
+    }
+
+    private void deSelectItem(ViewHolder h, int position){
+        h.llMain.setBackground(mContext.getResources().getDrawable(R.drawable.shape_underline_dashed));
+        h.llName.getBackground().setTint(mContext.getResources().getColor(R.color.shiri));
+        h.tvMeghdar.setTextColor(mContext.getResources().getColor(R.color.secondary_text));
+        h.tvName.setTextColor(mContext.getResources().getColor(R.color.primary_text));
+        h.tvUnit.setTextColor(mContext.getResources().getColor(R.color.secondary_text));
+        h.tvText.setTextColor(mContext.getResources().getColor(R.color.secondary_text));
+
+        h.ivUp.setColorFilter(mContext.getResources().getColor(R.color.primary_text));
+        h.ivDown.setColorFilter(mContext.getResources().getColor(R.color.primary_text));
     }
 
     @Override
@@ -117,6 +150,27 @@ public class ProductsListSelectAdapter extends RecyclerView.Adapter<ProductsList
             public void onClick(View view) {
                 if (Integer.parseInt(holder.tvMeghdar.getText().toString().trim()) < mProductMojoodi.get(position)) {
                     holder.tvMeghdar.setText((Integer.parseInt(holder.tvMeghdar.getText().toString().trim()) + 1) + "");
+                    selectItem(holder,position);
+                    if(Integer.parseInt(holder.tvMeghdar.getText().toString().trim()) == 1){
+                        mBasketProductMablagh.add(Long.parseLong(mProductSellPrice.get(position)));
+                        mBasketProduct.add(mProductIDs.get(position));
+                        mBasketProductMeghdar.add(Integer.parseInt(holder.tvMeghdar.getText().toString().trim()));
+                        mbasketPosition.add(position);
+                    }else{
+                        mBasketProductMeghdar.set(mbasketPosition.indexOf(position),Integer.parseInt(holder.tvMeghdar.getText().toString().trim()));
+                    }
+
+                    mTvJameRadif.setText(mBasketProduct.size() + "");
+                    jameMeghdar = 0;
+                    for (int i = 0; i < mBasketProductMeghdar.size(); i++) {
+                        jameMeghdar += mBasketProductMeghdar.get(i);
+                    }
+                    mTvJameMeghdar.setText(jameMeghdar + "");
+                    jameMablagh = 0;
+                    for (int i = 0; i < mBasketProductMablagh.size(); i++) {
+                        jameMablagh += mBasketProductMablagh.get(i) * mBasketProductMeghdar.get(i);
+                    }
+                    mTvJameMablagh.setText(jameMablagh + "");
                 } else {
                     Toast.makeText(mContext, "حداکثر موجودی انتخاب شده است.", Toast.LENGTH_SHORT).show();
                 }
@@ -128,32 +182,26 @@ public class ProductsListSelectAdapter extends RecyclerView.Adapter<ProductsList
             public void onClick(View view) {
                 if (Integer.parseInt(holder.tvMeghdar.getText().toString().trim()) > 0) {
                     holder.tvMeghdar.setText((Integer.parseInt(holder.tvMeghdar.getText().toString().trim()) - 1) + "");
-                }
-            }
-        });
+                    if (Integer.parseInt(holder.tvMeghdar.getText().toString().trim()) == 0){
+                        deSelectItem(holder,position);
 
-        holder.ivProductImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                holder.llMain.setBackgroundColor(mContext.getResources().getColor(R.color.divider));
-                SQLiteDatabase dbOrder = new MyDatabase(mContext).getReadableDatabase();
-                Cursor cursorOrder = dbOrder.query("TblKala", new String[]{"GheymatForoshAsli"}, "ID_Kala = " + mProductIDs.get(position), null, null, null, null);
-                cursorOrder.moveToFirst();
-                mBasketProductMablagh.add(cursorOrder.getInt(0));
-                mBasketProduct.add(mProductIDs.get(position));
-                mBasketProductMeghdar.add(Integer.parseInt(holder.tvMeghdar.getText().toString().trim()));
+                        mBasketProductMablagh.remove(mbasketPosition.indexOf(position));
+                        mBasketProduct.remove(mbasketPosition.indexOf(position));
+                        mBasketProductMeghdar.remove(mbasketPosition.indexOf(position));
 
-                mTvJameRadif.setText(mBasketProduct.size() + "");
-                jameMeghdar = 0;
-                for (int i = 0; i < mBasketProductMeghdar.size(); i++) {
-                    jameMeghdar += mBasketProductMeghdar.get(i);
+                        mTvJameRadif.setText(mBasketProduct.size() + "");
+                        jameMeghdar = 0;
+                        for (int i = 0; i < mBasketProductMeghdar.size(); i++) {
+                            jameMeghdar += mBasketProductMeghdar.get(i);
+                        }
+                        mTvJameMeghdar.setText(jameMeghdar + "");
+                        jameMablagh = 0;
+                        for (int i = 0; i < mBasketProductMablagh.size(); i++) {
+                            jameMablagh += mBasketProductMablagh.get(i) * mBasketProductMeghdar.get(i);
+                        }
+                        mTvJameMablagh.setText(jameMablagh + "");
+                    }
                 }
-                mTvJameMeghdar.setText(jameMeghdar + "");
-                jameMablagh = 0;
-                for (int i = 0; i < mBasketProductMablagh.size(); i++) {
-                    jameMablagh += mBasketProductMablagh.get(i) * mBasketProductMeghdar.get(i);
-                }
-                mTvJameMablagh.setText(jameMablagh + "");
             }
         });
 
@@ -169,17 +217,12 @@ public class ProductsListSelectAdapter extends RecyclerView.Adapter<ProductsList
                     cvTayidList.put("ForooshKalaParent_ID", mFactorCode + "");
                     cvTayidList.put("ForooshKalaParent_Tafzili", mTafziliID + "");
                     cvTayidList.put("ForooshKalaParent_JameKol", jameMablagh + "");
-                    Cursor cursorMaxSrialSand = dbTayidList.query("tblParentSanad", new String[]{"MAX(Serial_Sanad)"}, null, null, null, null, null);
+                    Cursor cursorMaxSrialSand = dbTayidList.query("tblParentSanad", new String[]{"IFNULL(MAX(Serial_Sanad),0)"}, null, null, null, null, null);
                     if (cursorMaxSrialSand.moveToFirst()) {
                         cvTayidList.put("ForooshKalaParent_SerialSanad", cursorMaxSrialSand.getString(0)+1);
-                        cvParentSanad.put("Serial_Sanad",cursorMaxSrialSand.getString(0)+1);
-                        cvChildSanad.put("Serial_Sanad",cursorMaxSrialSand.getString(0)+1);
-                        cvChildSanad2.put("Serial_Sanad",cursorMaxSrialSand.getString(0)+1);
-                    } else {
-                        cvTayidList.put("ForooshKalaParent_SerialSanad", "1");
-                        cvParentSanad.put("Serial_Sanad","1");
-                        cvChildSanad.put("Serial_Sanad","1");
-                        cvChildSanad2.put("Serial_Sanad","1");
+                        cvParentSanad.put("Serial_Sanad",(Integer.parseInt(cursorMaxSrialSand.getString(0))+1)+"");
+                        cvChildSanad.put("Serial_Sanad",(Integer.parseInt(cursorMaxSrialSand.getString(0))+1)+"");
+                        cvChildSanad2.put("Serial_Sanad",(Integer.parseInt(cursorMaxSrialSand.getString(0))+1)+"");
                     }
 
                     SimpleDateFormat format= new SimpleDateFormat("HH:mm", Locale.getDefault());
@@ -193,11 +236,9 @@ public class ProductsListSelectAdapter extends RecyclerView.Adapter<ProductsList
                     dbTayidList.insert("TblParent_FrooshKala", null, cvTayidList);
                     Toast.makeText(mContext, "خرید با موفقیت ثبت شد.", Toast.LENGTH_SHORT).show();
 
-                    Cursor cursorMaxNumberSand = dbTayidList.query("tblParentSanad", new String[]{"MAX(Number_Sanad)"}, null, null, null, null, null);
+                    Cursor cursorMaxNumberSand = dbTayidList.query("tblParentSanad", new String[]{"IFNULL(MAX(Number_Sanad),0)"}, null, null, null, null, null);
                     if (cursorMaxNumberSand.moveToFirst()) {
-                        cvParentSanad.put("Number_Sanad", cursorMaxNumberSand.getString(0)+1);
-                    } else {
-                        cvParentSanad.put("Number_Sanad","1");
+                        cvParentSanad.put("Number_Sanad", (Integer.parseInt(cursorMaxNumberSand.getString(0))+1)+"");
                     }
                     cvParentSanad.put("StatusSanadID","3");
                     cvParentSanad.put("TypeSanad_ID","4");
@@ -210,7 +251,7 @@ public class ProductsListSelectAdapter extends RecyclerView.Adapter<ProductsList
 
                     dbTayidList.insert("tblParentSanad",null,cvParentSanad);
 
-                    cvChildSanad.put("Accounts_ID","130");
+                    cvChildSanad.put("AccountsID","130");
                     cvChildSanad.put("Moein_ID","13001");
                     cvChildSanad.put("Tafzili_ID",mTafziliID + "");
                     cvChildSanad.put("ID_Amaliyat",mFactorCode + "");
@@ -219,7 +260,7 @@ public class ProductsListSelectAdapter extends RecyclerView.Adapter<ProductsList
                     cvChildSanad.put("Bestankar","0");
                     dbTayidList.insert("tblChildeSanad",null,cvChildSanad);
 
-                    cvChildSanad2.put("Accounts_ID","610");
+                    cvChildSanad2.put("AccountsID","610");
                     cvChildSanad2.put("Moein_ID","61001");
                     cvChildSanad2.put("ID_Amaliyat",mFactorCode + "");
                     cvChildSanad2.put("ID_TypeAmaliyat","5");
@@ -246,17 +287,12 @@ public class ProductsListSelectAdapter extends RecyclerView.Adapter<ProductsList
                     cvTayidList.put("KharidKalaParent_Tafzili", mTafziliID + "");
                     cvTayidList.put("KharidKalaParent_JameKol", jameMablagh + "");
 
-                    Cursor cursorMaxSrialSand = dbTayidList.query("tblParentSanad", new String[]{"MAX(Serial_Sanad)"}, null, null, null, null, null);
+                    Cursor cursorMaxSrialSand = dbTayidList.query("tblParentSanad", new String[]{"IFNULL(MAX(Serial_Sanad),0)"}, null, null, null, null, null);
                     if (cursorMaxSrialSand.moveToFirst()) {
-                        cvTayidList.put("KharidKalaParent_SerialSanad", cursorMaxSrialSand.getString(0)+1);
-                        cvParentSanad.put("Serial_Sanad",cursorMaxSrialSand.getString(0)+1);
-                        cvChildSanad.put("Serial_Sanad",cursorMaxSrialSand.getString(0)+1);
-                        cvChildSanad2.put("Serial_Sanad",cursorMaxSrialSand.getString(0)+1);
-                    } else {
-                        cvTayidList.put("KharidKalaParent_SerialSanad", "1");
-                        cvParentSanad.put("Serial_Sanad","1");
-                        cvChildSanad.put("Serial_Sanad","1");
-                        cvChildSanad2.put("Serial_Sanad","1");
+                        cvTayidList.put("KharidKalaParent_SerialSanad", (Integer.parseInt(cursorMaxSrialSand.getString(0))+1)+"");
+                        cvParentSanad.put("Serial_Sanad",(Integer.parseInt(cursorMaxSrialSand.getString(0))+1)+"");
+                        cvChildSanad.put("Serial_Sanad",(Integer.parseInt(cursorMaxSrialSand.getString(0))+1)+"");
+                        cvChildSanad2.put("Serial_Sanad",(Integer.parseInt(cursorMaxSrialSand.getString(0))+1)+"");
                     }
 
                     SimpleDateFormat format= new SimpleDateFormat("HH:mm", Locale.getDefault());
@@ -270,11 +306,9 @@ public class ProductsListSelectAdapter extends RecyclerView.Adapter<ProductsList
                     dbTayidList.insert("TblParent_KharidKala", null, cvTayidList);
                     Toast.makeText(mContext, "خرید با موفقیت ثبت شد.", Toast.LENGTH_SHORT).show();
 
-                    Cursor cursorMaxNumberSand = dbTayidList.query("tblParentSanad", new String[]{"MAX(Number_Sanad)"}, null, null, null, null, null);
+                    Cursor cursorMaxNumberSand = dbTayidList.query("tblParentSanad", new String[]{"IFNULL(MAX(Number_Sanad),0)"}, null, null, null, null, null);
                     if (cursorMaxNumberSand.moveToFirst()) {
-                        cvParentSanad.put("Number_Sanad", cursorMaxNumberSand.getString(0)+1);
-                    } else {
-                        cvParentSanad.put("Number_Sanad","1");
+                        cvParentSanad.put("Number_Sanad", (Integer.parseInt(cursorMaxNumberSand.getString(0))+1)+"");
                     }
                     cvParentSanad.put("StatusSanadID","3");
                     cvParentSanad.put("TypeSanad_ID","4");
@@ -287,21 +321,21 @@ public class ProductsListSelectAdapter extends RecyclerView.Adapter<ProductsList
 
                     dbTayidList.insert("tblParentSanad",null,cvParentSanad);
 
-                    cvChildSanad.put("Accounts_ID","150");
+                    cvChildSanad.put("AccountsID","150");
                     cvChildSanad.put("Moein_ID","15001");
                     cvChildSanad.put("Tafzili_ID",mTafziliID + "");
                     cvChildSanad.put("ID_Amaliyat",mFactorCode + "");
+                    cvChildSanad.put("Bedehkar","0");
+                    cvChildSanad.put("Bestankar",jameMablagh + "");
                     cvChildSanad.put("ID_TypeAmaliyat","11");
-                    cvChildSanad.put("Bedehkar",jameMablagh + "");
-                    cvChildSanad.put("Bestankar","0");
                     dbTayidList.insert("tblChildeSanad",null,cvChildSanad);
 
-                    cvChildSanad2.put("Accounts_ID","320");
+                    cvChildSanad2.put("AccountsID","320");
                     cvChildSanad2.put("Moein_ID","32001");
                     cvChildSanad2.put("ID_Amaliyat",mFactorCode + "");
                     cvChildSanad2.put("ID_TypeAmaliyat","11");
-                    cvChildSanad2.put("Bestankar",jameMablagh + "");
-                    cvChildSanad2.put("Bedehkar","0");
+                    cvChildSanad2.put("Bedehkar",jameMablagh + "");
+                    cvChildSanad2.put("Bestankar","0");
                     dbTayidList.insert("tblChildeSanad",null,cvChildSanad2);
 
                     for (int i = 0; i < mBasketProduct.size(); i++) {
@@ -313,6 +347,10 @@ public class ProductsListSelectAdapter extends RecyclerView.Adapter<ProductsList
                         dbTayidList.insert("TblChild_KharidKala", null, cvTayidLIstChild);
                     }
                 }
+
+                fab.setVisibility(View.VISIBLE);
+                llAddLayer.removeAllViews();
+                llAddLayer.setVisibility(View.GONE);
             }
         });
     }

@@ -253,12 +253,12 @@ public class AccountSideActivity extends MainActivity {
                             imm.showSoftInput(etMobile, InputMethodManager.SHOW_IMPLICIT);
                         } else {
                             SQLiteDatabase db = new MyDatabase(AccountSideActivity.this).getWritableDatabase();
-                            Cursor cursor = db.query("tblTafzili", new String[]{"MAX(Tafzili_ID)"}, null, null, null, null, null);
+                            Cursor cursor = db.query("tblTafzili", new String[]{"IFNULL(MAX(Tafzili_ID),1001000)"}, null, null, null, null, null);
                             cursor.moveToFirst();
                             ContentValues cv = new ContentValues();
                             cv.put("GroupTafzili_ID", 20);
                             cv.put("Tafzili_Name", etFullName.getText().toString().trim());
-                            cv.put("Tafzili_ID", cursor.getInt(0) + 1);
+                            cv.put("Tafzili_ID", cursor.getInt(0) + 1+"");
                             db.insert("tblTafzili", null, cv);
 
                             ContentValues cv2 = new ContentValues();
