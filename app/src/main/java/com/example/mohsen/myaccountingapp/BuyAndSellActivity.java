@@ -28,13 +28,13 @@ import java.util.List;
 public class BuyAndSellActivity extends MainActivity {
 
     RecyclerView buyAndSellRecyclerView,productListRecyclerView;
-    RecyclerView.LayoutManager recyclerManager,recyclerManagerProductList;
+    LinearLayoutManager  recyclerManager,recyclerManagerProductList;
     RecyclerView.Adapter recyclerAdapter,recyclerAdapterProductList;
 
     LayoutInflater inflaterInclude;
 
     TextView tvKharidSelect2nd,tvForoshSelect2nd,tvFactorCode2nd,tvAccountBedehi2nd
-            ,tvPhone2nd,tvMobile2nd,tvAddress2nd,tvKharidButton,tvForoshButton,tvHameButton;
+            ,tvPhone2nd,tvMobile2nd,tvAddress2nd,tvKharidButton,tvForoshButton,tvHameButton,tvType2nd,tvType3rd;
 
     LinearLayout llAccountDetails2nd,llTayid2nd;
     AutoCompleteTextView atvAccounts;
@@ -83,6 +83,8 @@ public class BuyAndSellActivity extends MainActivity {
         tvPhone2nd = (TextView)findViewById(R.id.textView_buy_and_sell_2nd_phone);
         tvMobile2nd = (TextView)findViewById(R.id.textView_buy_and_sell_2nd_mobile);
         tvAddress2nd = (TextView)findViewById(R.id.textView_buy_and_sell_2nd_address);
+        tvType2nd = (TextView)findViewById(R.id.textView_buy_and_sell_2nd_type);
+
         ivHelp2nd = (ImageView) findViewById(R.id.imageView_buy_and_sell_2nd_help);
         ivBack2nd = (ImageView) findViewById(R.id.imageView_buy_and_sell_2nd_back);
 
@@ -141,6 +143,8 @@ public class BuyAndSellActivity extends MainActivity {
                 tvMobile2nd.setText(cursorAccountDetails.getString(1));
                 tvAddress2nd.setText(cursorAccountDetails.getString(2));
 
+                accountTafziliIDs = null;
+
                 InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
             }
@@ -151,6 +155,7 @@ public class BuyAndSellActivity extends MainActivity {
         tvKharidSelect2nd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                tvType2nd.setText("خرید محصـــولات");
                 tvKharidSelect2nd.setBackground(getResources().getDrawable(R.drawable.shape_circle_dark));
                 tvForoshSelect2nd.setBackground(null);
                 mode = "Buy";
@@ -161,6 +166,7 @@ public class BuyAndSellActivity extends MainActivity {
         tvForoshSelect2nd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                tvType2nd.setText("فروش محصـــولات");
                 tvForoshSelect2nd.setBackground(getResources().getDrawable(R.drawable.shape_circle_dark));
                 tvKharidSelect2nd.setBackground(null);
                 mode = "Sell";
@@ -187,62 +193,87 @@ public class BuyAndSellActivity extends MainActivity {
         if(atvAccounts.getText().toString().trim().equals("")){
             Toast.makeText(BuyAndSellActivity.this, "لطفا طرف حساب را مشخص کنید.", Toast.LENGTH_SHORT).show();
         }else{
-//            fab.setVisibility(View.VISIBLE);
-            llAddLayer.removeAllViews();
-            llAddLayer.setVisibility(View.VISIBLE);
-            llAddLayer.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    return true;
-                }
-            });
-            inflaterInclude.inflate(R.layout.buy_and_sell_3rd_layout, llAddLayer);
+            SQLiteDatabase dbShowAccount = new MyDatabase(BuyAndSellActivity.this).getReadableDatabase();
+            Cursor cursorShowAccount = dbShowAccount.query("tblContacts",new String[]{"Tafzili_ID"},"FullName = ?",new String[]{atvAccounts.getText().toString().trim()+""},null,null,null);
 
-            llTayid3rd = (LinearLayout)findViewById(R.id.linearLayout_order_list_tayid_3rd);
-
-            List<String> productName = new ArrayList<String>();
-            List<String> productSellPrice = new ArrayList<String>();
-            List<String> productUnit = new ArrayList<String>();
-            List<Integer> productMojoodi = new ArrayList<Integer>();
-            List<Integer> productIDs = new ArrayList<Integer>();
-
-            SQLiteDatabase dbProductList = new MyDatabase(BuyAndSellActivity.this).getReadableDatabase();
-            Cursor cursorProductList = dbProductList.query("TblKala", new String[]{"Name_Kala", "GheymatForoshAsli", "Fk_VahedKalaAsli", "MojodiAvalDore", "ID_Kala"}, null, null, null, null, null);
-            if (cursorProductList.moveToFirst()) {
-                do {
-                    productName.add(cursorProductList.getString(0));
-                    productSellPrice.add(cursorProductList.getString(1));
-                    Cursor cursor3 = dbProductList.query("TblVahedKalaAsli", new String[]{"NameVahed"}, "ID_Vahed = ?", new String[]{cursorProductList.getString(2)}, null, null, null);
-                    cursor3.moveToFirst();
-                    productUnit.add(cursor3.getString(0));
-                    cursor3.close();
-                    productMojoodi.add(cursorProductList.getInt(3));
-                    productIDs.add(cursorProductList.getInt(4));
-                } while ((cursorProductList.moveToNext()));
+            if(cursorShowAccount.moveToFirst()){
+                accountTafziliIDs = new ArrayList<Integer>();
+                accountTafziliIDs.add(cursorShowAccount.getInt(0));
             }
-            cursorProductList.close();
-            dbProductList.close();
+            cursorShowAccount.close();
 
-            TextView tvJameRadif = (TextView)findViewById(R.id.textView_order_list_jame_radif_4th);
-            TextView tvJameMeghdar = (TextView)findViewById(R.id.textView_order_list_jame_meghdar_4th);
-            TextView tvJameMablagh = (TextView)findViewById(R.id.textView_order_list_jame_mablagh_4th);
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
 
-            productListRecyclerView = (RecyclerView) findViewById(R.id.recyclerView_accountSide);
-            productListRecyclerView.setHasFixedSize(true);
-            productListRecyclerView.setNestedScrollingEnabled(false);
-            recyclerManagerProductList = new LinearLayoutManager(BuyAndSellActivity.this);
-            productListRecyclerView.setLayoutManager(recyclerManagerProductList);
-            recyclerAdapterProductList = new ProductsListSelectAdapter(BuyAndSellActivity.this, productName, productSellPrice, productUnit
-                    , productMojoodi, productIDs, llAddLayer, factorCode, accountTafziliIDs.get(0), mode,llTayid3rd,tvJameRadif,tvJameMeghdar,tvJameMablagh,fab);
-            productListRecyclerView.setAdapter(recyclerAdapterProductList);
 
-            ImageView tvBack3rd = (ImageView) findViewById(R.id.imageView_buy_and_sell_3rd_back);
-            tvBack3rd.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    open2ndLayout();
+
+            if(accountTafziliIDs == null){
+                Toast.makeText(this, "طرف حساب معتبر نیست.", Toast.LENGTH_SHORT).show();
+            }else {
+//            fab.setVisibility(View.VISIBLE);
+                llAddLayer.removeAllViews();
+                llAddLayer.setVisibility(View.VISIBLE);
+                llAddLayer.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        return true;
+                    }
+                });
+                inflaterInclude.inflate(R.layout.buy_and_sell_3rd_layout, llAddLayer);
+
+                llTayid3rd = (LinearLayout) findViewById(R.id.linearLayout_order_list_tayid_3rd);
+                tvType3rd = (TextView) findViewById(R.id.textView_buy_and_sell_type_3rd);
+
+                if (mode.trim().equals("Buy")) {
+                    tvType3rd.setText("خرید محصـــولات");
+                } else if (mode.trim().equals("Sell")) {
+                    tvType3rd.setText("فروش محصـــولات");
                 }
-            });
+
+                List<String> productName = new ArrayList<String>();
+                List<String> productSellPrice = new ArrayList<String>();
+                List<String> productUnit = new ArrayList<String>();
+                List<Integer> productMojoodi = new ArrayList<Integer>();
+                List<Integer> productIDs = new ArrayList<Integer>();
+
+                SQLiteDatabase dbProductList = new MyDatabase(BuyAndSellActivity.this).getReadableDatabase();
+                Cursor cursorProductList = dbProductList.query("TblKala", new String[]{"Name_Kala", "GheymatForoshAsli", "Fk_VahedKalaAsli", "MojodiAvalDore", "ID_Kala"}, null, null, null, null, null);
+                if (cursorProductList.moveToFirst()) {
+                    do {
+                        productName.add(cursorProductList.getString(0));
+                        productSellPrice.add(cursorProductList.getString(1));
+                        Cursor cursor3 = dbProductList.query("TblVahedKalaAsli", new String[]{"NameVahed"}, "ID_Vahed = ?", new String[]{cursorProductList.getString(2)}, null, null, null);
+                        cursor3.moveToFirst();
+                        productUnit.add(cursor3.getString(0));
+                        cursor3.close();
+                        productMojoodi.add(cursorProductList.getInt(3));
+                        productIDs.add(cursorProductList.getInt(4));
+                    } while ((cursorProductList.moveToNext()));
+                }
+                cursorProductList.close();
+                dbProductList.close();
+
+                TextView tvJameRadif = (TextView) findViewById(R.id.textView_order_list_jame_radif_4th);
+                TextView tvJameMeghdar = (TextView) findViewById(R.id.textView_order_list_jame_meghdar_4th);
+                TextView tvJameMablagh = (TextView) findViewById(R.id.textView_order_list_jame_mablagh_4th);
+
+                productListRecyclerView = (RecyclerView) findViewById(R.id.recyclerView_accountSide);
+                productListRecyclerView.setHasFixedSize(true);
+                productListRecyclerView.setNestedScrollingEnabled(false);
+                recyclerManagerProductList = new LinearLayoutManager(BuyAndSellActivity.this);
+                productListRecyclerView.setLayoutManager(recyclerManagerProductList);
+                recyclerAdapterProductList = new ProductsListSelectAdapter(BuyAndSellActivity.this, productName, productSellPrice, productUnit
+                        , productMojoodi, productIDs, llAddLayer, factorCode, accountTafziliIDs.get(0), mode, llTayid3rd, tvJameRadif, tvJameMeghdar, tvJameMablagh, fab);
+                productListRecyclerView.setAdapter(recyclerAdapterProductList);
+
+                ImageView tvBack3rd = (ImageView) findViewById(R.id.imageView_buy_and_sell_3rd_back);
+                tvBack3rd.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        open2ndLayout();
+                    }
+                });
+            }
         }
     }
 
@@ -272,6 +303,8 @@ public class BuyAndSellActivity extends MainActivity {
         buyAndSellRecyclerView.setHasFixedSize(true);
         buyAndSellRecyclerView.setNestedScrollingEnabled(false);
         recyclerManager = new LinearLayoutManager(this);
+        recyclerManager.setReverseLayout(true);
+        recyclerManager.setStackFromEnd(true);
         buyAndSellRecyclerView.setLayoutManager(recyclerManager);
 
         newLists();

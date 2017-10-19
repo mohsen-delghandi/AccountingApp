@@ -12,6 +12,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -44,11 +45,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Locale;
-
-import resideMenu.ResideMenu;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
+import static android.content.ContentValues.TAG;
 
 public class MainActivity extends BaseActivity {
 
@@ -65,7 +64,7 @@ public class MainActivity extends BaseActivity {
     NestedScrollView ns;
 
     RecyclerView mNavigationRecycler;
-    RecyclerView.LayoutManager mRecyclerManager;
+    LinearLayoutManager mRecyclerManager;
     RecyclerView.Adapter mRecyclerAdapter;
 
     FloatingActionButton fab;
@@ -402,3 +401,4 @@ public class MainActivity extends BaseActivity {
         }
     }
 }
+

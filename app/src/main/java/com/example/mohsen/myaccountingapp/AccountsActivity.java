@@ -14,6 +14,10 @@ import android.provider.ContactsContract;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -40,7 +44,7 @@ import static java.security.AccessController.getContext;
 public class AccountsActivity extends MainActivity {
 
     RecyclerView accountsRecyclerView;
-    RecyclerView.LayoutManager recyclerManager;
+    LinearLayoutManager recyclerManager;
     RecyclerView.Adapter recyclerAdapter;
 
     LayoutInflater inflaterInclude;
@@ -55,6 +59,9 @@ public class AccountsActivity extends MainActivity {
     List<String> accountBankName,accountShobeName,accountHesabNumbers,accountCardNumbers;
     List<Integer> accountHesabIDs;
 
+    String a;
+    int keyDel;
+
     @Override
     public void onBackPressed() {
         if(llAddLayer.getVisibility()==View.VISIBLE){
@@ -62,6 +69,39 @@ public class AccountsActivity extends MainActivity {
             fab.setVisibility(View.VISIBLE);
         }else {
             super.onBackPressed();
+        }
+    }
+
+    public static class FourDigitCardFormatWatcher implements TextWatcher {
+
+        // Change this to what you want... ' ', '-' etc..
+        private static final char space = '-';
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            // Remove spacing char
+            if (s.length() > 0 && (s.length() % 5) == 0) {
+                final char c = s.charAt(s.length() - 1);
+                if (space == c) {
+                    s.delete(s.length() - 1, s.length());
+                }
+            }
+            // Insert char where needed.
+            if (s.length() > 0 && (s.length() % 5) == 0) {
+                char c = s.charAt(s.length() - 1);
+                // Only if its a digit where there should be a space we insert a space
+                if (Character.isDigit(c) && TextUtils.split(s.toString(), String.valueOf(space)).length <= 3) {
+                    s.insert(s.length() - 1, String.valueOf(space));
+                }
+            }
         }
     }
 
@@ -97,6 +137,34 @@ public class AccountsActivity extends MainActivity {
                 etCardNumber = (EditText)findViewById(R.id.editText_add_account_banki_card_number);
                 etHesabNumber = (EditText)findViewById(R.id.editText_add_account_banki_hesab_number);
                 etTarazEftetahie = (EditText)findViewById(R.id.editText_add_account_banki_taraz_eftetahie);
+
+                etShobeName.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        etShobeName.selectAll();
+                    }
+                });
+                etCardNumber.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        etCardNumber.selectAll();
+                    }
+                });
+                etHesabNumber.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        etHesabNumber.selectAll();
+                    }
+                });
+                etTarazEftetahie.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        etTarazEftetahie.selectAll();
+                    }
+                });
+
+                etCardNumber.addTextChangedListener(new FourDigitCardFormatWatcher());
+                etTarazEftetahie.addTextChangedListener(new NumberTextWatcher(etTarazEftetahie));
 
                 ivClose = (ImageView)findViewById(R.id.imageView_add_account_banki_close);
                 ivHelp = (ImageView)findViewById(R.id.imageView_add_account_banki_help);
@@ -187,7 +255,7 @@ public class AccountsActivity extends MainActivity {
                             cvAddNewBankAccount.put("ShomareHesab", etHesabNumber.getText().toString().trim());
                             cvAddNewBankAccount.put("ShomareKart", etCardNumber.getText().toString().trim());
                             cvAddNewBankAccount.put("Shobe", etShobeName.getText().toString().trim());
-                            cvAddNewBankAccount.put("TarazEftetahiye", etTarazEftetahie.getText().toString().trim());
+                            cvAddNewBankAccount.put("TarazEftetahiye", etTarazEftetahie.getText().toString().replaceAll(",","").trim());
                             cvAddNewBankAccount.put("TypeTaraz", typeTaraz);
                             long id = dbAddBankAccount.insert("tblHesabBanki", null, cvAddNewBankAccount);
 
@@ -232,6 +300,8 @@ public class AccountsActivity extends MainActivity {
         accountsRecyclerView.setHasFixedSize(true);
         accountsRecyclerView.setNestedScrollingEnabled(false);
         recyclerManager = new LinearLayoutManager(this);
+        recyclerManager.setReverseLayout(true);
+        recyclerManager.setStackFromEnd(true);
         accountsRecyclerView.setLayoutManager(recyclerManager);
         readAccountsFromDatabase();
         recyclerAdapter = new BankAccountsAdapter(accountBankName,accountShobeName,accountHesabNumbers,accountCardNumbers,accountHesabIDs,llAddLayer,fab);

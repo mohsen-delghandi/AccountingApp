@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -140,19 +141,36 @@ public class BankAccountsAdapter extends RecyclerView.Adapter<BankAccountsAdapte
         holder.tvDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SQLiteDatabase dbDelete = new MyDatabase(mContext).getWritableDatabase();
-                dbDelete.execSQL("DELETE FROM tblHesabBanki WHERE HesabBanki_ID = " + accountHesabIDs.get(position));
-                dbDelete.close();
 
-                accountBankName.remove(position);
-                accountHesabIDs.remove(position);
-                accountCardNumbers.remove(position);
-                accountShobeName.remove(position);
-                accountHesabNumbers.remove(position);
+                final CustomDialogClass cdd = new CustomDialogClass(mContext);
+                cdd.show();
+                Window window = cdd.getWindow();
+                window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                cdd.yes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
 
-                notifyItemRemoved(position);
-                notifyItemRangeChanged(position,accountHesabIDs.size());
-                notifyDataSetChanged();
+                        SQLiteDatabase dbDelete = new MyDatabase(mContext).getWritableDatabase();
+                        dbDelete.execSQL("DELETE FROM tblHesabBanki WHERE HesabBanki_ID = " + accountHesabIDs.get(position));
+                        dbDelete.close();
+
+                        accountBankName.remove(position);
+                        accountHesabIDs.remove(position);
+                        accountCardNumbers.remove(position);
+                        accountShobeName.remove(position);
+                        accountHesabNumbers.remove(position);
+
+                        notifyItemRemoved(position);
+                        notifyItemRangeChanged(position,accountHesabIDs.size());
+                        notifyDataSetChanged();
+                    }
+                });
+                cdd.no.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        cdd.dismiss();
+                    }
+                });
             }
         });
 //        holder.tvEdit.setOnClickListener(new View.OnClickListener() {

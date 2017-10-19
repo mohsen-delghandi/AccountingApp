@@ -148,16 +148,43 @@ public class ProductsListSelectAdapter extends RecyclerView.Adapter<ProductsList
         holder.ivUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (Integer.parseInt(holder.tvMeghdar.getText().toString().trim()) < mProductMojoodi.get(position)) {
+                if(mMode.trim().equals("Sell")) {
+                    if (Integer.parseInt(holder.tvMeghdar.getText().toString().trim()) < mProductMojoodi.get(position)) {
+                        holder.tvMeghdar.setText((Integer.parseInt(holder.tvMeghdar.getText().toString().trim()) + 1) + "");
+                        selectItem(holder, position);
+                        if (Integer.parseInt(holder.tvMeghdar.getText().toString().trim()) == 1) {
+                            mBasketProductMablagh.add(Long.parseLong(mProductSellPrice.get(position)));
+                            mBasketProduct.add(mProductIDs.get(position));
+                            mBasketProductMeghdar.add(Integer.parseInt(holder.tvMeghdar.getText().toString().trim()));
+                            mbasketPosition.add(position);
+                        } else {
+                            mBasketProductMeghdar.set(mbasketPosition.indexOf(position), Integer.parseInt(holder.tvMeghdar.getText().toString().trim()));
+                        }
+
+                        mTvJameRadif.setText(mBasketProduct.size() + "");
+                        jameMeghdar = 0;
+                        for (int i = 0; i < mBasketProductMeghdar.size(); i++) {
+                            jameMeghdar += mBasketProductMeghdar.get(i);
+                        }
+                        mTvJameMeghdar.setText(jameMeghdar + "");
+                        jameMablagh = 0;
+                        for (int i = 0; i < mBasketProductMablagh.size(); i++) {
+                            jameMablagh += mBasketProductMablagh.get(i) * mBasketProductMeghdar.get(i);
+                        }
+                        mTvJameMablagh.setText(jameMablagh + "");
+                    } else {
+                        Toast.makeText(mContext, "حداکثر موجودی انتخاب شده است.", Toast.LENGTH_SHORT).show();
+                    }
+                }else if(mMode.trim().equals("Buy")) {
                     holder.tvMeghdar.setText((Integer.parseInt(holder.tvMeghdar.getText().toString().trim()) + 1) + "");
-                    selectItem(holder,position);
-                    if(Integer.parseInt(holder.tvMeghdar.getText().toString().trim()) == 1){
+                    selectItem(holder, position);
+                    if (Integer.parseInt(holder.tvMeghdar.getText().toString().trim()) == 1) {
                         mBasketProductMablagh.add(Long.parseLong(mProductSellPrice.get(position)));
                         mBasketProduct.add(mProductIDs.get(position));
                         mBasketProductMeghdar.add(Integer.parseInt(holder.tvMeghdar.getText().toString().trim()));
                         mbasketPosition.add(position);
-                    }else{
-                        mBasketProductMeghdar.set(mbasketPosition.indexOf(position),Integer.parseInt(holder.tvMeghdar.getText().toString().trim()));
+                    } else {
+                        mBasketProductMeghdar.set(mbasketPosition.indexOf(position), Integer.parseInt(holder.tvMeghdar.getText().toString().trim()));
                     }
 
                     mTvJameRadif.setText(mBasketProduct.size() + "");
@@ -171,8 +198,6 @@ public class ProductsListSelectAdapter extends RecyclerView.Adapter<ProductsList
                         jameMablagh += mBasketProductMablagh.get(i) * mBasketProductMeghdar.get(i);
                     }
                     mTvJameMablagh.setText(jameMablagh + "");
-                } else {
-                    Toast.makeText(mContext, "حداکثر موجودی انتخاب شده است.", Toast.LENGTH_SHORT).show();
                 }
             }
         });

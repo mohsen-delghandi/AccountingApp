@@ -94,6 +94,7 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/textView_buy_and_sell_2nd_type"
                 android:gravity="left"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -183,6 +184,7 @@
             android:layout_height="wrap_content"
             android:completionThreshold="1"
             android:hint="طرف حساب"
+            android:maxLines="1"
             android:textColorHint="@color/new_text"
             android:textColor="@color/new_text"
             android:background="@android:color/transparent"

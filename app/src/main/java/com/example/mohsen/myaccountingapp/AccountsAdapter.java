@@ -12,10 +12,13 @@ import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -26,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Created by Mohsen on 2017-06-29.
@@ -42,6 +46,10 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
     LayoutInflater mInflaterInclude;
     LinearLayout mLlAddLayer;
     FloatingActionButton mFab;
+
+    String mobile_regex = "09\\d\\d\\d\\d\\d\\d\\d\\d\\d";
+    String tel_regex = "^0[0-9]{2,}[0-9]{7,}$";
+    String national_id_regex = "^[0-9]{10}$";
 
 
     public AccountsAdapter(Context context, List<String> accountFullName, List<String> accountPhone, List<String> accountMobile, List<String> accountAddress, List<Integer> accountIDs, List<String> accountPishvands, LinearLayout llAddLayer, FloatingActionButton fab) {
@@ -200,19 +208,37 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
         holder.tvDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SQLiteDatabase dbb = new MyDatabase(mContext).getWritableDatabase();
-                dbb.execSQL("DELETE FROM tblContacts WHERE Contacts_ID = " + mAccountIDs.get(position));
-                dbb.close();
 
-                mAccountIDs.remove(position);
-                mAccountFullName.remove(position);
-                mAccountPhones.remove(position);
-                mAccountMobiles.remove(position);
-                mAccountAddresses.remove(position);
+                final CustomDialogClass cdd = new CustomDialogClass(mContext);
+                cdd.show();
+                Window window = cdd.getWindow();
+                window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                cdd.yes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        SQLiteDatabase dbb = new MyDatabase(mContext).getWritableDatabase();
+                        dbb.execSQL("DELETE FROM tblContacts WHERE Contacts_ID = " + mAccountIDs.get(position));
+                        dbb.close();
 
-                notifyItemRemoved(position);
-                notifyItemRangeChanged(position,mAccountFullName.size());
-                notifyDataSetChanged();
+                        mAccountIDs.remove(position);
+                        mAccountFullName.remove(position);
+                        mAccountPhones.remove(position);
+                        mAccountMobiles.remove(position);
+                        mAccountAddresses.remove(position);
+
+                        notifyItemRemoved(position);
+                        notifyItemRangeChanged(position,mAccountFullName.size());
+                        notifyDataSetChanged();
+
+                        cdd.dismiss();
+                    }
+                });
+                cdd.no.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        cdd.dismiss();
+                    }
+                });
             }
         });
 
@@ -235,15 +261,104 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
                 v.findViewById(R.id.textView_add_account_clean).setVisibility(View.INVISIBLE);
                 ((TextView)v.findViewById(R.id.textView_add_account_save)).setText("بروزرسانی");
 
+                final EditText et_nationalId = (EditText)v.findViewById(R.id.editText_add_account_codeMelli);
+                final EditText et_mobileNumber = (EditText)v.findViewById(R.id.editText_add_account_mobile);
+                final EditText et_telNumber = (EditText)v.findViewById(R.id.editText_add_account_phone);
+                final EditText et_fullName = (EditText)v.findViewById(R.id.editText_add_account_fullName);
+                final EditText et_address = (EditText)v.findViewById(R.id.editText_add_account_address);
+
+                et_fullName.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        et_fullName.selectAll();
+                    }
+                });
+
+                et_address.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        et_fullName.selectAll();
+                    }
+                });
+
+                et_mobileNumber.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        if(et_mobileNumber.getText().toString().trim().length() == 11 ){
+                            if (!Pattern.matches(mobile_regex,et_mobileNumber.getText().toString().trim())){
+                                Toast.makeText(mContext, "شماره تلفن صحیح نیست.\nشکل صحیح 09xxxxxxxxx", Toast.LENGTH_LONG).show();
+                                et_mobileNumber.selectAll();
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
+
+                et_telNumber.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        if(et_telNumber.getText().toString().trim().length() == 11 ) {
+                            if (!Pattern.matches(tel_regex, et_telNumber.getText().toString().trim())) {
+                                Toast.makeText(mContext, "شماره تلفن صحیح نیست.\nشکل صحیح کد شهر-xxxxxxxx", Toast.LENGTH_LONG).show();
+                                et_telNumber.selectAll();
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
+
+                et_nationalId.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        if(et_nationalId.getText().toString().trim().length() == 10 ) {
+                            if (!Pattern.matches(national_id_regex, et_nationalId.getText().toString().trim())) {
+                                Toast.makeText(mContext, "کد ملی صحیح نیست.", Toast.LENGTH_LONG).show();
+                                et_nationalId.selectAll();
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
+
+
                 SQLiteDatabase db11 = new MyDatabase(mContext).getWritableDatabase();
                 Cursor c11 = db11.query("tblContacts",new String[]{"FullName","Code_Melli","Phone","Mobile","AdressContacts","GroupContact","Pishvand_ID"},"Contacts_ID = ?",
                         new String[]{mAccountIDs.get(position)+""},null,null,null);
                 c11.moveToFirst();
-                ((EditText)v.findViewById(R.id.editText_add_account_fullName)).setText(c11.getString(0));
-                ((EditText)v.findViewById(R.id.editText_add_account_codeMelli)).setText(c11.getString(1));
-                ((EditText)v.findViewById(R.id.editText_add_account_phone)).setText(c11.getString(2));
-                ((EditText)v.findViewById(R.id.editText_add_account_mobile)).setText(c11.getString(3));
-                ((EditText)v.findViewById(R.id.editText_add_account_address)).setText(c11.getString(4));
+                (et_fullName).setText(c11.getString(0));
+                (et_nationalId).setText(c11.getString(1));
+                (et_telNumber).setText(c11.getString(2));
+                (et_mobileNumber).setText(c11.getString(3));
+                (et_address).setText(c11.getString(4));
 
                 SQLiteDatabase db2 = new MyDatabase(mContext).getReadableDatabase();
                 Cursor c = db2.query("tblGroupContact",new String[]{"GroupContactName","GroupContact"},null,null,null,null,null,null);
@@ -337,11 +452,11 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
                 ((TextView)v.findViewById(R.id.textView_add_account_mobile)).setVisibility(View.VISIBLE);
                 ((TextView)v.findViewById(R.id.textView_add_account_address)).setVisibility(View.VISIBLE);
 
-                ((EditText)v.findViewById(R.id.editText_add_account_fullName)).setHint("");
-                ((EditText)v.findViewById(R.id.editText_add_account_codeMelli)).setHint("");
-                ((EditText)v.findViewById(R.id.editText_add_account_phone)).setHint("");
-                ((EditText)v.findViewById(R.id.editText_add_account_mobile)).setHint("");
-                ((EditText)v.findViewById(R.id.editText_add_account_address)).setHint("");
+                (et_fullName).setHint("");
+                (et_nationalId).setHint("");
+                (et_telNumber).setHint("");
+                (et_mobileNumber).setHint("");
+                (et_address).setHint("");
 
                 ((TextView)v.findViewById(R.id.textView_add_account_close)).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -356,19 +471,19 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
                     public void onClick(View view) {
                         SQLiteDatabase db = new MyDatabase(mContext).getWritableDatabase();
                         ContentValues cv2 = new ContentValues();
-                        cv2.put("FullName",((EditText)v.findViewById(R.id.editText_add_account_fullName)).getText().toString().trim());
-                        cv2.put("Phone",((EditText)v.findViewById(R.id.editText_add_account_phone)).getText().toString().trim());
-                        cv2.put("Mobile",((EditText)v.findViewById(R.id.editText_add_account_mobile)).getText().toString().trim());
-                        cv2.put("AdressContacts",((EditText)v.findViewById(R.id.editText_add_account_address)).getText().toString().trim());
-                        cv2.put("Code_Melli",((EditText)v.findViewById(R.id.editText_add_account_codeMelli)).getText().toString().trim());
+                        cv2.put("FullName",(et_fullName).getText().toString().trim());
+                        cv2.put("Phone",(et_telNumber).getText().toString().trim());
+                        cv2.put("Mobile",(et_mobileNumber).getText().toString().trim());
+                        cv2.put("AdressContacts",(et_address).getText().toString().trim());
+                        cv2.put("Code_Melli",(et_nationalId).getText().toString().trim());
                         cv2.put("GroupContact",groupContactID[0]);
                         cv2.put("Pishvand_ID",pishvandID[0]);
                         db.update("tblContacts",cv2,"Contacts_ID = ?",new String[]{mAccountIDs.get(position)+""});
 
-                        mAccountFullName.set(position,((EditText)v.findViewById(R.id.editText_add_account_fullName)).getText().toString().trim());
-                        mAccountPhones.set(position,((EditText)v.findViewById(R.id.editText_add_account_phone)).getText().toString().trim());
-                        mAccountMobiles.set(position,((EditText)v.findViewById(R.id.editText_add_account_mobile)).getText().toString().trim());
-                        mAccountAddresses.set(position,((EditText)v.findViewById(R.id.editText_add_account_address)).getText().toString().trim());
+                        mAccountFullName.set(position,(et_fullName).getText().toString().trim());
+                        mAccountPhones.set(position,(et_telNumber).getText().toString().trim());
+                        mAccountMobiles.set(position,(et_mobileNumber).getText().toString().trim());
+                        mAccountAddresses.set(position,(et_address).getText().toString().trim());
                         Cursor c55 = db.query("tblPishvand",new String[]{"Pishvand"},"Pishvand_ID = ?",new String[]{pishvandID[0]+""},null,null,null,null);
                         c55.moveToFirst();
                         mAccountPishvands.set(position,c55.getString(0));

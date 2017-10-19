@@ -14,6 +14,8 @@ import android.provider.ContactsContract;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -31,6 +33,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import static java.security.AccessController.getContext;
 
@@ -41,7 +44,7 @@ import static java.security.AccessController.getContext;
 public class AccountSideActivity extends MainActivity {
 
     RecyclerView accountRecyclerView;
-    RecyclerView.LayoutManager recyclerManager;
+    LinearLayoutManager recyclerManager;
     RecyclerView.Adapter recyclerAdapter;
 
     LayoutInflater inflaterInclude;
@@ -54,6 +57,9 @@ public class AccountSideActivity extends MainActivity {
     List<String> accountFullName,accountPhone,accountMobile,accountAddress,accountPishvands;
     List<Integer> accountIDs;
 
+    String mobile_regex = "09\\d\\d\\d\\d\\d\\d\\d\\d\\d";
+    String tel_regex = "^0[0-9]{2,}[0-9]{7,}$";
+    String national_id_regex = "^[0-9]{10}$";
 
     // Declare
     final int PICK_CONTACT=1;
@@ -162,6 +168,74 @@ public class AccountSideActivity extends MainActivity {
                 etMobile = (EditText)findViewById(R.id.editText_add_account_mobile);
                 etAddress = (EditText)findViewById(R.id.editText_add_account_address);
                 etCodeMelli = (EditText)findViewById(R.id.editText_add_account_codeMelli);
+
+                etMobile.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        if(etMobile.getText().toString().trim().length() == 11 ){
+                            if (!Pattern.matches(mobile_regex,etMobile.getText().toString().trim())){
+                                Toast.makeText(AccountSideActivity.this, "شماره تلفن صحیح نیست.\nشکل صحیح 09xxxxxxxxx", Toast.LENGTH_LONG).show();
+                                etMobile.selectAll();
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
+
+                etPhone.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        if(etPhone.getText().toString().trim().length() == 11 ) {
+                            if (!Pattern.matches(tel_regex, etPhone.getText().toString().trim())) {
+                                Toast.makeText(AccountSideActivity.this, "شماره تلفن صحیح نیست.\nشکل صحیح کد شهر-xxxxxxxx", Toast.LENGTH_LONG).show();
+                                etPhone.selectAll();
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
+
+                etCodeMelli.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        if(etCodeMelli.getText().toString().trim().length() == 10 ) {
+                            if (!Pattern.matches(national_id_regex, etCodeMelli.getText().toString().trim())) {
+                                Toast.makeText(AccountSideActivity.this, "کد ملی صحیح نیست.", Toast.LENGTH_LONG).show();
+                                etCodeMelli.selectAll();
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
 
 //                ivContactListPlus = (ImageView)findViewById(R.id.image_add_account_contact_list_plus);
 
@@ -334,6 +408,8 @@ public class AccountSideActivity extends MainActivity {
         accountRecyclerView.setHasFixedSize(true);
         accountRecyclerView.setNestedScrollingEnabled(false);
         recyclerManager = new LinearLayoutManager(this);
+        recyclerManager.setReverseLayout(true);
+        recyclerManager.setStackFromEnd(true);
         accountRecyclerView.setLayoutManager(recyclerManager);
         readAccountsFromDatabase();
         recyclerAdapter = new AccountsAdapter(this,accountFullName,accountPhone,accountMobile,accountAddress,accountIDs,accountPishvands,llAddLayer,fab);

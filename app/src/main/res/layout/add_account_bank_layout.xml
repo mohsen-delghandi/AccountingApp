@@ -106,7 +106,8 @@
             style="@style/etStyle"
             android:id="@+id/editText_add_account_banki_card_number"
             android:hint="شماره کارت"
-            android:inputType="number"
+            android:inputType="phone"
+            android:maxLength="19"
             android:nextFocusForward="@+id/editText_add_product_sell_price" />
     </LinearLayout>
 

@@ -115,6 +115,7 @@
             android:id="@+id/editText_add_account_codeMelli"
             android:hint="کد ملی"
             android:nextFocusForward="@+id/editText_add_account_phone"
+            android:maxLength="10"
             android:inputType="phone"
             />
     </LinearLayout>
@@ -141,7 +142,7 @@
             android:hint="تلفن"
             android:nextFocusForward="@+id/editText_add_account_mobile"
             android:inputType="phone"
-            />
+            android:maxLength="11"            />
     </LinearLayout>
     <LinearLayout
         android:layout_marginTop="@dimen/padding_large"
@@ -165,6 +166,7 @@
             android:hint="همراه"
             android:nextFocusForward="@+id/editText_add_account_address"
             android:inputType="phone"
+            android:maxLength="11"
             />
     </LinearLayout>
 

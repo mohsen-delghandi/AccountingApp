@@ -28,7 +28,7 @@ import java.util.List;
 public class ProductsActivity extends MainActivity {
 
     static RecyclerView productRecyclerView;
-    RecyclerView.LayoutManager recyclerManager;
+    LinearLayoutManager recyclerManager;
     static RecyclerView.Adapter recyclerAdapter;
 
     LayoutInflater inflaterInclude;
@@ -86,6 +86,42 @@ public class ProductsActivity extends MainActivity {
                 etMojoodi = (EditText)findViewById(R.id.editText_add_product_mojoodi);
                 etAveragePrice = (EditText)findViewById(R.id.editText_add_product_average_price);
 
+                etName.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        etName.selectAll();
+                    }
+                });
+                etBuyPrice.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        etBuyPrice.selectAll();
+                    }
+                });
+                etSellPrice.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        etSellPrice.selectAll();
+                    }
+                });
+                etMojoodi.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        etMojoodi.selectAll();
+                    }
+                });
+                etAveragePrice.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        etAveragePrice.selectAll();
+                    }
+                });
+
+                etSellPrice.addTextChangedListener(new NumberTextWatcher(etSellPrice));
+                etBuyPrice.addTextChangedListener(new NumberTextWatcher(etBuyPrice));
+                etAveragePrice.addTextChangedListener(new NumberTextWatcher(etAveragePrice));
+
+
                 spUnitList = (Spinner)findViewById(R.id.spinner_add_product_units_list);
 
                 SQLiteDatabase db2 = new MyDatabase(ProductsActivity.this).getReadableDatabase();
@@ -131,15 +167,15 @@ public class ProductsActivity extends MainActivity {
                         ContentValues cv = new ContentValues();
                         cv.put("Name_Kala",etName.getText().toString().trim());
                         cv.put("Fk_VahedKalaAsli",unitID[0]);
-                        cv.put("GheymatKharidAsli",etBuyPrice.getText().toString().trim());
-                        cv.put("GheymatForoshAsli",etSellPrice.getText().toString().trim());
+                        cv.put("GheymatKharidAsli",etBuyPrice.getText().toString().replaceAll(",","").trim());
+                        cv.put("GheymatForoshAsli",etSellPrice.getText().toString().replaceAll(",","").trim());
                         cv.put("MojodiAvalDore",etMojoodi.getText().toString().trim());
-                        cv.put("MianginFiAvalDovre",etAveragePrice.getText().toString().trim());
+                        cv.put("MianginFiAvalDovre",etAveragePrice.getText().toString().replaceAll(",","").trim());
                         long id = db.insert("TblKala",null,cv);
 
                         productName.add(etName.getText().toString().trim());
-                        productBuyPrice.add(etBuyPrice.getText().toString().trim());
-                        productSellPrice.add(etSellPrice.getText().toString().trim());
+                        productBuyPrice.add(etBuyPrice.getText().toString().replaceAll(",","").trim());
+                        productSellPrice.add(etSellPrice.getText().toString().replaceAll(",","").trim());
                         Cursor c22 = db.query("TblVahedKalaAsli",new String[]{"NameVahed"},"ID_Vahed = ?",new String[]{unitID[0]+""},null,null,null);
                         c22.moveToFirst();
                         productUnit.add(c22.getString(0));
@@ -178,6 +214,8 @@ public class ProductsActivity extends MainActivity {
         productRecyclerView.setHasFixedSize(true);
         productRecyclerView.setNestedScrollingEnabled(false);
         recyclerManager = new LinearLayoutManager(this);
+        recyclerManager.setReverseLayout(true);
+        recyclerManager.setStackFromEnd(true);
         productRecyclerView.setLayoutManager(recyclerManager);
         readProductsFromDatabase();
         recyclerAdapter = new ProductsAdapter(this,productName,productBuyPrice,productSellPrice,productUnit,productMojoodi,productIDs,llAddLayer,fab);

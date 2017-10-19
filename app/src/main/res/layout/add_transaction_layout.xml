@@ -170,7 +170,6 @@
             android:text="ریال"
             android:gravity="left"
             android:nextFocusForward="@+id/editText_add_account_phone"
-            android:inputType="phone"
             />
     </LinearLayout>
 
@@ -199,6 +198,7 @@
             android:layout_weight="3"
             android:id="@+id/autoTextView_add_transaction_account"
             android:completionThreshold="1"
+            android:maxLines="1"
             android:nextFocusForward="@+id/textView_add_account_address"
             android:hint="نام طرف حساب"/>
     </LinearLayout>

@@ -10,7 +10,6 @@ android {
         versionCode 1
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -21,10 +20,6 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:design:26.+'
@@ -34,4 +29,11 @@ dependencies {
     compile 'com.readystatesoftware.sqliteasset:sqliteassethelper:+'
     compile 'com.alirezaafkar:sundatepicker:2.0.8'
     compile 'com.specyci:residemenu:1.6'
+    compile 'com.pegah.backtory:backtory-android-sdk:0.5.3'
+}
+
+repositories {
+    maven {
+        url 'https://dl.bintray.com/pegah-backtory/maven/'
+    }
 }

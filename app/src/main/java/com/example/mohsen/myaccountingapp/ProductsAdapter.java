@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -137,19 +138,35 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
         holder.tvDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SQLiteDatabase dbb = new MyDatabase(mContext).getWritableDatabase();
-                dbb.execSQL("DELETE FROM TblKala WHERE ID_Kala = " + mProductIDs.get(position));
-                dbb.close();
 
-                mProductIDs.remove(position);
-                mProductName.remove(position);
-                mProductBuyPrice.remove(position);
-                mProductSellPrice.remove(position);
-                mProductUnit.remove(position);
-                mProductMojoodi.remove(position);
-                notifyItemRemoved(position);
-                notifyItemRangeChanged(position, mProductName.size());
-                notifyDataSetChanged();
+                final CustomDialogClass cdd = new CustomDialogClass(mContext);
+                cdd.show();
+                Window window = cdd.getWindow();
+                window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                cdd.yes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        SQLiteDatabase dbb = new MyDatabase(mContext).getWritableDatabase();
+                        dbb.execSQL("DELETE FROM TblKala WHERE ID_Kala = " + mProductIDs.get(position));
+                        dbb.close();
+
+                        mProductIDs.remove(position);
+                        mProductName.remove(position);
+                        mProductBuyPrice.remove(position);
+                        mProductSellPrice.remove(position);
+                        mProductUnit.remove(position);
+                        mProductMojoodi.remove(position);
+                        notifyItemRemoved(position);
+                        notifyItemRangeChanged(position, mProductName.size());
+                        notifyDataSetChanged();
+                    }
+                });
+                cdd.no.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        cdd.dismiss();
+                    }
+                });
             }
         });
 
@@ -170,16 +187,19 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
                 final View v = mInflaterInclude.inflate(R.layout.add_product_layout,mLlAddLayer);
                 v.findViewById(R.id.textView_add_product_clean).setVisibility(View.INVISIBLE);
                 ((TextView)v.findViewById(R.id.textView_add_product_save)).setText("بروزرسانی");
+                ((EditText)v.findViewById(R.id.editText_add_product_buy_price)).addTextChangedListener(new NumberTextWatcher(((EditText)v.findViewById(R.id.editText_add_product_buy_price))));
+                ((EditText)v.findViewById(R.id.editText_add_product_sell_price)).addTextChangedListener(new NumberTextWatcher(((EditText)v.findViewById(R.id.editText_add_product_sell_price))));
+                ((EditText)v.findViewById(R.id.editText_add_product_average_price)).addTextChangedListener(new NumberTextWatcher(((EditText)v.findViewById(R.id.editText_add_product_average_price))));
 
                 SQLiteDatabase db11 = new MyDatabase(mContext).getWritableDatabase();
                 Cursor c11 = db11.query("TblKala",new String[]{"Name_Kala","Fk_VahedKalaAsli","GheymatKharidAsli","GheymatForoshAsli","MojodiAvalDore","MianginFiAvalDovre"},"ID_Kala = ?",
                         new String[]{mProductIDs.get(position)+""},null,null,null);
                 c11.moveToFirst();
                 ((EditText)v.findViewById(R.id.editText_add_product_name)).setText(c11.getString(0));
-                ((EditText)v.findViewById(R.id.editText_add_product_buy_price)).setText(c11.getString(2));
-                ((EditText)v.findViewById(R.id.editText_add_product_sell_price)).setText(c11.getString(3));
+                ((EditText)v.findViewById(R.id.editText_add_product_buy_price)).setText(MainActivity.priceFormatter(c11.getString(2)));
+                ((EditText)v.findViewById(R.id.editText_add_product_sell_price)).setText(MainActivity.priceFormatter(c11.getString(3)));
                 ((EditText)v.findViewById(R.id.editText_add_product_mojoodi)).setText(c11.getString(4));
-                ((EditText)v.findViewById(R.id.editText_add_product_average_price)).setText(c11.getString(5));
+                ((EditText)v.findViewById(R.id.editText_add_product_average_price)).setText(MainActivity.priceFormatter(c11.getString(5)));
 
                 SQLiteDatabase db2 = new MyDatabase(mContext).getReadableDatabase();
                 Cursor c = db2.query("TblVahedKalaAsli",new String[]{"NameVahed","ID_Vahed"},null,null,null,null,null,null);
@@ -248,10 +268,10 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
                         SQLiteDatabase db = new MyDatabase(mContext).getWritableDatabase();
                         ContentValues cv2 = new ContentValues();
                         cv2.put("Name_Kala",((EditText)v.findViewById(R.id.editText_add_product_name)).getText().toString().trim());
-                        cv2.put("GheymatKharidAsli",((EditText)v.findViewById(R.id.editText_add_product_buy_price)).getText().toString().trim());
-                        cv2.put("GheymatForoshAsli",((EditText)v.findViewById(R.id.editText_add_product_sell_price)).getText().toString().trim());
+                        cv2.put("GheymatKharidAsli",((EditText)v.findViewById(R.id.editText_add_product_buy_price)).getText().toString().replaceAll(",","").trim());
+                        cv2.put("GheymatForoshAsli",((EditText)v.findViewById(R.id.editText_add_product_sell_price)).getText().toString().replaceAll(",","").trim());
                         cv2.put("MojodiAvalDore",((EditText)v.findViewById(R.id.editText_add_product_mojoodi)).getText().toString().trim());
-                        cv2.put("MianginFiAvalDovre",((EditText)v.findViewById(R.id.editText_add_product_average_price)).getText().toString().trim());
+                        cv2.put("MianginFiAvalDovre",((EditText)v.findViewById(R.id.editText_add_product_average_price)).getText().toString().replaceAll(",","").trim());
                         cv2.put("Fk_VahedKalaAsli",groupVahedID[0]);
                         db.update("TblKala",cv2,"ID_Kala = ?",new String[]{mProductIDs.get(position)+""});
 

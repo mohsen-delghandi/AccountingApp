@@ -186,21 +186,6 @@ public class BillActivity extends MainActivity {
 
         ArrayAdapter<String> adapterAccounts = new ArrayAdapter<String>(BillActivity.this,android.R.layout.simple_list_item_1,listAccounts);
         atvAccounts.setAdapter(adapterAccounts);
-        atvAccounts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                SQLiteDatabase dbShowAccount = new MyDatabase(BillActivity.this).getReadableDatabase();
-                Cursor cursorShowAccount = dbShowAccount.query("tblContacts",new String[]{"Tafzili_ID"},"FullName = ?",new String[]{atvAccounts.getText().toString().trim()+""},null,null,null);
-                accountTafziliIDs = new ArrayList<Integer>();
-                if(cursorShowAccount.moveToFirst()){
-                    accountTafziliIDs.add(cursorShowAccount.getInt(0));
-                }
-                cursorShowAccount.close();
-
-                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-            }
-        });
 
         llTayidFilter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -208,73 +193,89 @@ public class BillActivity extends MainActivity {
                 if(atvAccounts.getText().toString().trim().equals("")){
                     Toast.makeText(BillActivity.this, "لطفا طرف حساب را مشخص کنید.", Toast.LENGTH_SHORT).show();
                 }else {
-                    SQLiteDatabase dbBillList = new MyDatabase(BillActivity.this).getReadableDatabase();
-                    Cursor cursorBilList = dbBillList.rawQuery("SELECT " +
-                            "TblActionTypeSanad.OnvanAction, " +
-                            "tblChildeSanad.Bedehkar, " +
-                            "tblChildeSanad.Bestankar, " +
-                            "tblChildeSanad.Sharh_Child_Sanad, " +
-                            "tblParentSanad.Date_Sanad, " +
-                            "tblChildeSanad.ID_Child_Sanad " +
-                            "FROM tblChildeSanad " +
-                            "INNER JOIN tblParentSanad ON tblChildeSanad.Serial_Sanad = tblParentSanad.Serial_Sanad " +
-                            "INNER JOIN TblActionTypeSanad ON tblChildeSanad.ID_TypeAmaliyat = TblActionTypeSanad.ID_Action " +
-                            "WHERE tblParentSanad.Date_Sanad BETWEEN '" + dateStart + "' AND '" + dateEnd + "' " +
-                            "AND tblChildeSanad.Tafzili_ID = '" + accountTafziliIDs.get(0) + "';", null);
+                    SQLiteDatabase dbShowAccount = new MyDatabase(BillActivity.this).getReadableDatabase();
+                    Cursor cursorShowAccount = dbShowAccount.query("tblContacts",new String[]{"Tafzili_ID"},"FullName = ?",new String[]{atvAccounts.getText().toString().trim()+""},null,null,null);
 
-                    if (cursorBilList.moveToFirst()) {
-                        billExps = new ArrayList<String>();
-                        billMablaghs = new ArrayList<String>();
-                        billTypes = new ArrayList<String>();
-                        billVaziatMablaghs = new ArrayList<String>();
-                        billDates = new ArrayList<String>();
+                    if(cursorShowAccount.moveToFirst()){
+                        accountTafziliIDs = new ArrayList<Integer>();
+                        accountTafziliIDs.add(cursorShowAccount.getInt(0));
+                    }
+                    cursorShowAccount.close();
 
-                        do {
-                            Cursor cursorVaziatHesab = dbBillList.rawQuery("SELECT " +
-                                    "(SUM(IFNULL(Bedehkar,0)) - SUM(IFNULL(Bestankar,0))) " +
-                                    "AS MandeHesab " +
-                                    "FROM  tblChildeSanad " +
-                                    "WHERE Tafzili_ID = '" + accountTafziliIDs.get(0) + "' " +
-                                    "AND ID_Child_Sanad <= " + cursorBilList.getString(cursorBilList.getColumnIndex("ID_Child_Sanad")),null);
-                            if(cursorVaziatHesab.moveToFirst()){
-                                billVaziatMablaghs.add(cursorVaziatHesab.getString(cursorVaziatHesab.getColumnIndex("MandeHesab")));
-                            }else {
-                                billVaziatMablaghs.add("");
-                            }
-                            billTypes.add(cursorBilList.getString(cursorBilList.getColumnIndex("OnvanAction")));
-                            if (cursorBilList.getString(cursorBilList.getColumnIndex("Bedehkar")).toString().trim().equals("0")) {
-                                billMablaghs.add(cursorBilList.getString(cursorBilList.getColumnIndex("Bestankar")));
-                            } else {
-                                billMablaghs.add(cursorBilList.getString(cursorBilList.getColumnIndex("Bedehkar")));
-                            }
-                            billExps.add(cursorBilList.getString(cursorBilList.getColumnIndex("Sharh_Child_Sanad")));
-                            billDates.add(cursorBilList.getString(cursorBilList.getColumnIndex("Date_Sanad")));
-                        } while (cursorBilList.moveToNext());
+                    InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                    inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
 
-                        billListRecyclerView = (RecyclerView) findViewById(R.id.recyclerView_bill);
-                        billListRecyclerView.setHasFixedSize(true);
-                        billListRecyclerView.setNestedScrollingEnabled(false);
-                        recyclerManager = new LinearLayoutManager(BillActivity.this);
-                        billListRecyclerView.setLayoutManager(recyclerManager);
-                        recyclerAdapter = new BillAdapter(billExps, billMablaghs, billTypes, billVaziatMablaghs,billDates);
-                        billListRecyclerView.setAdapter(recyclerAdapter);
+                    if(accountTafziliIDs == null){
+                        Toast.makeText(BillActivity.this, "طرف حساب معتبر نیست.", Toast.LENGTH_SHORT).show();
+                    }else{
+                        SQLiteDatabase dbBillList = new MyDatabase(BillActivity.this).getReadableDatabase();
+                        Cursor cursorBilList = dbBillList.rawQuery("SELECT " +
+                                "TblActionTypeSanad.OnvanAction, " +
+                                "tblChildeSanad.Bedehkar, " +
+                                "tblChildeSanad.Bestankar, " +
+                                "tblChildeSanad.Sharh_Child_Sanad, " +
+                                "tblParentSanad.Date_Sanad, " +
+                                "tblChildeSanad.ID_Child_Sanad " +
+                                "FROM tblChildeSanad " +
+                                "INNER JOIN tblParentSanad ON tblChildeSanad.Serial_Sanad = tblParentSanad.Serial_Sanad " +
+                                "INNER JOIN TblActionTypeSanad ON tblChildeSanad.ID_TypeAmaliyat = TblActionTypeSanad.ID_Action " +
+                                "WHERE tblParentSanad.Date_Sanad BETWEEN '" + dateStart + "' AND '" + dateEnd + "' " +
+                                "AND tblChildeSanad.Tafzili_ID = '" + accountTafziliIDs.get(0) + "';", null);
 
-                        llBillFilter.setVisibility(View.GONE);
-                        llBillMain.setVisibility(View.VISIBLE);
-                        llBillVaziatKol.setVisibility(View.VISIBLE);
-                        fab.setVisibility(View.VISIBLE);
-                        fab.setImageDrawable(getResources().getDrawable(R.drawable.shape_filter));
-                        fab.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                llBillFilter.setVisibility(View.VISIBLE);
-                                llBillMain.setVisibility(View.GONE);
-                                llBillVaziatKol.setVisibility(View.GONE);
-                            }
-                        });
-                        tvBillVaziatKol.setText(MainActivity.priceFormatter(Math.abs(Long.parseLong(billVaziatMablaghs.get(billVaziatMablaghs.size()-1)))+""));
-                    } else {
-                        Toast.makeText(BillActivity.this, "موردی یافت نشد.", Toast.LENGTH_SHORT).show();
+                        if (cursorBilList.moveToFirst()) {
+                            billExps = new ArrayList<String>();
+                            billMablaghs = new ArrayList<String>();
+                            billTypes = new ArrayList<String>();
+                            billVaziatMablaghs = new ArrayList<String>();
+                            billDates = new ArrayList<String>();
+
+                            do {
+                                Cursor cursorVaziatHesab = dbBillList.rawQuery("SELECT " +
+                                        "(SUM(IFNULL(Bedehkar,0)) - SUM(IFNULL(Bestankar,0))) " +
+                                        "AS MandeHesab " +
+                                        "FROM  tblChildeSanad " +
+                                        "WHERE Tafzili_ID = '" + accountTafziliIDs.get(0) + "' " +
+                                        "AND ID_Child_Sanad <= " + cursorBilList.getString(cursorBilList.getColumnIndex("ID_Child_Sanad")), null);
+                                if (cursorVaziatHesab.moveToFirst()) {
+                                    billVaziatMablaghs.add(cursorVaziatHesab.getString(cursorVaziatHesab.getColumnIndex("MandeHesab")));
+                                } else {
+                                    billVaziatMablaghs.add("");
+                                }
+                                billTypes.add(cursorBilList.getString(cursorBilList.getColumnIndex("OnvanAction")));
+                                if (cursorBilList.getString(cursorBilList.getColumnIndex("Bedehkar")).toString().trim().equals("0")) {
+                                    billMablaghs.add(cursorBilList.getString(cursorBilList.getColumnIndex("Bestankar")));
+                                } else {
+                                    billMablaghs.add(cursorBilList.getString(cursorBilList.getColumnIndex("Bedehkar")));
+                                }
+                                billExps.add(cursorBilList.getString(cursorBilList.getColumnIndex("Sharh_Child_Sanad")));
+                                billDates.add(cursorBilList.getString(cursorBilList.getColumnIndex("Date_Sanad")));
+                            } while (cursorBilList.moveToNext());
+
+                            billListRecyclerView = (RecyclerView) findViewById(R.id.recyclerView_bill);
+                            billListRecyclerView.setHasFixedSize(true);
+                            billListRecyclerView.setNestedScrollingEnabled(false);
+                            recyclerManager = new LinearLayoutManager(BillActivity.this);
+                            billListRecyclerView.setLayoutManager(recyclerManager);
+                            recyclerAdapter = new BillAdapter(billExps, billMablaghs, billTypes, billVaziatMablaghs, billDates);
+                            billListRecyclerView.setAdapter(recyclerAdapter);
+
+                            llBillFilter.setVisibility(View.GONE);
+                            llBillMain.setVisibility(View.VISIBLE);
+                            llBillVaziatKol.setVisibility(View.VISIBLE);
+                            fab.setVisibility(View.VISIBLE);
+                            fab.setImageDrawable(getResources().getDrawable(R.drawable.shape_filter));
+                            fab.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    llBillFilter.setVisibility(View.VISIBLE);
+                                    llBillMain.setVisibility(View.GONE);
+                                    llBillVaziatKol.setVisibility(View.GONE);
+                                }
+                            });
+                            tvBillVaziatKol.setText(MainActivity.priceFormatter(Math.abs(Long.parseLong(billVaziatMablaghs.get(billVaziatMablaghs.size() - 1))) + ""));
+                        } else {
+                            Toast.makeText(BillActivity.this, "موردی یافت نشد.", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             }

@@ -103,7 +103,7 @@
             style="@style/etStyle"
             android:id="@+id/editText_add_product_buy_price"
             android:hint="قیمت خرید"
-            android:inputType="number"
+            android:inputType="phone"
             android:nextFocusForward="@+id/editText_add_product_sell_price" />
     </LinearLayout>
     <LinearLayout
