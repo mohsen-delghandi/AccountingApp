@@ -163,6 +163,8 @@ public class BankAccountsAdapter extends RecyclerView.Adapter<BankAccountsAdapte
                         notifyItemRemoved(position);
                         notifyItemRangeChanged(position,accountHesabIDs.size());
                         notifyDataSetChanged();
+
+                        cdd.dismiss();
                     }
                 });
                 cdd.no.setOnClickListener(new View.OnClickListener() {

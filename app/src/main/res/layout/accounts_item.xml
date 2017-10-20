@@ -179,6 +179,7 @@
             android:layout_height="wrap_content"
             android:gravity="center">
             <TextView
+                android:visibility="gone"
                 android:id="@+id/textView_accounts_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

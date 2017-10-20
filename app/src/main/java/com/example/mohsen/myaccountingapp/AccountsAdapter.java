@@ -145,49 +145,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
         holder.tvMobile.setText(mAccountMobiles.get(position));
         holder.tvAddress.setText(mAccountAddresses.get(position));
         holder.setIsRecyclable(false);
-//        oclExpand = new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                holder.llExtra.setVisibility(View.VISIBLE);
-//                holder.llMain.setBackground(mContext.getResources().getDrawable(R.drawable.shape_gradient_background));
-//                holder.llName.getBackground().setTint(mContext.getResources().getColor(R.color.icons));
-//                holder.tvFullName.setTextColor(mContext.getResources().getColor(R.color.icons));
-//                holder.tvCompanyName.setTextColor(mContext.getResources().getColor(R.color.icons));
-//                holder.tvDash.setTextColor(mContext.getResources().getColor(R.color.icons));
-//                holder.tvBedehiDash.setTextColor(mContext.getResources().getColor(R.color.icons));
-//                holder.tvBedehiMablagh.setTextColor(mContext.getResources().getColor(R.color.icons));
-//                holder.tvBedehiVahed.setTextColor(mContext.getResources().getColor(R.color.icons));
-//                holder.tvBedehiText.setTextColor(mContext.getResources().getColor(R.color.icons));
-//                holder.ivCall.setBackground(null);
-//                holder.ivCall.setColorFilter(ContextCompat.getColor(mContext, R.color.primary_dark), android.graphics.PorterDuff.Mode.MULTIPLY);
-//                holder.ivArrow.setBackground(null);
-//                holder.ivArrow.setColorFilter(ContextCompat.getColor(mContext, R.color.primary_dark), android.graphics.PorterDuff.Mode.MULTIPLY);
-//                holder.llMain.setOnClickListener(oclCollapse);
-//            }
-//        };
-//
-//        oclCollapse = new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                holder.llExtra.setVisibility(View.GONE);
-//                holder.llMain.setBackground(mContext.getResources().getDrawable(R.drawable.shape_underline_dashed));
-//                holder.llName.getBackground().setTint(mContext.getResources().getColor(R.color.primary_text));
-//                holder.tvFullName.setTextColor(mContext.getResources().getColor(R.color.primary_text));
-//                holder.tvCompanyName.setTextColor(mContext.getResources().getColor(R.color.primary_text));
-//                holder.tvDash.setTextColor(mContext.getResources().getColor(R.color.primary_text));
-//                holder.tvBedehiDash.setTextColor(mContext.getResources().getColor(R.color.green));
-//                holder.tvBedehiMablagh.setTextColor(mContext.getResources().getColor(R.color.green));
-//                holder.tvBedehiVahed.setTextColor(mContext.getResources().getColor(R.color.green));
-//                holder.tvBedehiText.setTextColor(mContext.getResources().getColor(R.color.green));
-//                holder.ivCall.setBackground(mContext.getResources().getDrawable(R.drawable.shape_circle));
-//                holder.ivCall.getBackground().setTint(mContext.getResources().getColor(R.color.primary_dark));
-//                holder.ivCall.setColorFilter(ContextCompat.getColor(mContext, R.color.primary), android.graphics.PorterDuff.Mode.MULTIPLY);
-//                holder.ivArrow.setBackground(mContext.getResources().getDrawable(R.drawable.shape_circle));
-//                holder.ivArrow.getBackground().setTint(mContext.getResources().getColor(R.color.primary_dark));
-//                holder.ivArrow.setColorFilter(ContextCompat.getColor(mContext, R.color.primary), android.graphics.PorterDuff.Mode.MULTIPLY);
-//                holder.llMain.setOnClickListener(oclExpand);
-//            }
-//        };
+
         holder.llMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

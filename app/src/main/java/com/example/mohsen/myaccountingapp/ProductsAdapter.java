@@ -159,6 +159,8 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
                         notifyItemRemoved(position);
                         notifyItemRangeChanged(position, mProductName.size());
                         notifyDataSetChanged();
+
+                        cdd.dismiss();
                     }
                 });
                 cdd.no.setOnClickListener(new View.OnClickListener() {

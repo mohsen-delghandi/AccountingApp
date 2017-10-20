@@ -37,11 +37,11 @@ public class MainApplication extends Font {
         // Initializing backtory
         BacktoryClient.Android.init(Config.newBuilder().
                 // Enabling User Services
-                        initAuth("59bb81cbe4b05384c5920067",
-                        "59bb81cbe4b0416729e792d7").
+                        initAuth("59e9d81fe4b03ffa02f97ef9",
+                        "59e9d81fe4b0f840c1225757").
                 // Finilizing sdk
-                        initObjectStorage("59bb81cce4b055bfe6ed78a1").
-                        initFileStorage("59bb8307e4b05384c5920a18").
+//                        initObjectStorage("59bb81cce4b055bfe6ed78a1").
+//                        initFileStorage("59bb8307e4b05384c5920a18").
                         build(), this);
     }
 

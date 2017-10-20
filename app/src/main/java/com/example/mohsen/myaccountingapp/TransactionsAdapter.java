@@ -264,6 +264,8 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
                                 notifyDataSetChanged();
                             }
                         }
+
+                        cdd.dismiss();
                     }
                 });
                 cdd.no.setOnClickListener(new View.OnClickListener() {
