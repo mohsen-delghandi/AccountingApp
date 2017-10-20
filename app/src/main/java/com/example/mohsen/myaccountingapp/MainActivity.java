@@ -1,7 +1,10 @@
 package com.example.mohsen.myaccountingapp;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
@@ -206,9 +209,17 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_main);
 
+        MainApplication ma = new MainApplication();
+        ma.loginAndGetPermission(this);
 
+        SQLiteDatabase dbP = new PDatabase(this).getReadableDatabase();
+        Cursor cursorP = dbP.query("Permission_TBL",new String[]{"Permission"},null,null,null,null,null,null);
+        if(cursorP.moveToFirst()){
+            if(cursorP.getString(0).trim().equals("No")){
+                setContentView(R.layout.blank_layout);
+            }else{
+                setContentView(R.layout.activity_main);
 
 //        resideMenu = new ResideMenu(MainActivity.this, R.layout.residemenu_custom_left_scrollview, R.layout.residemenu_custom_right_scrollview);
 //        resideMenu.setBackground(R.drawable.shape_gradient_background);    //set background
@@ -221,167 +232,84 @@ public class MainActivity extends BaseActivity {
 
 
 
-        TextView tvNavigationDate = (TextView)findViewById(R.id.textView_navigation_date);
-        DatePersian mDate = new DatePersian();
-        final String currentDate = mDate.getDate();
-        tvNavigationDate.setText(dateToText(mDate));
+                TextView tvNavigationDate = (TextView)findViewById(R.id.textView_navigation_date);
+                DatePersian mDate = new DatePersian();
+                final String currentDate = mDate.getDate();
+                tvNavigationDate.setText(dateToText(mDate));
 
-        llBuyAndSellAttached = (LinearLayout)findViewById(R.id.linearLayout_buy_and_sell_attached);
-        llTransactionAttached = (LinearLayout)findViewById(R.id.linearLayout_transaction_attached);
-        flAttached = (RelativeLayout)findViewById(R.id.frameLayout_attached);
+                llBuyAndSellAttached = (LinearLayout)findViewById(R.id.linearLayout_buy_and_sell_attached);
+                llTransactionAttached = (LinearLayout)findViewById(R.id.linearLayout_transaction_attached);
+                flAttached = (RelativeLayout)findViewById(R.id.frameLayout_attached);
 
-        if(page!=null && page.toString().trim().equals("BuyAndSell")){
-            llTransactionAttached.setVisibility(View.GONE);
-        }else if(page!=null && page.toString().trim().equals("Transaction")){
-            llBuyAndSellAttached.setVisibility(View.GONE);
-        }else {
-            flAttached.setVisibility(View.GONE);
-        }
-
-        tvFarsiTitle = (TextView)findViewById(R.id.textView_title_farsi);
-        tvEngliashNormalTitle = (TextView)findViewById(R.id.textView_title_english_normal);
-        tvEnglishBoldTitle = (TextView)findViewById(R.id.textView_title_english_bold);
-
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        llAddLayer = (LinearLayout) findViewById(R.id.linearLayout_add_layer);
-
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-        navigationView = (NavigationView)findViewById(R.id.nav_view);
-
-        ivNav = (ImageView)findViewById(R.id.imageView_navigation_menu);
-        ivNav.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if (drawer.isDrawerOpen(GravityCompat.START)) {
-                    drawer.closeDrawer(GravityCompat.START);
-                } else {
-                    drawer.openDrawer(GravityCompat.START);
+                if(page!=null && page.toString().trim().equals("BuyAndSell")){
+                    llTransactionAttached.setVisibility(View.GONE);
+                }else if(page!=null && page.toString().trim().equals("Transaction")){
+                    llBuyAndSellAttached.setVisibility(View.GONE);
+                }else {
+                    flAttached.setVisibility(View.GONE);
                 }
 
-//                resideMenu.openMenu(ResideMenu.DIRECTION_LEFT);
+                tvFarsiTitle = (TextView)findViewById(R.id.textView_title_farsi);
+                tvEngliashNormalTitle = (TextView)findViewById(R.id.textView_title_english_normal);
+                tvEnglishBoldTitle = (TextView)findViewById(R.id.textView_title_english_bold);
+
+                fab = (FloatingActionButton) findViewById(R.id.fab);
+                llAddLayer = (LinearLayout) findViewById(R.id.linearLayout_add_layer);
+
+                drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+                navigationView = (NavigationView)findViewById(R.id.nav_view);
+
+                ivNav = (ImageView)findViewById(R.id.imageView_navigation_menu);
+                ivNav.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        if (drawer.isDrawerOpen(GravityCompat.START)) {
+                            drawer.closeDrawer(GravityCompat.START);
+                        } else {
+                            drawer.openDrawer(GravityCompat.START);
+                        }
+                    }
+                });
+
+                ns = (NestedScrollView)findViewById(R.id.nestedscrollview);
+                llTitleBar = (LinearLayout)findViewById(R.id.linearLayout_titleBar);
+
+                llTitleBar.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) ns.getLayoutParams();
+                layoutParams.topMargin = llTitleBar.getMeasuredHeight();
+                ns.setLayoutParams(layoutParams);
+
+                Display display = getWindowManager().getDefaultDisplay();
+                Point size = new Point();
+                display.getSize(size);
+                width = size.x;
+
+                DrawerLayout.LayoutParams layoutParams1 = (DrawerLayout.LayoutParams) navigationView.getLayoutParams();
+                layoutParams1.width = width*2/3;
+                navigationView.setLayoutParams(layoutParams1);
+
+                classes = new ArrayList<>();
+
+                classes.add(AccountSideActivity.class);
+                classes.add(ProductsActivity.class);
+                classes.add(BuyAndSellActivity.class);
+                classes.add(TransactionActivity.class);
+                classes.add(AccountsActivity.class);
+                classes.add(BillActivity.class);
+
+                mNavigationRecycler = (RecyclerView)findViewById(R.id.nav_recyclerView);
+                mNavigationRecycler.setHasFixedSize(true);
+                mNavigationRecycler.setNestedScrollingEnabled(false);
+                mRecyclerManager = new LinearLayoutManager(this);
+                mNavigationRecycler.setLayoutManager(mRecyclerManager);
+                String[] navigationMenuItemNames = getResources().getStringArray(R.array.navigation_menu_item_names);
+                mRecyclerAdapter = new NavigationAdapter(this,width,drawer,navigationMenuItemNames,classes,
+                        llTransactionAttached,llBuyAndSellAttached,flAttached);
+                mNavigationRecycler.setAdapter(mRecyclerAdapter);
             }
-        });
-
-        ns = (NestedScrollView)findViewById(R.id.nestedscrollview);
-        llTitleBar = (LinearLayout)findViewById(R.id.linearLayout_titleBar);
-
-        llTitleBar.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) ns.getLayoutParams();
-        layoutParams.topMargin = llTitleBar.getMeasuredHeight();
-        ns.setLayoutParams(layoutParams);
-
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        width = size.x;
-
-        DrawerLayout.LayoutParams layoutParams1 = (DrawerLayout.LayoutParams) navigationView.getLayoutParams();
-        layoutParams1.width = width*2/3;
-        navigationView.setLayoutParams(layoutParams1);
-
-        classes = new ArrayList<>();
-
-        classes.add(AccountSideActivity.class);
-        classes.add(ProductsActivity.class);
-        classes.add(BuyAndSellActivity.class);
-        classes.add(TransactionActivity.class);
-        classes.add(AccountsActivity.class);
-        classes.add(BillActivity.class);
-
-        mNavigationRecycler = (RecyclerView)findViewById(R.id.nav_recyclerView);
-        mNavigationRecycler.setHasFixedSize(true);
-        mNavigationRecycler.setNestedScrollingEnabled(false);
-        mRecyclerManager = new LinearLayoutManager(this);
-        mNavigationRecycler.setLayoutManager(mRecyclerManager);
-        String[] navigationMenuItemNames = getResources().getStringArray(R.array.navigation_menu_item_names);
-        mRecyclerAdapter = new NavigationAdapter(this,width,drawer,navigationMenuItemNames,classes,
-                llTransactionAttached,llBuyAndSellAttached,flAttached);
-        mNavigationRecycler.setAdapter(mRecyclerAdapter);
-
-
-//        final TextView tvReceiveSelect,tvPaySelect,tvAllSelect;
-//        tvReceiveSelect = (TextView)findViewById(R.id.textView_recieve_select);
-//        tvPaySelect = (TextView)findViewById(R.id.textView_pay_select);
-//        tvAllSelect = (TextView)findViewById(R.id.textView_all_select);
-//        tvReceiveSelect.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-//                    tvReceiveSelect.setBackground(getResources().getDrawable(R.drawable.shape_circle));
-//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//                        tvReceiveSelect.getBackground().setTint(getResources().getColor(R.color.primary_dark));
-//                    }
-//                    tvPaySelect.setBackground(null);
-//                    tvAllSelect.setBackground(null);
-//                }
-//            }
-//        });
-//        tvPaySelect.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-//                    tvPaySelect.setBackground(getResources().getDrawable(R.drawable.shape_circle));
-//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//                        tvPaySelect.getBackground().setTint(getResources().getColor(R.color.primary_dark));
-//                    }
-//                    tvReceiveSelect.setBackground(null);
-//                    tvAllSelect.setBackground(null);
-//                }
-//            }
-//        });
-//        tvAllSelect.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-//                    tvAllSelect.setBackground(getResources().getDrawable(R.drawable.shape_circle));
-//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//                        tvAllSelect.getBackground().setTint(getResources().getColor(R.color.primary_dark));
-//                    }
-//                    tvReceiveSelect.setBackground(null);
-//                    tvPaySelect.setBackground(null);
-//                }
-//            }
-//        });
-
-
-
-
-
-
-
-
-//        final LinearLayout layout =(LinearLayout)findViewById(R.id.linearLayout_cheque);
-//        final LinearLayout layout2 =(LinearLayout)findViewById(R.id.linearLayout_cash);
-//        fab.setOnClickListener(new View.OnClickListener(){
-//
-//            @Override
-//            public void onClick(View arg0) {
-//                Animation slideUp = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up);
-//                Animation slideLeft = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_left);
-//                if (layout.getVisibility() == View.GONE) {
-//                    layout.startAnimation(slideUp);
-//                    layout.setVisibility(View.VISIBLE);
-//                    layout2.startAnimation(slideLeft);
-//                    layout2.setVisibility(View.VISIBLE);
-//                    fab.setImageDrawable(getResources().getDrawable(R.drawable.shape_close));
-//                }else{
-//                    layout.setVisibility(View.GONE);
-//                    layout2.setVisibility(View.GONE);
-//                    fab.setImageDrawable(getResources().getDrawable(R.drawable.shape_plus));
-//                }
-//            }
-//            });
-
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        drawer.setDrawerListener(toggle);
-//        toggle.syncState();
-
-//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-//        navigationView.setNavigationItemSelectedListener(this);
+        }
     }
 
     protected View setInflater(Context context, @LayoutRes int resource){

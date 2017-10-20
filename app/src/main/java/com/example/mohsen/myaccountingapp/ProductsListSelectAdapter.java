@@ -239,6 +239,7 @@ public class ProductsListSelectAdapter extends RecyclerView.Adapter<ProductsList
                     ContentValues cvParentSanad = new ContentValues();
                     ContentValues cvChildSanad = new ContentValues();
                     ContentValues cvChildSanad2 = new ContentValues();
+
                     cvTayidList.put("ForooshKalaParent_ID", mFactorCode + "");
                     cvTayidList.put("ForooshKalaParent_Tafzili", mTafziliID + "");
                     cvTayidList.put("ForooshKalaParent_JameKol", jameMablagh + "");

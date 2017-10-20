@@ -97,7 +97,8 @@ android:background="@drawable/shape_underline_dashed">
                     android:layout_height="@dimen/padding_medium"
                     android:gravity="center_vertical"
                     android:src="@drawable/shape_arrow_down"
-                    android:tint="@color/green" />
+                    android:tint="@color/green"
+                    android:layout_marginLeft="@dimen/padding_bit"/>
 
                 <TextView
                     android:id="@+id/textView_acount_side_bedehi_text"

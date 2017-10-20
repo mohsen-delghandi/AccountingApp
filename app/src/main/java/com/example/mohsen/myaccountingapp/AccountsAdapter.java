@@ -28,6 +28,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -46,6 +47,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
     LayoutInflater mInflaterInclude;
     LinearLayout mLlAddLayer;
     FloatingActionButton mFab;
+    String tafziliID;
 
     String mobile_regex = "09\\d\\d\\d\\d\\d\\d\\d\\d\\d";
     String tel_regex = "^0[0-9]{2,}[0-9]{7,}$";
@@ -145,6 +147,61 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
         holder.tvMobile.setText(mAccountMobiles.get(position));
         holder.tvAddress.setText(mAccountAddresses.get(position));
         holder.setIsRecyclable(false);
+
+        SQLiteDatabase dbBillList = new MyDatabase(mContext).getReadableDatabase();
+        Cursor cursorTafzili = dbBillList.query("tblContacts",new String[]{"Tafzili_ID"},"Contacts_ID = ?",new String[]{mAccountIDs.get(position)+""},null,null,null);
+        if(cursorTafzili.moveToFirst()){
+            tafziliID = cursorTafzili.getString(0);
+        }
+
+        Cursor cursorBilList = dbBillList.rawQuery("SELECT " +
+                "TblActionTypeSanad.OnvanAction, " +
+                "tblChildeSanad.Bedehkar, " +
+                "tblChildeSanad.Bestankar, " +
+                "tblChildeSanad.Sharh_Child_Sanad, " +
+                "tblParentSanad.Date_Sanad, " +
+                "tblChildeSanad.ID_Child_Sanad " +
+                "FROM tblChildeSanad " +
+                "INNER JOIN tblParentSanad ON tblChildeSanad.Serial_Sanad = tblParentSanad.Serial_Sanad " +
+                "INNER JOIN TblActionTypeSanad ON tblChildeSanad.ID_TypeAmaliyat = TblActionTypeSanad.ID_Action " +
+                "WHERE tblChildeSanad.Tafzili_ID = '" + tafziliID + "';", null);
+
+        if (cursorBilList.moveToLast()) {
+            Cursor cursorVaziatHesab = dbBillList.rawQuery("SELECT " +
+                    "(SUM(IFNULL(Bedehkar,0)) - SUM(IFNULL(Bestankar,0))) " +
+                    "AS MandeHesab " +
+                    "FROM  tblChildeSanad " +
+                    "WHERE Tafzili_ID = '" + tafziliID + "' " +
+                    "AND ID_Child_Sanad <= " + cursorBilList.getString(cursorBilList.getColumnIndex("ID_Child_Sanad")), null);
+            if (cursorVaziatHesab.moveToFirst()) {
+                if((Long.parseLong(cursorVaziatHesab.getString(cursorVaziatHesab.getColumnIndex("MandeHesab"))) < 0)){
+                    holder.tvBedehiMablagh.setTextColor(mContext.getResources().getColor(R.color.green));
+                    holder.tvBedehiVahed.setTextColor(mContext.getResources().getColor(R.color.green));
+                    holder.tvBedehiDash.setTextColor(mContext.getResources().getColor(R.color.green));
+                    holder.tvBedehiText.setTextColor(mContext.getResources().getColor(R.color.green));
+                    holder.tvBedehiText.setText("بستانکار");
+                    holder.ivBedehi.setImageResource(R.drawable.shape_arrow_down);
+                    holder.ivBedehi.setColorFilter(mContext.getResources().getColor(R.color.green));
+                }else if(Long.parseLong(cursorVaziatHesab.getString(cursorVaziatHesab.getColumnIndex("MandeHesab"))) > 0){
+                    holder.tvBedehiMablagh.setTextColor(mContext.getResources().getColor(R.color.red));
+                    holder.tvBedehiVahed.setTextColor(mContext.getResources().getColor(R.color.red));
+                    holder.tvBedehiDash.setTextColor(mContext.getResources().getColor(R.color.red));
+                    holder.tvBedehiText.setTextColor(mContext.getResources().getColor(R.color.red));
+                    holder.tvBedehiText.setText("بدهکار");
+                    holder.ivBedehi.setImageResource(R.drawable.shape_arrow_down);
+                    holder.ivBedehi.setRotation(180);
+                    holder.ivBedehi.setColorFilter(mContext.getResources().getColor(R.color.red));
+                }else{
+                    holder.tvBedehiMablagh.setTextColor(mContext.getResources().getColor(R.color.primary_text));
+                    holder.tvBedehiVahed.setTextColor(mContext.getResources().getColor(R.color.primary_text));
+                    holder.tvBedehiDash.setTextColor(mContext.getResources().getColor(R.color.primary_text));
+                    holder.tvBedehiText.setTextColor(mContext.getResources().getColor(R.color.primary_text));
+                    holder.tvBedehiText.setText("بی حساب");
+                    holder.ivBedehi.setVisibility(View.INVISIBLE);
+                }
+                holder.tvBedehiMablagh.setText(MainActivity.priceFormatter(Math.abs(Long.parseLong(cursorVaziatHesab.getString(cursorVaziatHesab.getColumnIndex("MandeHesab")))) + ""));
+            }
+        }
 
         holder.llMain.setOnClickListener(new View.OnClickListener() {
             @Override

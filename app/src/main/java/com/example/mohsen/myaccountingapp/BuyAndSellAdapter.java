@@ -84,6 +84,7 @@ public class BuyAndSellAdapter extends RecyclerView.Adapter<BuyAndSellAdapter.Vi
             tvFactorCode = (TextView)v.findViewById(R.id.textView_buy_and_sell_factor_code);
             tvMablaghKol = (TextView)v.findViewById(R.id.textView_buy_and_sell_mablagh);
             tvAccount = (TextView)v.findViewById(R.id.textView_buy_and_sell_account_name);
+            tvDelete = (TextView)v.findViewById(R.id.textView_buy_and_sell_delete);
 
             ivLabel = (ImageView)v.findViewById(R.id.imageView_buy_and_sell_label);
 
@@ -141,40 +142,62 @@ public class BuyAndSellAdapter extends RecyclerView.Adapter<BuyAndSellAdapter.Vi
             }
         });
 
-//        holder.tvDelete.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                final CustomDialogClass cdd = new CustomDialogClass(mContext);
-//                cdd.show();
-//                Window window = cdd.getWindow();
-//                window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-//                cdd.yes.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//
-//                        SQLiteDatabase dbDelete = new MyDatabase(mContext).getWritableDatabase();
-//                        dbDelete.execSQL("DELETE FROM tblHesabBanki WHERE HesabBanki_ID = " + accountHesabIDs.get(position));
-//                        dbDelete.close();
-//
-//                        accountBankName.remove(position);
-//                        accountHesabIDs.remove(position);
-//                        accountCardNumbers.remove(position);
-//                        accountShobeName.remove(position);
-//                        accountHesabNumbers.remove(position);
-//
-//                        notifyItemRemoved(position);
-//                        notifyItemRangeChanged(position,accountHesabIDs.size());
-//                        notifyDataSetChanged();
-//                    }
-//                });
-//                cdd.no.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        cdd.dismiss();
-//                    }
-//                });
-//            }
-//        });
+        holder.tvDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final CustomDialogClass cdd = new CustomDialogClass(mContext);
+                cdd.show();
+                Window window = cdd.getWindow();
+                window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                cdd.yes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        if(mMode.get(position).trim().equals("Sell")) {
+                            SQLiteDatabase dbDelete = new MyDatabase(mContext).getWritableDatabase();
+                            Cursor cursorSerialSanad = dbDelete.query("TblParent_FrooshKala",new String[]{"ForooshKalaParent_SerialSanad"},"ForooshKalaParent_ID = ?",new String[]{mBuyAndSellFactorCodes.get(position)+""},
+                                    null,null,null);
+                            if(cursorSerialSanad.moveToFirst()){
+                                dbDelete.delete("tblChildeSanad","Serial_Sanad = ?",new String[]{cursorSerialSanad.getString(0)+""});
+                                dbDelete.delete("tblParentSanad","Serial_Sanad = ?",new String[]{cursorSerialSanad.getString(0)+""});
+                                dbDelete.delete("TblChild_ForooshKala","ChildForooshKala_ParentID = ?",new String[]{mBuyAndSellFactorCodes.get(position)+""});
+                                dbDelete.delete("TblParent_FrooshKala","ForooshKalaParent_SerialSanad = ?",new String[]{cursorSerialSanad.getString(0)+""});
+                            }
+
+
+                        } else if(mMode.get(position).trim().equals("Buy")) {
+                            SQLiteDatabase dbDelete = new MyDatabase(mContext).getWritableDatabase();
+                            Cursor cursorSerialSanad = dbDelete.query("TblParent_KharidKala",new String[]{"KharidKalaParent_SerialSanad"},"KharidKalaParent_ID = ?",new String[]{mBuyAndSellFactorCodes.get(position)+""},
+                                    null,null,null);
+                            if(cursorSerialSanad.moveToFirst()){
+                                dbDelete.delete("tblChildeSanad","Serial_Sanad = ?",new String[]{cursorSerialSanad.getString(0)+""});
+                                dbDelete.delete("tblParentSanad","Serial_Sanad = ?",new String[]{cursorSerialSanad.getString(0)+""});
+                                dbDelete.delete("TblChild_KharidKala","ChildKharidKala_ParentID = ?",new String[]{mBuyAndSellFactorCodes.get(position)+""});
+                                dbDelete.delete("TblParent_KharidKala","KharidKalaParent_SerialSanad = ?",new String[]{cursorSerialSanad.getString(0)+""});
+                            }
+                        }
+
+
+                        mBuyAndSellFactorCodes.remove(position);
+                        mBuyAndSellMablaghKols.remove(position);
+                        mBuyAndSellAccounts.remove(position);
+                        mMode.remove(position);
+
+                        notifyItemRemoved(position);
+                        notifyItemRangeChanged(position,mBuyAndSellFactorCodes.size());
+                        notifyDataSetChanged();
+
+                        cdd.dismiss();
+                    }
+                });
+                cdd.no.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        cdd.dismiss();
+                    }
+                });
+            }
+        });
     }
 
     @Override

@@ -33,12 +33,12 @@ public class BuyAndSellActivity extends MainActivity {
 
     LayoutInflater inflaterInclude;
 
-    TextView tvKharidSelect2nd,tvForoshSelect2nd,tvFactorCode2nd,tvAccountBedehi2nd
+    TextView tvKharidSelect2nd,tvForoshSelect2nd,tvFactorCode2nd,tvBedehiMablagh2nd,tvBedehiText2nd,tvBedehiDash2nd,tvBedehiVahed2nd
             ,tvPhone2nd,tvMobile2nd,tvAddress2nd,tvKharidButton,tvForoshButton,tvHameButton,tvType2nd,tvType3rd;
 
     LinearLayout llAccountDetails2nd,llTayid2nd;
     AutoCompleteTextView atvAccounts;
-    ImageView ivHelp2nd,ivBack2nd;
+    ImageView ivHelp2nd,ivBack2nd,ivBedehi2nd;
 
     List<String> buyAndSellFactorCodes;
     List<String> buyAndSellMablaghKols;
@@ -79,7 +79,10 @@ public class BuyAndSellActivity extends MainActivity {
         tvKharidSelect2nd = (TextView)findViewById(R.id.textView_buy_and_sell_2nd_buy_select);
         tvForoshSelect2nd = (TextView)findViewById(R.id.textView_buy_and_sell_2nd_sell_select);
         tvFactorCode2nd = (TextView)findViewById(R.id.textView_buy_and_sell_2nd_factor_code);
-        tvAccountBedehi2nd = (TextView)findViewById(R.id.textView_buy_and_sell_2nd_bedehi_mablagh);
+        tvBedehiMablagh2nd = (TextView)findViewById(R.id.textView_buy_and_sell_2nd_bedehi_mablagh);
+        tvBedehiText2nd = (TextView)findViewById(R.id.textView_buy_and_sell_2nd_bedehi_text);
+        tvBedehiDash2nd = (TextView)findViewById(R.id.textView_buy_and_sell_2nd_bedehi_dash);
+        tvBedehiVahed2nd = (TextView)findViewById(R.id.textView_buy_and_sell_2nd_bedehi_vahed);
         tvPhone2nd = (TextView)findViewById(R.id.textView_buy_and_sell_2nd_phone);
         tvMobile2nd = (TextView)findViewById(R.id.textView_buy_and_sell_2nd_mobile);
         tvAddress2nd = (TextView)findViewById(R.id.textView_buy_and_sell_2nd_address);
@@ -87,6 +90,7 @@ public class BuyAndSellActivity extends MainActivity {
 
         ivHelp2nd = (ImageView) findViewById(R.id.imageView_buy_and_sell_2nd_help);
         ivBack2nd = (ImageView) findViewById(R.id.imageView_buy_and_sell_2nd_back);
+        ivBedehi2nd = (ImageView) findViewById(R.id.imageView_buy_and_sell_2nd_bedehi_image);
 
         llAccountDetails2nd = (LinearLayout)findViewById(R.id.linearLayout_buy_and_sell_2nd_account);
         llTayid2nd = (LinearLayout)findViewById(R.id.linearLayout_buy_and_sell_2nd_tayid);
@@ -137,6 +141,55 @@ public class BuyAndSellActivity extends MainActivity {
                 cursorShowAccount.close();
                 Cursor cursorAccountDetails = dbShowAccount.query("tblContacts",new String[]{"Phone","Mobile","AdressContacts"},"Tafzili_ID = ?",new String[]{accountTafziliIDs.get(0)+""},null,null,null);
                 cursorAccountDetails.moveToFirst();
+
+                Cursor cursorBilList = dbShowAccount.rawQuery("SELECT " +
+                        "TblActionTypeSanad.OnvanAction, " +
+                        "tblChildeSanad.Bedehkar, " +
+                        "tblChildeSanad.Bestankar, " +
+                        "tblChildeSanad.Sharh_Child_Sanad, " +
+                        "tblParentSanad.Date_Sanad, " +
+                        "tblChildeSanad.ID_Child_Sanad " +
+                        "FROM tblChildeSanad " +
+                        "INNER JOIN tblParentSanad ON tblChildeSanad.Serial_Sanad = tblParentSanad.Serial_Sanad " +
+                        "INNER JOIN TblActionTypeSanad ON tblChildeSanad.ID_TypeAmaliyat = TblActionTypeSanad.ID_Action " +
+                        "WHERE tblChildeSanad.Tafzili_ID = '" + accountTafziliIDs.get(0) + "';", null);
+
+                if (cursorBilList.moveToLast()) {
+                    Cursor cursorVaziatHesab = dbShowAccount.rawQuery("SELECT " +
+                            "(SUM(IFNULL(Bedehkar,0)) - SUM(IFNULL(Bestankar,0))) " +
+                            "AS MandeHesab " +
+                            "FROM  tblChildeSanad " +
+                            "WHERE Tafzili_ID = '" + accountTafziliIDs.get(0) + "' " +
+                            "AND ID_Child_Sanad <= " + cursorBilList.getString(cursorBilList.getColumnIndex("ID_Child_Sanad")), null);
+                    if (cursorVaziatHesab.moveToFirst()) {
+                        if((Long.parseLong(cursorVaziatHesab.getString(cursorVaziatHesab.getColumnIndex("MandeHesab"))) < 0)){
+                            tvBedehiMablagh2nd.setTextColor(getResources().getColor(R.color.green));
+                            tvBedehiVahed2nd.setTextColor(getResources().getColor(R.color.green));
+                            tvBedehiDash2nd.setTextColor(getResources().getColor(R.color.green));
+                            tvBedehiText2nd.setTextColor(getResources().getColor(R.color.green));
+                            tvBedehiText2nd.setText("بستانکار");
+                            ivBedehi2nd.setImageResource(R.drawable.shape_arrow_down);
+                            ivBedehi2nd.setColorFilter(getResources().getColor(R.color.green));
+                        }else if(Long.parseLong(cursorVaziatHesab.getString(cursorVaziatHesab.getColumnIndex("MandeHesab"))) > 0){
+                            tvBedehiMablagh2nd.setTextColor(getResources().getColor(R.color.red));
+                            tvBedehiVahed2nd.setTextColor(getResources().getColor(R.color.red));
+                            tvBedehiDash2nd.setTextColor(getResources().getColor(R.color.red));
+                            tvBedehiText2nd.setTextColor(getResources().getColor(R.color.red));
+                            tvBedehiText2nd.setText("بدهکار");
+                            ivBedehi2nd.setImageResource(R.drawable.shape_arrow_down);
+                            ivBedehi2nd.setRotation(180);
+                            ivBedehi2nd.setColorFilter(getResources().getColor(R.color.red));
+                        }else{
+                            tvBedehiMablagh2nd.setTextColor(getResources().getColor(R.color.primary_text));
+                            tvBedehiVahed2nd.setTextColor(getResources().getColor(R.color.primary_text));
+                            tvBedehiDash2nd.setTextColor(getResources().getColor(R.color.primary_text));
+                            tvBedehiText2nd.setTextColor(getResources().getColor(R.color.primary_text));
+                            tvBedehiText2nd.setText("بی حساب");
+                            ivBedehi2nd.setVisibility(View.INVISIBLE);
+                        }
+                        tvBedehiMablagh2nd.setText(MainActivity.priceFormatter(Math.abs(Long.parseLong(cursorVaziatHesab.getString(cursorVaziatHesab.getColumnIndex("MandeHesab")))) + ""));
+                    }
+                }
 
                 llAccountDetails2nd.setVisibility(View.VISIBLE);
                 tvPhone2nd.setText(cursorAccountDetails.getString(0));
