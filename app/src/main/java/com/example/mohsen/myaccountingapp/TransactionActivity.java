@@ -364,15 +364,22 @@ public class TransactionActivity extends MainActivity {
                                 cvChildSanad.put("Moein_ID", "11001");
                                 cvChildSanad.put("Tafzili_ID", "10010001");
                                 cvChildSanad.put("ID_TypeAmaliyat", "1");
+                                if(etExp.getText().toString().trim().equals("")){
+                                    etExp.setText("دریافت نقدی");
+                                }
                             } else if (type.toString().trim().equals("Pardakht")) {
                                 cvChildSanad.put("AccountsID", "320");
                                 cvChildSanad.put("Moein_ID", "32001");
                                 cvChildSanad.put("Tafzili_ID", accountTafziliIDs.get(0) + "");
                                 cvChildSanad.put("ID_TypeAmaliyat", "2");
+                                if(etExp.getText().toString().trim().equals("")){
+                                    etExp.setText("پرداخت نقدی");
+                                }
                             }
                             cvChildSanad.put("ID_Amaliyat", idPNaghdi + "");
                             cvChildSanad.put("Bedehkar", etMablagh.getText().toString().replaceAll(",","").trim());
                             cvChildSanad.put("Bestankar", "0");
+                            cvChildSanad.put("Sharh_Child_Sanad", etExp.getText().toString());
                             long id2 = dbInsert.insert("tblChildeSanad", null, cvChildSanad);
 
                             if (type.toString().trim().equals("Daryaft")) {
@@ -388,6 +395,7 @@ public class TransactionActivity extends MainActivity {
                             cvChildSanad2.put("ID_TypeAmaliyat", "1");
                             cvChildSanad2.put("Bestankar", etMablagh.getText().toString().replaceAll(",","").trim());
                             cvChildSanad2.put("Bedehkar", "0");
+                            cvChildSanad2.put("Sharh_Child_Sanad", etExp.getText().toString());
                             long id3 = dbInsert.insert("tblChildeSanad", null, cvChildSanad2);
 
                             ContentValues cvInsert2 = new ContentValues();
@@ -454,6 +462,10 @@ public class TransactionActivity extends MainActivity {
                                 cvChildSanad.put("ID_TypeAmaliyat", "4");
                                 cvChildSanad.put("Bedehkar", etMablagh.getText().toString().replaceAll(",","").trim());
                                 cvChildSanad.put("Bestankar", "0");
+                                if(etExp.getText().toString().trim().equals("")){
+                                    etExp.setText("دریافت چکی");
+                                }
+                                cvChildSanad.put("Sharh_Child_Sanad", etExp.getText().toString());
                                 long id2 = dbInsert.insert("tblChildeSanad", null, cvChildSanad);
 
                                 cvChildSanad2.put("AccountsID", "130");
@@ -463,6 +475,10 @@ public class TransactionActivity extends MainActivity {
                                 cvChildSanad2.put("ID_TypeAmaliyat", "4");
                                 cvChildSanad2.put("Bestankar", etMablagh.getText().toString().replaceAll(",","").trim());
                                 cvChildSanad2.put("Bedehkar", "0");
+                                if(etExp.getText().toString().trim().equals("")){
+                                    etExp.setText("دریافت چکی");
+                                }
+                                cvChildSanad2.put("Sharh_Child_Sanad", etExp.getText().toString());
                                 long id3 = dbInsert.insert("tblChildeSanad", null, cvChildSanad2);
 
                                 ContentValues cvInsert2 = new ContentValues();
@@ -538,6 +554,10 @@ public class TransactionActivity extends MainActivity {
                                 cvChildSanad.put("ID_TypeAmaliyat", "3");
                                 cvChildSanad.put("Bedehkar", etMablagh.getText().toString().replaceAll(",","").trim());
                                 cvChildSanad.put("Bestankar", "0");
+                                if(etExp.getText().toString().trim().equals("")){
+                                    etExp.setText("پرداخت چکی");
+                                }
+                                cvChildSanad.put("Sharh_Child_Sanad", etExp.getText().toString());
                                 dbInsert.insert("tblChildeSanad", null, cvChildSanad);
 
                                 cvChildSanad2.put("AccountsID", "110");
@@ -547,6 +567,10 @@ public class TransactionActivity extends MainActivity {
                                 cvChildSanad2.put("ID_TypeAmaliyat", "3");
                                 cvChildSanad2.put("Bestankar", etMablagh.getText().toString().replaceAll(",","").trim());
                                 cvChildSanad2.put("Bedehkar", "0");
+                                if(etExp.getText().toString().trim().equals("")){
+                                    etExp.setText("پرداخت چکی");
+                                }
+                                cvChildSanad2.put("Sharh_Child_Sanad", etExp.getText().toString());
                                 dbInsert.insert("tblChildeSanad", null, cvChildSanad2);
 
                                 ContentValues cvInsert2 = new ContentValues();

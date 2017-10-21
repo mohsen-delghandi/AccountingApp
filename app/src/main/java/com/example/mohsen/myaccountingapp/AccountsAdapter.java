@@ -283,6 +283,16 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
                 final EditText et_telNumber = (EditText)v.findViewById(R.id.editText_add_account_phone);
                 final EditText et_fullName = (EditText)v.findViewById(R.id.editText_add_account_fullName);
                 final EditText et_address = (EditText)v.findViewById(R.id.editText_add_account_address);
+                final EditText et_mande = (EditText)v.findViewById(R.id.editText_add_account_mande);
+
+                et_mande.addTextChangedListener(new NumberTextWatcher(et_mande));
+
+                et_fullName.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        et_mande.selectAll();
+                    }
+                });
 
                 et_fullName.setOnClickListener(new View.OnClickListener() {
                     @Override
