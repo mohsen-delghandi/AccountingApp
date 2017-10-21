@@ -289,10 +289,11 @@ public class TransactionActivity extends MainActivity {
         tvSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 if(atvAccounts.getText().toString().trim().equals("")){
                     Toast.makeText(TransactionActivity.this, "لطفا طرف حساب را مشخص کنید.", Toast.LENGTH_SHORT).show();
-                }else {
+                }else if(etMablagh.getText().toString().trim().equals("") || etMablagh.getText().toString().trim().equals("0")) {
+                    Toast.makeText(TransactionActivity.this, "لطفا مبلغ را وارد کنید.", Toast.LENGTH_SHORT).show();
+                }else{
                     SQLiteDatabase dbShowAccount = new MyDatabase(TransactionActivity.this).getReadableDatabase();
                     Cursor cursorShowAccount = dbShowAccount.query("tblContacts",new String[]{"Tafzili_ID"},"FullName = ?",new String[]{atvAccounts.getText().toString().trim()+""},null,null,null);
 

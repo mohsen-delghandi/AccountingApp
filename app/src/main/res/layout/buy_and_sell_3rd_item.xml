@@ -94,6 +94,7 @@
                     android:layout_marginRight="@dimen/padding_bit"
                     android:gravity="center_vertical"
                     android:text="ریال"
+                    android:maxLines="1"
                     app:fontPath="fonts/IRANSansWeb_Bold.ttf"
                     android:textColor="@color/green"
                     android:textSize="@dimen/font_small" />

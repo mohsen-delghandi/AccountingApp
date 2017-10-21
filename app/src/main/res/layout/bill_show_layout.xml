@@ -116,6 +116,9 @@
                 android:completionThreshold="1"
                 android:hint="طرف حساب"
                 android:maxLines="1"
+                android:singleLine="true"
+                android:imeOptions="actionDone"
+                android:lines="1"
                 android:textColorHint="@color/new_text"
                 android:textColor="@color/new_text"
                 android:background="@android:color/transparent"
@@ -131,7 +134,7 @@
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_circle"
+            android:background="@drawable/shape_circle_green"
             android:backgroundTint="@color/green">
 
             <ImageView

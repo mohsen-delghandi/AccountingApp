@@ -53,6 +53,15 @@
 
         </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="5"
@@ -112,7 +121,7 @@
                     android:gravity="center_vertical"
                     android:text="مبلغ کل : "
                     android:textColor="@color/primary_text"
-                    android:textSize="@dimen/font_medium" />
+                    android:textSize="@dimen/font_small" />
 
                 <TextView
                     android:id="@+id/textView_buy_and_sell_mablagh"
@@ -135,8 +144,37 @@
                     android:maxLines="1"
                     app:fontPath="fonts/IRANSansWeb_Bold.ttf"
                     android:textColor="@color/primary_text"
-                    android:textSize="@dimen/font_medium" />
+                    android:textSize="@dimen/font_small" />
             </LinearLayout>
+
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1.2"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/padding_large"
+            android:gravity="left"
+            android:orientation="vertical">
+
+
+
+            <ImageView
+                android:adjustViewBounds="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/arrow_left_image"
+                android:backgroundTint="@color/primary_dark"
+                android:padding="@dimen/padding_medium"/>
+
+
+        </LinearLayout>
+
+        </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -153,7 +191,7 @@
                         android:gravity="center_vertical"
                         android:text="طرف حساب : "
                         android:textColor="@color/primary_text"
-                        android:textSize="@dimen/font_medium" />
+                        android:textSize="@dimen/font_small" />
 
                     <TextView
                         android:id="@+id/textView_buy_and_sell_account_name"
@@ -164,58 +202,33 @@
                         android:text="نوید مندیس"
                         android:maxLines="1"
                         android:textColor="@color/primary_text"
-                        android:textSize="@dimen/font_medium" />
+                        android:textSize="@dimen/font_small" />
+
+
+
+                    <TextView
+                        android:id="@+id/textView_buy_and_sell_delete"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="حذف"
+                        android:layout_marginRight="@dimen/padding_spinner"
+                        android:gravity="center"
+                        android:background="@drawable/shape_circle"
+                        android:paddingRight="@dimen/padding_spinner"
+                        android:paddingTop="@dimen/padding_bit"
+                        android:paddingBottom="@dimen/padding_bit"
+                        android:paddingLeft="@dimen/padding_spinner"
+                        android:textColor="@color/icons"
+                        android:backgroundTint="@color/red"
+                        android:textSize="@dimen/font_small"/>
+
                 </LinearLayout>
 
 
             </LinearLayout>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1.2"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/padding_large"
-            android:gravity="left">
-
-
-
-            <ImageView
-                android:adjustViewBounds="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/arrow_left_image"
-                android:backgroundTint="@color/primary_dark"
-                android:padding="@dimen/padding_medium"/>
-
-        </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="left"
-            android:padding="@dimen/padding_large">
-
-            <TextView
-                android:id="@+id/textView_buy_and_sell_delete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="حذف"
-                android:gravity="center"
-                android:background="@drawable/shape_circle"
-                android:paddingRight="@dimen/padding_spinner"
-                android:paddingTop="@dimen/padding_bit"
-                android:paddingBottom="@dimen/padding_bit"
-                android:paddingLeft="@dimen/padding_spinner"
-                android:textColor="@color/icons"
-                android:backgroundTint="@color/red"
-                android:textSize="@dimen/font_small"/>
-
-        </LinearLayout>
-
     </LinearLayout>
 
 </LinearLayout>
+
+    </LinearLayout>

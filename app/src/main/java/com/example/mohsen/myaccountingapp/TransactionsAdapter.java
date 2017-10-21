@@ -563,7 +563,9 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
 
                         if(atvAccounts.getText().toString().trim().equals("")){
                             Toast.makeText(mContext, "لطفا طرف حساب را مشخص کنید.", Toast.LENGTH_SHORT).show();
-                        }else {
+                        }else if(etMablagh.getText().toString().trim().equals("") || etMablagh.getText().toString().trim().equals("0")) {
+                            Toast.makeText(mContext, "لطفا مبلغ را وارد کنید.", Toast.LENGTH_SHORT).show();
+                        }else{
                             SQLiteDatabase dbShowAccount = new MyDatabase(mContext).getReadableDatabase();
                             Cursor cursorShowAccount = dbShowAccount.query("tblContacts", new String[]{"Tafzili_ID"}, "FullName = ?", new String[]{atvAccounts.getText().toString().trim() + ""}, null, null, null);
 

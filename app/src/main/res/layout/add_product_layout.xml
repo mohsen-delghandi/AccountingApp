@@ -51,6 +51,7 @@
             android:id="@+id/editText_add_product_name"
             android:hint="نام محصول"
             android:inputType="text"
+            android:imeOptions="actionNext"
             android:nextFocusForward="@+id/spinner_add_product_units_list"
             />
     </LinearLayout>
@@ -104,6 +105,7 @@
             android:id="@+id/editText_add_product_buy_price"
             android:hint="قیمت خرید"
             android:inputType="phone"
+            android:imeOptions="actionNext"
             android:nextFocusForward="@+id/editText_add_product_sell_price" />
     </LinearLayout>
     <LinearLayout
@@ -127,6 +129,7 @@
             android:id="@+id/editText_add_product_sell_price"
             android:hint="قیمت فروش"
             android:inputType="number"
+            android:imeOptions="actionNext"
             android:nextFocusForward="@+id/editText_add_product_mojoodi"
             />
     </LinearLayout>
@@ -151,30 +154,32 @@
             android:id="@+id/editText_add_product_mojoodi"
             android:hint="موجودی اول دوره"
             android:inputType="number"
+            android:imeOptions="actionNext"
             android:nextFocusForward="@+id/editText_add_product_average_price"/>
     </LinearLayout>
 
     <LinearLayout
-        android:layout_marginTop="@dimen/padding_large"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/padding_large"
+        android:background="@drawable/shape_border"
         android:gravity="center_vertical"
-        android:background="@drawable/shape_border">
+        android:orientation="horizontal">
+
         <TextView
-            style="@style/etStyle"
-            android:visibility="gone"
-            android:layout_width="wrap_content"
             android:id="@+id/textView_add_product_average_price"
-            android:hint="میانگین قیمت"
-            android:inputType="number"
-            />
-        <EditText
             style="@style/etStyle"
-            android:id="@+id/editText_add_product_average_price"
+            android:layout_width="wrap_content"
             android:hint="میانگین قیمت"
             android:inputType="number"
-            />
+            android:visibility="gone" />
+
+        <EditText
+            android:id="@+id/editText_add_product_average_price"
+            style="@style/etStyle"
+            android:hint="میانگین قیمت"
+            android:imeOptions="actionDone"
+            android:inputType="number" />
     </LinearLayout>
 
 

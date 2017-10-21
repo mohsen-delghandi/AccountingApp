@@ -117,6 +117,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
         holder.tvUnit.setText(mProductUnit.get(position));
         holder.tvBuyPrice.setText(mProductBuyPrice.get(position));
         holder.tvSellPrice.setText(MainActivity.priceFormatter(mProductSellPrice.get(position)));
+        holder.tvBuyPrice.setText(MainActivity.priceFormatter(mProductSellPrice.get(position)));
         holder.setIsRecyclable(false);
         holder.llMain.setOnClickListener(new View.OnClickListener() {
             @Override

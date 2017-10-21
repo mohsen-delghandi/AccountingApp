@@ -142,25 +142,26 @@ public class BuyAndSellActivity extends MainActivity {
                 Cursor cursorAccountDetails = dbShowAccount.query("tblContacts",new String[]{"Phone","Mobile","AdressContacts"},"Tafzili_ID = ?",new String[]{accountTafziliIDs.get(0)+""},null,null,null);
                 cursorAccountDetails.moveToFirst();
 
-                Cursor cursorBilList = dbShowAccount.rawQuery("SELECT " +
-                        "TblActionTypeSanad.OnvanAction, " +
-                        "tblChildeSanad.Bedehkar, " +
-                        "tblChildeSanad.Bestankar, " +
-                        "tblChildeSanad.Sharh_Child_Sanad, " +
-                        "tblParentSanad.Date_Sanad, " +
-                        "tblChildeSanad.ID_Child_Sanad " +
-                        "FROM tblChildeSanad " +
-                        "INNER JOIN tblParentSanad ON tblChildeSanad.Serial_Sanad = tblParentSanad.Serial_Sanad " +
-                        "INNER JOIN TblActionTypeSanad ON tblChildeSanad.ID_TypeAmaliyat = TblActionTypeSanad.ID_Action " +
-                        "WHERE tblChildeSanad.Tafzili_ID = '" + accountTafziliIDs.get(0) + "';", null);
-
-                if (cursorBilList.moveToLast()) {
+//                Cursor cursorBilList = dbShowAccount.rawQuery("SELECT " +
+//                        "TblActionTypeSanad.OnvanAction, " +
+//                        "tblChildeSanad.Bedehkar, " +
+//                        "tblChildeSanad.Bestankar, " +
+//                        "tblChildeSanad.Sharh_Child_Sanad, " +
+//                        "tblParentSanad.Date_Sanad, " +
+//                        "tblChildeSanad.ID_Child_Sanad " +
+//                        "FROM tblChildeSanad " +
+//                        "INNER JOIN tblParentSanad ON tblChildeSanad.Serial_Sanad = tblParentSanad.Serial_Sanad " +
+//                        "INNER JOIN TblActionTypeSanad ON tblChildeSanad.ID_TypeAmaliyat = TblActionTypeSanad.ID_Action " +
+//                        "WHERE tblChildeSanad.Tafzili_ID = '" + accountTafziliIDs.get(0) + "';", null);
+//
+//                if (cursorBilList.moveToLast()) {
                     Cursor cursorVaziatHesab = dbShowAccount.rawQuery("SELECT " +
-                            "(SUM(IFNULL(Bedehkar,0)) - SUM(IFNULL(Bestankar,0))) " +
+                            "IFNULL((SUM(IFNULL(Bedehkar,0)) - SUM(IFNULL(Bestankar,0))),0) " +
                             "AS MandeHesab " +
                             "FROM  tblChildeSanad " +
-                            "WHERE Tafzili_ID = '" + accountTafziliIDs.get(0) + "' " +
-                            "AND ID_Child_Sanad <= " + cursorBilList.getString(cursorBilList.getColumnIndex("ID_Child_Sanad")), null);
+                            "WHERE Tafzili_ID = '" + accountTafziliIDs.get(0) + "' "
+//                            "AND ID_Child_Sanad <= " + cursorBilList.getString(cursorBilList.getColumnIndex("ID_Child_Sanad"))
+                            , null);
                     if (cursorVaziatHesab.moveToFirst()) {
                         if((Long.parseLong(cursorVaziatHesab.getString(cursorVaziatHesab.getColumnIndex("MandeHesab"))) < 0)){
                             tvBedehiMablagh2nd.setTextColor(getResources().getColor(R.color.green));
@@ -189,7 +190,7 @@ public class BuyAndSellActivity extends MainActivity {
                         }
                         tvBedehiMablagh2nd.setText(MainActivity.priceFormatter(Math.abs(Long.parseLong(cursorVaziatHesab.getString(cursorVaziatHesab.getColumnIndex("MandeHesab")))) + ""));
                     }
-                }
+//                }
 
                 llAccountDetails2nd.setVisibility(View.VISIBLE);
                 tvPhone2nd.setText(cursorAccountDetails.getString(0));

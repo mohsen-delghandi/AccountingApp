@@ -17,6 +17,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Display;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,6 +33,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -298,6 +300,31 @@ public class MainActivity extends BaseActivity {
                 classes.add(TransactionActivity.class);
                 classes.add(AccountsActivity.class);
                 classes.add(BillActivity.class);
+
+                drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
+                    @Override
+                    public void onDrawerSlide(View drawerView, float slideOffset) {
+                        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                        inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                    }
+
+                    @Override
+                    public void onDrawerOpened(View drawerView) {
+                        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                        inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                    }
+
+                    @Override
+                    public void onDrawerClosed(View drawerView) {
+
+                    }
+
+                    @Override
+                    public void onDrawerStateChanged(int newState) {
+                        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                        inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                    }
+                });
 
                 mNavigationRecycler = (RecyclerView)findViewById(R.id.nav_recyclerView);
                 mNavigationRecycler.setHasFixedSize(true);

@@ -159,6 +159,7 @@
             android:layout_width="0dp"
             android:layout_weight="2"
             android:hint="مبلغ"
+            android:imeOptions="actionNext"
             android:inputType="number"
             android:nextFocusForward="@+id/autoTextView_add_transaction_account"/>
 
@@ -199,6 +200,9 @@
             android:id="@+id/autoTextView_add_transaction_account"
             android:completionThreshold="1"
             android:maxLines="1"
+            android:singleLine="true"
+            android:imeOptions="actionDone"
+            android:lines="1"
             android:nextFocusForward="@+id/textView_add_account_address"
             android:hint="نام طرف حساب"/>
     </LinearLayout>

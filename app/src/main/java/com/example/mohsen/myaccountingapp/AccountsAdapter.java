@@ -19,6 +19,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -154,25 +155,26 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
             tafziliID = cursorTafzili.getString(0);
         }
 
-        Cursor cursorBilList = dbBillList.rawQuery("SELECT " +
-                "TblActionTypeSanad.OnvanAction, " +
-                "tblChildeSanad.Bedehkar, " +
-                "tblChildeSanad.Bestankar, " +
-                "tblChildeSanad.Sharh_Child_Sanad, " +
-                "tblParentSanad.Date_Sanad, " +
-                "tblChildeSanad.ID_Child_Sanad " +
-                "FROM tblChildeSanad " +
-                "INNER JOIN tblParentSanad ON tblChildeSanad.Serial_Sanad = tblParentSanad.Serial_Sanad " +
-                "INNER JOIN TblActionTypeSanad ON tblChildeSanad.ID_TypeAmaliyat = TblActionTypeSanad.ID_Action " +
-                "WHERE tblChildeSanad.Tafzili_ID = '" + tafziliID + "';", null);
+//        Cursor cursorBilList = dbBillList.rawQuery("SELECT " +
+//                "TblActionTypeSanad.OnvanAction, " +
+//                "tblChildeSanad.Bedehkar, " +
+//                "tblChildeSanad.Bestankar, " +
+//                "tblChildeSanad.Sharh_Child_Sanad, " +
+//                "tblParentSanad.Date_Sanad, " +
+//                "tblChildeSanad.ID_Child_Sanad " +
+//                "FROM tblChildeSanad " +
+//                "INNER JOIN tblParentSanad ON tblChildeSanad.Serial_Sanad = tblParentSanad.Serial_Sanad " +
+//                "INNER JOIN TblActionTypeSanad ON tblChildeSanad.ID_TypeAmaliyat = TblActionTypeSanad.ID_Action " +
+//                "WHERE tblChildeSanad.Tafzili_ID = '" + tafziliID + "';", null);
 
-        if (cursorBilList.moveToLast()) {
+//        if (cursorBilList.moveToLast()) {
             Cursor cursorVaziatHesab = dbBillList.rawQuery("SELECT " +
-                    "(SUM(IFNULL(Bedehkar,0)) - SUM(IFNULL(Bestankar,0))) " +
+                    "IFNULL((SUM(IFNULL(Bedehkar,0)) - SUM(IFNULL(Bestankar,0))),0) " +
                     "AS MandeHesab " +
                     "FROM  tblChildeSanad " +
-                    "WHERE Tafzili_ID = '" + tafziliID + "' " +
-                    "AND ID_Child_Sanad <= " + cursorBilList.getString(cursorBilList.getColumnIndex("ID_Child_Sanad")), null);
+                    "WHERE Tafzili_ID = '" + tafziliID + "' "
+//                    "AND ID_Child_Sanad <= " + cursorBilList.getString(cursorBilList.getColumnIndex("ID_Child_Sanad"))
+                    , null);
             if (cursorVaziatHesab.moveToFirst()) {
                 if((Long.parseLong(cursorVaziatHesab.getString(cursorVaziatHesab.getColumnIndex("MandeHesab"))) < 0)){
                     holder.tvBedehiMablagh.setTextColor(mContext.getResources().getColor(R.color.green));
@@ -201,7 +203,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
                 }
                 holder.tvBedehiMablagh.setText(MainActivity.priceFormatter(Math.abs(Long.parseLong(cursorVaziatHesab.getString(cursorVaziatHesab.getColumnIndex("MandeHesab")))) + ""));
             }
-        }
+//        }
 
         holder.llMain.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -484,33 +486,51 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
                 ((TextView)v.findViewById(R.id.textView_add_account_save)).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        SQLiteDatabase db = new MyDatabase(mContext).getWritableDatabase();
-                        ContentValues cv2 = new ContentValues();
-                        cv2.put("FullName",(et_fullName).getText().toString().trim());
-                        cv2.put("Phone",(et_telNumber).getText().toString().trim());
-                        cv2.put("Mobile",(et_mobileNumber).getText().toString().trim());
-                        cv2.put("AdressContacts",(et_address).getText().toString().trim());
-                        cv2.put("Code_Melli",(et_nationalId).getText().toString().trim());
-                        cv2.put("GroupContact",groupContactID[0]);
-                        cv2.put("Pishvand_ID",pishvandID[0]);
-                        db.update("tblContacts",cv2,"Contacts_ID = ?",new String[]{mAccountIDs.get(position)+""});
+                        if (et_fullName.getText().toString().trim().equals("")) {
+                            Toast.makeText(mContext, "لظفا نام را وارد کنید.", Toast.LENGTH_SHORT).show();
+                            et_fullName.requestFocus();
+                            InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.showSoftInput(et_fullName, InputMethodManager.SHOW_IMPLICIT);
+                        } else if (et_mobileNumber.getText().toString().trim().equals("")) {
+                            Toast.makeText(mContext, "لظفا شماره همراه را وارد کنید.", Toast.LENGTH_SHORT).show();
+                            et_mobileNumber.requestFocus();
+                            InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.showSoftInput(et_mobileNumber, InputMethodManager.SHOW_IMPLICIT);
+                        } else if (!Pattern.matches(mobile_regex,et_mobileNumber.getText().toString().trim())){
+                            Toast.makeText(mContext, "شماره تلفن صحیح نیست.\nشکل صحیح 09xxxxxxxxx", Toast.LENGTH_LONG).show();
+                            et_mobileNumber.requestFocus();
+                            et_mobileNumber.selectAll();
+                            InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.showSoftInput(et_mobileNumber, InputMethodManager.SHOW_IMPLICIT);
+                        }else {
+                            SQLiteDatabase db = new MyDatabase(mContext).getWritableDatabase();
+                            ContentValues cv2 = new ContentValues();
+                            cv2.put("FullName", (et_fullName).getText().toString().trim());
+                            cv2.put("Phone", (et_telNumber).getText().toString().trim());
+                            cv2.put("Mobile", (et_mobileNumber).getText().toString().trim());
+                            cv2.put("AdressContacts", (et_address).getText().toString().trim());
+                            cv2.put("Code_Melli", (et_nationalId).getText().toString().trim());
+                            cv2.put("GroupContact", groupContactID[0]);
+                            cv2.put("Pishvand_ID", pishvandID[0]);
+                            db.update("tblContacts", cv2, "Contacts_ID = ?", new String[]{mAccountIDs.get(position) + ""});
 
-                        mAccountFullName.set(position,(et_fullName).getText().toString().trim());
-                        mAccountPhones.set(position,(et_telNumber).getText().toString().trim());
-                        mAccountMobiles.set(position,(et_mobileNumber).getText().toString().trim());
-                        mAccountAddresses.set(position,(et_address).getText().toString().trim());
-                        Cursor c55 = db.query("tblPishvand",new String[]{"Pishvand"},"Pishvand_ID = ?",new String[]{pishvandID[0]+""},null,null,null,null);
-                        c55.moveToFirst();
-                        mAccountPishvands.set(position,c55.getString(0));
-                        c55.close();
+                            mAccountFullName.set(position, (et_fullName).getText().toString().trim());
+                            mAccountPhones.set(position, (et_telNumber).getText().toString().trim());
+                            mAccountMobiles.set(position, (et_mobileNumber).getText().toString().trim());
+                            mAccountAddresses.set(position, (et_address).getText().toString().trim());
+                            Cursor c55 = db.query("tblPishvand", new String[]{"Pishvand"}, "Pishvand_ID = ?", new String[]{pishvandID[0] + ""}, null, null, null, null);
+                            c55.moveToFirst();
+                            mAccountPishvands.set(position, c55.getString(0));
+                            c55.close();
 
-                        db.close();
+                            db.close();
 
-                        notifyDataSetChanged();
+                            notifyDataSetChanged();
 
-                        Toast.makeText(mContext, "با موفقیت ذخیره شد.", Toast.LENGTH_SHORT).show();
-                        mLlAddLayer.setVisibility(View.GONE);
-                        mFab.setVisibility(View.VISIBLE);
+                            Toast.makeText(mContext, "با موفقیت ذخیره شد.", Toast.LENGTH_SHORT).show();
+                            mLlAddLayer.setVisibility(View.GONE);
+                            mFab.setVisibility(View.VISIBLE);
+                        }
                     }
                 });
             }

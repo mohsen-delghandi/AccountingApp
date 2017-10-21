@@ -183,7 +183,7 @@ public class ProductsActivity extends MainActivity {
                         productMojoodi.add(etMojoodi.getText().toString().trim());
                         productIDs.add((int)id);
 
-                        recyclerAdapter.notifyItemInserted(productIDs.size()-1);
+//                        recyclerAdapter.notifyItemInserted(productIDs.size()-1);
                         recyclerAdapter.notifyDataSetChanged();
 
                         db.close();

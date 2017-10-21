@@ -14,6 +14,7 @@ import android.provider.ContactsContract;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -325,7 +326,13 @@ public class AccountSideActivity extends MainActivity {
                             etMobile.requestFocus();
                             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                             imm.showSoftInput(etMobile, InputMethodManager.SHOW_IMPLICIT);
-                        } else {
+                        } else if (!Pattern.matches(mobile_regex,etMobile.getText().toString().trim())){
+                            Toast.makeText(AccountSideActivity.this, "شماره تلفن صحیح نیست.\nشکل صحیح 09xxxxxxxxx", Toast.LENGTH_LONG).show();
+                            etMobile.requestFocus();
+                            etMobile.selectAll();
+                            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.showSoftInput(etMobile, InputMethodManager.SHOW_IMPLICIT);
+                        }else{
                             SQLiteDatabase db = new MyDatabase(AccountSideActivity.this).getWritableDatabase();
                             Cursor cursor = db.query("tblTafzili", new String[]{"IFNULL(MAX(Tafzili_ID),1001000)"}, null, null, null, null, null);
                             cursor.moveToFirst();
