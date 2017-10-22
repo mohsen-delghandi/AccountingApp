@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layoutDirection="rtl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingRight="@dimen/padding_bit"
+    android:paddingLeft="@dimen/padding_bit"
+    android:background="@color/icons">
+
+    <LinearLayout
+        android:layout_margin="@dimen/padding_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@drawable/shape_gradient_background"
+        android:padding="@dimen/padding_large">
+
+        <ImageView
+            android:adjustViewBounds="true"
+            android:layout_width="@dimen/dimen_xmedium"
+            android:layout_height="@dimen/dimen_xmedium"
+            android:src="@drawable/calendar"
+            android:layout_marginRight="@dimen/padding_spinner"/>
+
+        <TextView
+            android:id="@+id/textView_first_date"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="امروز شنبه 25 شهریور سال 96"
+            android:textSize="@dimen/font_medium"
+            android:textColor="@color/icons"
+            android:paddingRight="@dimen/padding_large"
+            android:paddingLeft="@dimen/padding_large"
+            />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:visibility="invisible"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_item_height" />
+
+</LinearLayout>

@@ -322,8 +322,8 @@ public class AccountsActivity extends MainActivity {
                                 cvBestankar.put("ID_TypeAmaliyat","9");
                                 cvBestankar.put("Sharh_Child_Sanad","مانده اول دوره");
 
-                                cvBanks.put("StatusMande","بدهکار");
-                                dbMande.update("tblContacts",cvBanks,"Tafzili_ID = ?",new String[]{cursorNewTafzili.getInt(0) + 1+""});
+                                cvBanks.put("TypeTaraz","بدهکار");
+                                dbMande.update("tblHesabBanki",cvBanks,"Tafzili_ID = ?",new String[]{cursorNewTafzili.getInt(0) + 1+""});
 
                                 dbMande.insert("tblChildeSanad", null, cvBedehkar);
                                 dbMande.insert("tblChildeSanad",null,cvBestankar);
@@ -344,7 +344,7 @@ public class AccountsActivity extends MainActivity {
                                 cvBestankar.put("ID_TypeAmaliyat","9");
                                 cvBestankar.put("Sharh_Child_Sanad","مانده اول دوره");
 
-                                cvBanks.put("StatusMande","بستانکار");
+                                cvBanks.put("TypeTaraz","بستانکار");
                                 dbMande.update("tblHesabBanki",cvBanks,"Tafzili_ID = ?",new String[]{cursorNewTafzili.getInt(0) + 1+""});
 
                                 dbMande.insert("tblChildeSanad", null, cvBedehkar);

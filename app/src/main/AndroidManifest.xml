@@ -36,6 +36,8 @@
             android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".BillActivity"
             android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".FirstPageActivity"
+            android:windowSoftInputMode="adjustPan"/>
     </application>
 
 </manifest>

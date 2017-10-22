@@ -179,7 +179,7 @@ public class TransactionActivity extends MainActivity {
         final TextView tvAddTransactionCheckDate = (TextView)findViewById(R.id.textView_add_transaction_check_date);
         mDate = new DatePersian();
 
-        checkDate = mDate.getDate();
+        checkDate = persianDateToGeorgianDate(mDate);
         tvAddTransactionCheckDate.setText(dateToText(mDate));
         tvAddTransactionCheckDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,7 +196,7 @@ public class TransactionActivity extends MainActivity {
                     public void onDateSet(int id, @Nullable Calendar calendar, int day, int month, int year) {
                         mDate.setDate(day, month, year);
 
-                        checkDate = mDate.getDate();
+                        checkDate = persianDateToGeorgianDate(mDate);
                         //textView
                         tvAddTransactionCheckDate.setText(dateToText(mDate));
 

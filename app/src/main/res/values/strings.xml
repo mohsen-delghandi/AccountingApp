@@ -8,6 +8,7 @@
     <string name="action_settings">Settings</string>
 
     <string-array name="navigation_menu_item_names">
+        <item>صفحه اول</item>
         <item>طرف حساب</item>
         <item>محصولات</item>
         <item>خرید و فروش</item>

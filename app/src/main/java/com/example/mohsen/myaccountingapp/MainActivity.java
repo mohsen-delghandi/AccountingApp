@@ -294,6 +294,7 @@ public class MainActivity extends BaseActivity {
 
                 classes = new ArrayList<>();
 
+                classes.add(FirstPageActivity.class);
                 classes.add(AccountSideActivity.class);
                 classes.add(ProductsActivity.class);
                 classes.add(BuyAndSellActivity.class);

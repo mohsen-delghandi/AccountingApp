@@ -54,7 +54,6 @@ public class BankAccountsAdapter extends RecyclerView.Adapter<BankAccountsAdapte
         mFab = fab;
     }
 
-
     @Override
     public BankAccountsAdapter.ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
         v = LayoutInflater.from(parent.getContext()).inflate(R.layout.accounts_item, parent, false);
