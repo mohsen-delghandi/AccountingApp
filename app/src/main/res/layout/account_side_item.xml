@@ -207,8 +207,8 @@ android:background="@drawable/shape_underline_dashed">
         android:layout_height="wrap_content"
         android:textSize="@dimen/font_small"
         android:text="05123565448"
-        android:paddingRight="@dimen/padding_medium"
-        android:paddingLeft="@dimen/padding_medium"
+        android:paddingRight="@dimen/padding_bit"
+        android:paddingLeft="@dimen/padding_bit"
         android:textColor="@color/icons"
         android:gravity="center_vertical"/>
     <TextView
@@ -216,7 +216,7 @@ android:background="@drawable/shape_underline_dashed">
         android:layout_height="wrap_content"
         android:textSize="@dimen/font_small"
         android:text="همراه :"
-        android:layout_marginRight="@dimen/padding_large"
+        android:layout_marginRight="@dimen/padding_medium"
         android:textColor="@color/icons"
         android:gravity="center_vertical"/>
     <TextView
@@ -225,8 +225,8 @@ android:background="@drawable/shape_underline_dashed">
         android:layout_height="wrap_content"
         android:textSize="@dimen/font_small"
         android:text="09359146436"
-        android:paddingRight="@dimen/padding_medium"
-        android:paddingLeft="@dimen/padding_medium"
+        android:paddingRight="@dimen/padding_bit"
+        android:paddingLeft="@dimen/padding_bit"
         android:textColor="@color/icons"
         android:gravity="center_vertical"/>
 

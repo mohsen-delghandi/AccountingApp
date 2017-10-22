@@ -209,7 +209,7 @@
             android:layout_width="wrap_content"
             android:visibility="gone"
             android:id="@+id/textView_add_account_mande"
-            android:hint="آدرس"
+            android:hint="مانده اول دوره"
             android:lines="5"
             android:gravity="top"
             android:inputType="text"

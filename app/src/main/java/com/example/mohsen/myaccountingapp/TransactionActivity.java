@@ -63,7 +63,7 @@ public class TransactionActivity extends MainActivity {
 
     LinearLayout llTayid3rd;
 
-    String type,mode,checkDate;
+    String type,mode,checkDate,currentDate;
 
     private DatePersian mDate;
 
@@ -145,13 +145,36 @@ public class TransactionActivity extends MainActivity {
         tvAddTransactionTime.setText(currentTime);
 
 
-        TextView tvAddTransactionDate = (TextView)findViewById(R.id.textView_add_transaction_date);
+        final TextView tvAddTransactionDate = (TextView)findViewById(R.id.textView_add_transaction_date);
         mDate = new DatePersian();
 
-        SimpleDateFormat format2= new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        final String currentDate = format2.format(new java.util.Date());
-
+//        currentDate = mDate.getDate();
+        currentDate = persianDateToGeorgianDate(mDate);
         tvAddTransactionDate.setText(dateToText(mDate));
+        tvAddTransactionDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePicker.Builder builder = new DatePicker
+                        .Builder()
+                        .theme(R.style.DialogTheme)
+                        .minYear(1390)
+                        .future(true);
+                mDate = new DatePersian();
+                builder.date(mDate.getDay(), mDate.getMonth(), mDate.getYear());
+                builder.build(new DateSetListener() {
+                    @Override
+                    public void onDateSet(int id, @Nullable Calendar calendar, int day, int month, int year) {
+                        mDate.setDate(day, month, year);
+
+//                        currentDate = mDate.getDate();
+                        currentDate = persianDateToGeorgianDate(mDate);
+                        //textView
+                        tvAddTransactionDate.setText(dateToText(mDate));
+
+                    }
+                }).show(getSupportFragmentManager(), "");
+            }
+        });
 
         final TextView tvAddTransactionCheckDate = (TextView)findViewById(R.id.textView_add_transaction_check_date);
         mDate = new DatePersian();

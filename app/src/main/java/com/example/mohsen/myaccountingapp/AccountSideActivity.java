@@ -99,29 +99,6 @@ public class AccountSideActivity extends MainActivity {
                         String name = c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
                         etFullName.setText(name);
                     }
-
-//                    Cursor cursor = null;
-//                    try {
-//                        String phoneNo = null ;
-//                        String name = null;
-//                        // getData() method will have the Content Uri of the selected contact
-//                        Uri uri = data.getData();
-//                        //Query the content uri
-//                        cursor = getContentResolver().query(uri, null, null, null, null);
-//                        cursor.moveToFirst();
-//                        // column index of the phone number
-//                        int  phoneIndex =cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
-//                        // column index of the contact name
-//                        int  nameIndex =cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
-//                        phoneNo = cursor.getString(phoneIndex);
-//                        name = cursor.getString(nameIndex);
-//                        // Set the value to the textviews
-//                        etFullName.setText(name);
-//                        etMobile.setText(phoneNo);
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-
                 }
                 break;
         }
@@ -401,11 +378,13 @@ public class AccountSideActivity extends MainActivity {
                                 ContentValues cvBedehkar = new ContentValues();
                                 ContentValues cvBestankar = new ContentValues();
                                 ContentValues cvParentSanad = new ContentValues();
+                                ContentValues cvContacts = new ContentValues();
                                 Cursor cursorMaxSrialSand = dbMande.query("tblParentSanad", new String[]{"IFNULL(MAX(Serial_Sanad),0)"}, null, null, null, null, null);
                                 if (cursorMaxSrialSand.moveToFirst()) {
                                     cvParentSanad.put("Serial_Sanad", (Integer.parseInt(cursorMaxSrialSand.getString(0)) + 1) + "");
                                     cvBedehkar.put("Serial_Sanad", (Integer.parseInt(cursorMaxSrialSand.getString(0)) + 1) + "");
                                     cvBestankar.put("Serial_Sanad", (Integer.parseInt(cursorMaxSrialSand.getString(0)) + 1) + "");
+                                    cvContacts.put("SerialSanadEftetahiye", (Integer.parseInt(cursorMaxSrialSand.getString(0)) + 1) + "");
                                 }
 
                                 Cursor cursorMaxNumberSand = dbMande.query("tblParentSanad", new String[]{"IFNULL(MAX(Number_Sanad),0)"}, null, null, null, null, null);
@@ -422,6 +401,8 @@ public class AccountSideActivity extends MainActivity {
                                 cvParentSanad.put("Deleted_Sanad", "0");
 
                                 dbMande.insert("tblParentSanad", null, cvParentSanad);
+
+                                cvContacts.put("MandeAvalDovre",etMande.getText().toString().replaceAll(",","").trim());
 
                                 if(mandeType.trim().equals("Bedehkar")){
 
@@ -441,6 +422,9 @@ public class AccountSideActivity extends MainActivity {
                                     cvBestankar.put("ID_TypeAmaliyat","9");
                                     cvBestankar.put("Sharh_Child_Sanad","مانده اول دوره");
 
+                                    cvContacts.put("StatusMande","بدهکار");
+                                    dbMande.update("tblContacts",cvContacts,"Tafzili_ID = ?",new String[]{cursor.getInt(0) + 1+""});
+
                                     dbMande.insert("tblChildeSanad", null, cvBedehkar);
                                     dbMande.insert("tblChildeSanad",null,cvBestankar);
                                 }else if(mandeType.trim().equals("Bestankar")){
@@ -459,6 +443,9 @@ public class AccountSideActivity extends MainActivity {
                                     cvBestankar.put("ID_Amaliyat",id+"");
                                     cvBestankar.put("ID_TypeAmaliyat","9");
                                     cvBestankar.put("Sharh_Child_Sanad","مانده اول دوره");
+
+                                    cvContacts.put("StatusMande","بستانکار");
+                                    dbMande.update("tblContacts",cvContacts,"Tafzili_ID = ?",new String[]{cursor.getInt(0) + 1+""});
 
                                     dbMande.insert("tblChildeSanad", null, cvBedehkar);
                                     dbMande.insert("tblChildeSanad",null,cvBestankar);
@@ -527,8 +514,6 @@ public class AccountSideActivity extends MainActivity {
         accountRecyclerView.setHasFixedSize(true);
         accountRecyclerView.setNestedScrollingEnabled(false);
         recyclerManager = new LinearLayoutManager(this);
-        recyclerManager.setReverseLayout(true);
-        recyclerManager.setStackFromEnd(true);
         accountRecyclerView.setLayoutManager(recyclerManager);
         readAccountsFromDatabase();
         recyclerAdapter = new AccountsAdapter(this,accountFullName,accountPhone,accountMobile,accountAddress,accountIDs,accountPishvands,llAddLayer,fab);

@@ -303,8 +303,8 @@
             android:paddingTop="@dimen/dimen_xxxxlarge"
             android:background="@drawable/background_white_gradient"
             android:gravity="center"
-            android:paddingRight="@dimen/dimen_xxmedium"
-            android:paddingBottom="@dimen/padding_bit"
+            android:paddingRight="@dimen/dimen_xlarge"
+            android:paddingBottom="@dimen/padding_spinner"
             android:paddingLeft="@dimen/padding_bit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

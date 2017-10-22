@@ -29,8 +29,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 /**
@@ -41,19 +43,18 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
 
     Context mContext;
     View v;
-    List<String> mAccountFullName, mAccountPhones, mAccountMobiles, mAccountAddresses,mAccountPishvands;
+    List<String> mAccountFullName, mAccountPhones, mAccountMobiles, mAccountAddresses,mAccountPishvands,tafziliID;
     List<Integer> mAccountIDs;
     boolean isCollapsed;
     ViewHolder selectedHolder;
     LayoutInflater mInflaterInclude;
     LinearLayout mLlAddLayer;
     FloatingActionButton mFab;
-    String tafziliID;
 
     String mobile_regex = "09\\d\\d\\d\\d\\d\\d\\d\\d\\d";
     String tel_regex = "^0[0-9]{2,}[0-9]{7,}$";
     String national_id_regex = "^[0-9]{10}$";
-
+    String mandeType,serialSanad,mandeAvalDovre,statusMande;
 
     public AccountsAdapter(Context context, List<String> accountFullName, List<String> accountPhone, List<String> accountMobile, List<String> accountAddress, List<Integer> accountIDs, List<String> accountPishvands, LinearLayout llAddLayer, FloatingActionButton fab) {
         mContext = context;
@@ -65,6 +66,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
         mAccountPishvands = accountPishvands;
         mLlAddLayer = llAddLayer;
         mFab = fab;
+        tafziliID = new ArrayList<>();
     }
 
 
@@ -132,10 +134,22 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
         h.tvPishvand.setTextColor(mContext.getResources().getColor(R.color.primary_text));
         h.tvCompanyName.setTextColor(mContext.getResources().getColor(R.color.primary_text));
         h.tvDash.setTextColor(mContext.getResources().getColor(R.color.primary_text));
-        h.tvBedehiDash.setTextColor(mContext.getResources().getColor(R.color.green));
-        h.tvBedehiMablagh.setTextColor(mContext.getResources().getColor(R.color.green));
-        h.tvBedehiVahed.setTextColor(mContext.getResources().getColor(R.color.green));
-        h.tvBedehiText.setTextColor(mContext.getResources().getColor(R.color.green));
+        if(h.tvBedehiText.getText().toString().trim().equals("بستانکار")) {
+            h.tvBedehiDash.setTextColor(mContext.getResources().getColor(R.color.green));
+            h.tvBedehiMablagh.setTextColor(mContext.getResources().getColor(R.color.green));
+            h.tvBedehiVahed.setTextColor(mContext.getResources().getColor(R.color.green));
+            h.tvBedehiText.setTextColor(mContext.getResources().getColor(R.color.green));
+        }else if(h.tvBedehiText.getText().toString().trim().equals("بدهکار")){
+            h.tvBedehiDash.setTextColor(mContext.getResources().getColor(R.color.red));
+            h.tvBedehiMablagh.setTextColor(mContext.getResources().getColor(R.color.red));
+            h.tvBedehiVahed.setTextColor(mContext.getResources().getColor(R.color.red));
+            h.tvBedehiText.setTextColor(mContext.getResources().getColor(R.color.red));
+        }else{
+            h.tvBedehiDash.setTextColor(mContext.getResources().getColor(R.color.primary_text));
+            h.tvBedehiMablagh.setTextColor(mContext.getResources().getColor(R.color.primary_text));
+            h.tvBedehiVahed.setTextColor(mContext.getResources().getColor(R.color.primary_text));
+            h.tvBedehiText.setTextColor(mContext.getResources().getColor(R.color.primary_text));
+        }
         h.ivCall.setImageResource(R.drawable.shape_call_collapsed);
         h.ivArrow.setImageResource(R.drawable.shape_arrow_drop_down);
     }
@@ -149,10 +163,10 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
         holder.tvAddress.setText(mAccountAddresses.get(position));
         holder.setIsRecyclable(false);
 
-        SQLiteDatabase dbBillList = new MyDatabase(mContext).getReadableDatabase();
+        final SQLiteDatabase dbBillList = new MyDatabase(mContext).getReadableDatabase();
         Cursor cursorTafzili = dbBillList.query("tblContacts",new String[]{"Tafzili_ID"},"Contacts_ID = ?",new String[]{mAccountIDs.get(position)+""},null,null,null);
         if(cursorTafzili.moveToFirst()){
-            tafziliID = cursorTafzili.getString(0);
+            tafziliID.add(position,cursorTafzili.getString(0));
         }
 
 //        Cursor cursorBilList = dbBillList.rawQuery("SELECT " +
@@ -172,7 +186,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
                     "IFNULL((SUM(IFNULL(Bedehkar,0)) - SUM(IFNULL(Bestankar,0))),0) " +
                     "AS MandeHesab " +
                     "FROM  tblChildeSanad " +
-                    "WHERE Tafzili_ID = '" + tafziliID + "' "
+                    "WHERE Tafzili_ID = '" + tafziliID.get(position) + "' "
 //                    "AND ID_Child_Sanad <= " + cursorBilList.getString(cursorBilList.getColumnIndex("ID_Child_Sanad"))
                     , null);
             if (cursorVaziatHesab.moveToFirst()) {
@@ -473,17 +487,60 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
                 }
                 ((Spinner)v.findViewById(R.id.spinner_add_account_pishvand)).setSelection(contactPishvandPosition);
 
+                SQLiteDatabase dbMande = new MyDatabase(mContext).getReadableDatabase();
+                Cursor cursorMande = dbMande.query("tblContacts",new String[]{"MandeAvalDovre","StatusMande","SerialSanadEftetahiye"},"Tafzili_ID = ?",new String[]{tafziliID.get(position)},null,null,null);
+
+                if(cursorMande.moveToFirst()){
+                    if(cursorMande.getString(0)!=null){
+
+                        Spinner spMandeType = ((Spinner)v.findViewById(R.id.spinner_add_account_mande_type));
+                        final ArrayAdapter adapter3 = new ArrayAdapter(mContext,R.layout.simple_spinner_item,new String[]{"بدهکار","بستانکار"});
+                        adapter3.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
+                        spMandeType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                            @Override
+                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                if(i == 0){
+                                    mandeType = "Bedehkar";
+                                }else if(i==1){
+                                    mandeType = "Bestankar";
+                                }
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> adapterView) {
+                            }
+                        });
+                        spMandeType.setAdapter(adapter3);
+                        if(cursorMande.getString(1).trim().equals("بدهکار")){
+                            spMandeType.setSelection(0);
+                            statusMande = "Bedehkar";
+                        }else{
+                            spMandeType.setSelection(1);
+                            statusMande = "Bestankar";
+                        }
+
+                        serialSanad = cursorMande.getString(2);
+                        mandeAvalDovre = cursorMande.getString(0);
+                        et_mande.setText(cursorMande.getString(0));
+                    }
+                }
+
+
+
                 ((TextView)v.findViewById(R.id.textView_add_account_fullName)).setVisibility(View.VISIBLE);
                 ((TextView)v.findViewById(R.id.textView_add_account_codeMelli)).setVisibility(View.VISIBLE);
                 ((TextView)v.findViewById(R.id.textView_add_account_phone)).setVisibility(View.VISIBLE);
                 ((TextView)v.findViewById(R.id.textView_add_account_mobile)).setVisibility(View.VISIBLE);
                 ((TextView)v.findViewById(R.id.textView_add_account_address)).setVisibility(View.VISIBLE);
+                ((TextView)v.findViewById(R.id.textView_add_account_mande)).setVisibility(View.VISIBLE);
 
                 (et_fullName).setHint("");
                 (et_nationalId).setHint("");
                 (et_telNumber).setHint("");
                 (et_mobileNumber).setHint("");
                 (et_address).setHint("");
+                (et_mande).setHint("");
 
                 ((TextView)v.findViewById(R.id.textView_add_account_close)).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -523,6 +580,133 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
                             cv2.put("GroupContact", groupContactID[0]);
                             cv2.put("Pishvand_ID", pishvandID[0]);
                             db.update("tblContacts", cv2, "Contacts_ID = ?", new String[]{mAccountIDs.get(position) + ""});
+
+                            if(!et_mande.getText().toString().replaceAll(",","").trim().equals(mandeAvalDovre) || !mandeType.equals(statusMande)){
+                                SimpleDateFormat format2= new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                                final String currentDate = format2.format(new java.util.Date());
+
+                                SimpleDateFormat format= new SimpleDateFormat("HH:mm", Locale.getDefault());
+                                final String currentTime = format.format(new java.util.Date());
+
+
+                                SQLiteDatabase dbMande = new MyDatabase(mContext).getWritableDatabase();
+
+                                dbMande.delete("tblChildeSanad","Serial_Sanad = ?",new String[]{serialSanad});
+                                dbMande.delete("tblParentSanad","Serial_Sanad = ?",new String[]{serialSanad});
+
+                                ContentValues cvBedehkar = new ContentValues();
+                                ContentValues cvBestankar = new ContentValues();
+                                ContentValues cvParentSanad = new ContentValues();
+                                ContentValues cvContacts = new ContentValues();
+                                Cursor cursorMaxSrialSand = dbMande.query("tblParentSanad", new String[]{"IFNULL(MAX(Serial_Sanad),0)"}, null, null, null, null, null);
+                                if (cursorMaxSrialSand.moveToFirst()) {
+                                    cvParentSanad.put("Serial_Sanad", (Integer.parseInt(cursorMaxSrialSand.getString(0)) + 1) + "");
+                                    cvBedehkar.put("Serial_Sanad", (Integer.parseInt(cursorMaxSrialSand.getString(0)) + 1) + "");
+                                    cvBestankar.put("Serial_Sanad", (Integer.parseInt(cursorMaxSrialSand.getString(0)) + 1) + "");
+                                    cvContacts.put("SerialSanadEftetahiye", (Integer.parseInt(cursorMaxSrialSand.getString(0)) + 1) + "");
+                                }
+
+                                Cursor cursorMaxNumberSand = dbMande.query("tblParentSanad", new String[]{"IFNULL(MAX(Number_Sanad),0)"}, null, null, null, null, null);
+                                if (cursorMaxNumberSand.moveToFirst()) {
+                                    cvParentSanad.put("Number_Sanad", (Integer.parseInt(cursorMaxNumberSand.getString(0)) + 1) + "");
+                                }
+                                cvParentSanad.put("StatusSanadID", "3");
+                                cvParentSanad.put("TypeSanad_ID", "5");
+                                cvParentSanad.put("Date_Sanad", currentDate);
+                                cvParentSanad.put("Time_Sanad", currentTime);
+                                cvParentSanad.put("Taraz_Sanad", "1");
+                                cvParentSanad.put("Error_Sanad", "0");
+                                cvParentSanad.put("Edited_Sanad", "1");
+                                cvParentSanad.put("Date_Modify", currentDate);
+                                cvParentSanad.put("Deleted_Sanad", "0");
+
+                                dbMande.insert("tblParentSanad", null, cvParentSanad);
+
+                                cvContacts.put("MandeAvalDovre",et_mande.getText().toString().replaceAll(",","").trim());
+
+                                if(mandeType.trim().equals("Bedehkar")){
+
+                                    cvBedehkar.put("AccountsID","130");
+                                    cvBedehkar.put("Moein_ID","13001");
+                                    cvBedehkar.put("Tafzili_ID",tafziliID.get(position));
+                                    cvBedehkar.put("Bedehkar",et_mande.getText().toString().replaceAll(",","").trim());
+                                    cvBedehkar.put("Bestankar","0");
+                                    cvBedehkar.put("ID_Amaliyat",mAccountIDs.get(position) + "");
+                                    cvBedehkar.put("ID_TypeAmaliyat","9");
+                                    cvBedehkar.put("Sharh_Child_Sanad","مانده اول دوره");
+
+                                    cvBestankar.put("AccountsID","930");
+                                    cvBestankar.put("Bestankar",et_mande.getText().toString().replaceAll(",","").trim());
+                                    cvBestankar.put("Bedehkar","0");
+                                    cvBestankar.put("ID_Amaliyat",mAccountIDs.get(position) + "");
+                                    cvBestankar.put("ID_TypeAmaliyat","9");
+                                    cvBestankar.put("Sharh_Child_Sanad","مانده اول دوره");
+
+                                    cvContacts.put("StatusMande","بدهکار");
+                                    dbMande.update("tblContacts",cvContacts,"Tafzili_ID = ?",new String[]{tafziliID.get(position)});
+
+                                    dbMande.insert("tblChildeSanad", null, cvBedehkar);
+                                    dbMande.insert("tblChildeSanad",null,cvBestankar);
+                                }else if(mandeType.trim().equals("Bestankar")){
+                                    cvBedehkar.put("AccountsID","930");
+                                    cvBedehkar.put("Bedehkar",et_mande.getText().toString().replaceAll(",","").trim());
+                                    cvBedehkar.put("Bestankar","0");
+                                    cvBedehkar.put("ID_Amaliyat",mAccountIDs.get(position) + "");
+                                    cvBedehkar.put("ID_TypeAmaliyat","9");
+                                    cvBedehkar.put("Sharh_Child_Sanad","مانده اول دوره");
+
+                                    cvBestankar.put("AccountsID","130");
+                                    cvBestankar.put("Moein_ID","13001");
+                                    cvBestankar.put("Tafzili_ID",tafziliID.get(position));
+                                    cvBestankar.put("Bestankar",et_mande.getText().toString().replaceAll(",","").trim());
+                                    cvBestankar.put("Bedehkar","0");
+                                    cvBestankar.put("ID_Amaliyat",mAccountIDs.get(position) + "");
+                                    cvBestankar.put("ID_TypeAmaliyat","9");
+                                    cvBestankar.put("Sharh_Child_Sanad","مانده اول دوره");
+
+                                    cvContacts.put("StatusMande","بستانکار");
+                                    dbMande.update("tblContacts",cvContacts,"Tafzili_ID = ?",new String[]{tafziliID.get(position)});
+
+                                    dbMande.insert("tblChildeSanad", null, cvBedehkar);
+                                    dbMande.insert("tblChildeSanad",null,cvBestankar);
+                                }
+                            }
+
+                            Cursor cursorVaziatHesab = dbBillList.rawQuery("SELECT " +
+                                            "IFNULL((SUM(IFNULL(Bedehkar,0)) - SUM(IFNULL(Bestankar,0))),0) " +
+                                            "AS MandeHesab " +
+                                            "FROM  tblChildeSanad " +
+                                            "WHERE Tafzili_ID = '" + tafziliID.get(position) + "' "
+//                    "AND ID_Child_Sanad <= " + cursorBilList.getString(cursorBilList.getColumnIndex("ID_Child_Sanad"))
+                                    , null);
+                            if (cursorVaziatHesab.moveToFirst()) {
+                                if ((Long.parseLong(cursorVaziatHesab.getString(cursorVaziatHesab.getColumnIndex("MandeHesab"))) < 0)) {
+                                    holder.tvBedehiMablagh.setTextColor(mContext.getResources().getColor(R.color.green));
+                                    holder.tvBedehiVahed.setTextColor(mContext.getResources().getColor(R.color.green));
+                                    holder.tvBedehiDash.setTextColor(mContext.getResources().getColor(R.color.green));
+                                    holder.tvBedehiText.setTextColor(mContext.getResources().getColor(R.color.green));
+                                    holder.tvBedehiText.setText("بستانکار");
+                                    holder.ivBedehi.setImageResource(R.drawable.shape_arrow_down);
+                                    holder.ivBedehi.setColorFilter(mContext.getResources().getColor(R.color.green));
+                                } else if (Long.parseLong(cursorVaziatHesab.getString(cursorVaziatHesab.getColumnIndex("MandeHesab"))) > 0) {
+                                    holder.tvBedehiMablagh.setTextColor(mContext.getResources().getColor(R.color.red));
+                                    holder.tvBedehiVahed.setTextColor(mContext.getResources().getColor(R.color.red));
+                                    holder.tvBedehiDash.setTextColor(mContext.getResources().getColor(R.color.red));
+                                    holder.tvBedehiText.setTextColor(mContext.getResources().getColor(R.color.red));
+                                    holder.tvBedehiText.setText("بدهکار");
+                                    holder.ivBedehi.setImageResource(R.drawable.shape_arrow_down);
+                                    holder.ivBedehi.setRotation(180);
+                                    holder.ivBedehi.setColorFilter(mContext.getResources().getColor(R.color.red));
+                                } else {
+                                    holder.tvBedehiMablagh.setTextColor(mContext.getResources().getColor(R.color.primary_text));
+                                    holder.tvBedehiVahed.setTextColor(mContext.getResources().getColor(R.color.primary_text));
+                                    holder.tvBedehiDash.setTextColor(mContext.getResources().getColor(R.color.primary_text));
+                                    holder.tvBedehiText.setTextColor(mContext.getResources().getColor(R.color.primary_text));
+                                    holder.tvBedehiText.setText("بی حساب");
+                                    holder.ivBedehi.setVisibility(View.INVISIBLE);
+                                }
+                                holder.tvBedehiMablagh.setText(MainActivity.priceFormatter(Math.abs(Long.parseLong(cursorVaziatHesab.getString(cursorVaziatHesab.getColumnIndex("MandeHesab")))) + ""));
+                            }
 
                             mAccountFullName.set(position, (et_fullName).getText().toString().trim());
                             mAccountPhones.set(position, (et_telNumber).getText().toString().trim());

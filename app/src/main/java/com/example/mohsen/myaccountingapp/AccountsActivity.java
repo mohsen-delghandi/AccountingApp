@@ -32,8 +32,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static java.security.AccessController.getContext;
 
@@ -54,13 +56,12 @@ public class AccountsActivity extends MainActivity {
     TextView tvClean,tvSave;
     EditText etShobeName,etCardNumber,etHesabNumber,etTarazEftetahie;
     ImageView ivClose,ivHelp;
-    Spinner spTarazList,spBankList;
+    Spinner spTarazList,spBankList,spTarazType;
 
     List<String> accountBankName,accountShobeName,accountHesabNumbers,accountCardNumbers;
     List<Integer> accountHesabIDs;
 
-    String a;
-    int keyDel;
+    String mandeType;
 
     @Override
     public void onBackPressed() {
@@ -130,6 +131,8 @@ public class AccountsActivity extends MainActivity {
                 });
                 inflaterInclude.inflate(R.layout.add_account_bank_layout,llAddLayer);
 
+                mandeType = "Bedehkar";
+
                 tvClean = (TextView)findViewById(R.id.textView_add_account_banki_clean);
                 tvSave = (TextView)findViewById(R.id.textView_add_account_banki_save);
 
@@ -170,6 +173,7 @@ public class AccountsActivity extends MainActivity {
                 ivHelp = (ImageView)findViewById(R.id.imageView_add_account_banki_help);
 
                 spTarazList = (Spinner)findViewById(R.id.spinner_add_account_banki_taraz_list);
+                spTarazType = (Spinner)findViewById(R.id.spinner_add_account_banki_taraz_list);
 
                 String[] tarazList = new String[]{"بدهکار","بستانکار"};
                 final ArrayAdapter adapterTarazList = new ArrayAdapter(AccountsActivity.this,R.layout.simple_spinner_item,tarazList);
@@ -178,12 +182,16 @@ public class AccountsActivity extends MainActivity {
                 spTarazList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                        typeTaraz = "بدهکار";
+                        if(i == 0){
+                            mandeType = "Bedehkar";
+                        }else if(i==1){
+                            mandeType = "Bestankar";
+                        }
                     }
 
                     @Override
                     public void onNothingSelected(AdapterView<?> adapterView) {
-                        typeTaraz = "بستانکار";
+                        mandeType = "Bedehkar";
                     }
                 });
                 spTarazList.setAdapter(adapterTarazList);
@@ -258,6 +266,90 @@ public class AccountsActivity extends MainActivity {
                             cvAddNewBankAccount.put("TarazEftetahiye", etTarazEftetahie.getText().toString().replaceAll(",","").trim());
                             cvAddNewBankAccount.put("TypeTaraz", typeTaraz);
                             long id = dbAddBankAccount.insert("tblHesabBanki", null, cvAddNewBankAccount);
+
+                            SimpleDateFormat format2= new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                            final String currentDate = format2.format(new java.util.Date());
+
+                            SimpleDateFormat format= new SimpleDateFormat("HH:mm", Locale.getDefault());
+                            final String currentTime = format.format(new java.util.Date());
+
+
+                            SQLiteDatabase dbMande = new MyDatabase(AccountsActivity.this).getWritableDatabase();
+                            ContentValues cvBedehkar = new ContentValues();
+                            ContentValues cvBestankar = new ContentValues();
+                            ContentValues cvParentSanad = new ContentValues();
+                            ContentValues cvBanks = new ContentValues();
+                            Cursor cursorMaxSrialSand = dbMande.query("tblParentSanad", new String[]{"IFNULL(MAX(Serial_Sanad),0)"}, null, null, null, null, null);
+                            if (cursorMaxSrialSand.moveToFirst()) {
+                                cvParentSanad.put("Serial_Sanad", (Integer.parseInt(cursorMaxSrialSand.getString(0)) + 1) + "");
+                                cvBedehkar.put("Serial_Sanad", (Integer.parseInt(cursorMaxSrialSand.getString(0)) + 1) + "");
+                                cvBestankar.put("Serial_Sanad", (Integer.parseInt(cursorMaxSrialSand.getString(0)) + 1) + "");
+                                cvBanks.put("SerialSanadEftetahiye", (Integer.parseInt(cursorMaxSrialSand.getString(0)) + 1) + "");
+                            }
+
+                            Cursor cursorMaxNumberSand = dbMande.query("tblParentSanad", new String[]{"IFNULL(MAX(Number_Sanad),0)"}, null, null, null, null, null);
+                            if (cursorMaxNumberSand.moveToFirst()) {
+                                cvParentSanad.put("Number_Sanad", (Integer.parseInt(cursorMaxNumberSand.getString(0)) + 1) + "");
+                            }
+                            cvParentSanad.put("StatusSanadID", "3");
+                            cvParentSanad.put("TypeSanad_ID", "5");
+                            cvParentSanad.put("Date_Sanad", currentDate);
+                            cvParentSanad.put("Time_Sanad", currentTime);
+                            cvParentSanad.put("Taraz_Sanad", "1");
+                            cvParentSanad.put("Error_Sanad", "0");
+                            cvParentSanad.put("Edited_Sanad", "0");
+                            cvParentSanad.put("Deleted_Sanad", "0");
+
+                            dbMande.insert("tblParentSanad", null, cvParentSanad);
+
+                            cvBanks.put("TarazEftetahiye",etTarazEftetahie.getText().toString().replaceAll(",","").trim());
+
+                            if(mandeType.trim().equals("Bedehkar")){
+
+                                cvBedehkar.put("AccountsID","110");
+                                cvBedehkar.put("Moein_ID","11003");
+                                cvBedehkar.put("Tafzili_ID",cursorNewTafzili.getInt(0) + 1+"");
+                                cvBedehkar.put("Bedehkar",etTarazEftetahie.getText().toString().replaceAll(",","").trim());
+                                cvBedehkar.put("Bestankar","0");
+                                cvBedehkar.put("ID_Amaliyat",id+"");
+                                cvBedehkar.put("ID_TypeAmaliyat","9");
+                                cvBedehkar.put("Sharh_Child_Sanad","مانده اول دوره");
+
+                                cvBestankar.put("AccountsID","930");
+                                cvBestankar.put("Bestankar",etTarazEftetahie.getText().toString().replaceAll(",","").trim());
+                                cvBestankar.put("Bedehkar","0");
+                                cvBestankar.put("ID_Amaliyat",id+"");
+                                cvBestankar.put("ID_TypeAmaliyat","9");
+                                cvBestankar.put("Sharh_Child_Sanad","مانده اول دوره");
+
+                                cvBanks.put("StatusMande","بدهکار");
+                                dbMande.update("tblContacts",cvBanks,"Tafzili_ID = ?",new String[]{cursorNewTafzili.getInt(0) + 1+""});
+
+                                dbMande.insert("tblChildeSanad", null, cvBedehkar);
+                                dbMande.insert("tblChildeSanad",null,cvBestankar);
+                            }else if(mandeType.trim().equals("Bestankar")){
+                                cvBedehkar.put("AccountsID","930");
+                                cvBedehkar.put("Bedehkar",etTarazEftetahie.getText().toString().replaceAll(",","").trim());
+                                cvBedehkar.put("Bestankar","0");
+                                cvBedehkar.put("ID_Amaliyat",id+"");
+                                cvBedehkar.put("ID_TypeAmaliyat","9");
+                                cvBedehkar.put("Sharh_Child_Sanad","مانده اول دوره");
+
+                                cvBestankar.put("AccountsID","110");
+                                cvBestankar.put("Moein_ID","11003");
+                                cvBestankar.put("Tafzili_ID",cursorNewTafzili.getInt(0) + 1+"");
+                                cvBestankar.put("Bestankar",etTarazEftetahie.getText().toString().replaceAll(",","").trim());
+                                cvBestankar.put("Bedehkar","0");
+                                cvBestankar.put("ID_Amaliyat",id+"");
+                                cvBestankar.put("ID_TypeAmaliyat","9");
+                                cvBestankar.put("Sharh_Child_Sanad","مانده اول دوره");
+
+                                cvBanks.put("StatusMande","بستانکار");
+                                dbMande.update("tblHesabBanki",cvBanks,"Tafzili_ID = ?",new String[]{cursorNewTafzili.getInt(0) + 1+""});
+
+                                dbMande.insert("tblChildeSanad", null, cvBedehkar);
+                                dbMande.insert("tblChildeSanad",null,cvBestankar);
+                            }
 
 //                            List<String> accountBankName,accountShobeName,accountHesabNumbers,accountCardNumbers;
 //                            List<Integer> accountHssabIDs;

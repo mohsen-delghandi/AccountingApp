@@ -148,15 +148,18 @@
             android:visibility="gone"
             android:layout_width="wrap_content"
             android:id="@+id/textView_add_product_mojoodi"
-            android:hint="موجودی اول دوره"
+            android:hint="تراز افتتاحیه"
             android:inputType="number"
             android:nextFocusForward="@+id/editText_add_product_average_price"/>
         <EditText
             style="@style/etStyle"
             android:id="@+id/editText_add_account_banki_taraz_eftetahie"
             android:hint="تراز افتتاحیه"
+            android:layout_width="0dp"
+            android:layout_weight="2"
             android:inputType="number"
             android:nextFocusForward="@+id/editText_add_product_average_price"/>
+
     </LinearLayout>
 
     <LinearLayout

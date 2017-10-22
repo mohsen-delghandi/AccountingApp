@@ -133,6 +133,7 @@
             style="@style/etStyle"
             android:id="@+id/editText_add_transaction_check_number"
             android:hint="شماره چک"
+            android:imeOptions="actionNext"
             android:nextFocusForward="@+id/editText_add_transaction_mablagh"
             android:inputType="number"
             />
@@ -202,7 +203,7 @@
             android:completionThreshold="1"
             android:maxLines="1"
             android:singleLine="true"
-            android:imeOptions="actionDone"
+            android:imeOptions="actionNext"
             android:lines="1"
             android:nextFocusForward="@+id/textView_add_account_address"
             android:hint="نام طرف حساب"/>
@@ -282,6 +283,7 @@
             android:minLines="3"
             android:gravity="top"
             android:hint="توضیحات"
+            android:imeOptions="actionDone"
             />
     </LinearLayout>
 

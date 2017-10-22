@@ -270,6 +270,7 @@ public class BillActivity extends MainActivity {
                                     llBillFilter.setVisibility(View.VISIBLE);
                                     llBillMain.setVisibility(View.GONE);
                                     llBillVaziatKol.setVisibility(View.GONE);
+                                    fab.setVisibility(View.GONE);
                                 }
                             });
                             tvBillVaziatKol.setText(MainActivity.priceFormatter(Math.abs(Long.parseLong(billVaziatMablaghs.get(billVaziatMablaghs.size() - 1))) + ""));
