@@ -36,15 +36,27 @@
                 android:background="@drawable/shape_underline"
                 android:backgroundTint="@color/icons"
                 android:paddingBottom="@dimen/padding_spinner">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="1.5"
+                    android:gravity="center">
+
+
+
                 <ImageView
                     android:padding="@dimen/padding_box"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:text="سان"
                     android:textColor="@color/icons"
                     android:textSize="@dimen/font_xlarge"
                     android:background="@drawable/shape_underline"
-                    android:backgroundTint="@color/icons"/>
+                    android:backgroundTint="@color/icons"
+                    app:srcCompat="@drawable/navigation"
+                    android:adjustViewBounds="true"/>
+                </LinearLayout>
                 <TextView
                     android:id="@+id/textView_navigation_date"
                     android:layout_width="wrap_content"

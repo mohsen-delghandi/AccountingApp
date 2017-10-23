@@ -82,7 +82,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/shape_question"
+                    app:srcCompat="@drawable/shape_question"
                     android:background="@drawable/shape_circle"
                     android:padding="@dimen/padding_small"
                     android:layout_marginLeft="@dimen/padding_small"
@@ -91,7 +91,7 @@
                     android:id="@+id/imageView_buy_and_sell_3rd_back"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/shape_arrow_left"
+                    app:srcCompat="@drawable/shape_arrow_left"
                     android:background="@drawable/shape_circle"
                     android:padding="@dimen/padding_small"
                     />
@@ -163,7 +163,7 @@
                 <ImageView
                     android:layout_width="@dimen/dimen_xxmedium"
                     android:layout_height="@dimen/dimen_xxmedium"
-                    android:src="@drawable/jame_radif"
+                    app:srcCompat="@drawable/jame_radif"
                     android:tint="@color/primary_text"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -195,7 +195,7 @@
                 <ImageView
                     android:layout_width="@dimen/dimen_xxmedium"
                     android:layout_height="@dimen/dimen_xxmedium"
-                    android:src="@drawable/jame_meghdar"
+                    app:srcCompat="@drawable/jame_meghdar"
                     android:tint="@color/primary_text"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -227,7 +227,7 @@
                 <ImageView
                     android:layout_width="@dimen/dimen_xxmedium"
                     android:layout_height="@dimen/dimen_xxmedium"
-                    android:src="@drawable/shape_cash"
+                    app:srcCompat="@drawable/shape_cash"
                     android:tint="@color/primary_text"/>
                 <TextView
                     android:layout_width="wrap_content"

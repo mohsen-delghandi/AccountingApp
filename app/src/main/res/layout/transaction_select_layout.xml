@@ -6,7 +6,8 @@
     android:layoutDirection="rtl"
     android:background="#E6242E42"
     android:paddingRight="24dp"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:id="@+id/linearLayout_daryaft_select"
@@ -19,7 +20,7 @@
             android:scaleType="centerCrop"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/arrow_right"/>
+            app:srcCompat="@drawable/arrow_right"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,7 +42,7 @@
             android:scaleType="centerCrop"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/arrow_left"/>
+            app:srcCompat="@drawable/arrow_left"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

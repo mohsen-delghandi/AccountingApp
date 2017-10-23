@@ -96,7 +96,7 @@ android:background="@drawable/shape_underline_dashed">
                     android:layout_width="@dimen/padding_medium"
                     android:layout_height="@dimen/padding_medium"
                     android:gravity="center_vertical"
-                    android:src="@drawable/shape_arrow_down"
+                    app:srcCompat="@drawable/shape_arrow_down"
                     android:tint="@color/green"
                     android:layout_marginLeft="@dimen/padding_bit"/>
 
@@ -170,7 +170,7 @@ android:background="@drawable/shape_underline_dashed">
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/primary_dark"
                 android:padding="@dimen/padding_small"
-                android:src="@drawable/shape_arrow_drop_down" />
+                app:srcCompat="@drawable/shape_arrow_drop_down" />
 
         </LinearLayout>
 

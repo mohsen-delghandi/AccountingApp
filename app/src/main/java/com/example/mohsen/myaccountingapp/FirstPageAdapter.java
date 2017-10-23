@@ -47,7 +47,7 @@ public class FirstPageAdapter extends RecyclerView.Adapter<FirstPageAdapter.View
     }
 
     @Override
-    public FirstPageAdapter.ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
+    public FirstPageAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         v = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_item, parent, false);
         ViewHolder holder = new ViewHolder(v);
         context = parent.getContext();
@@ -69,12 +69,12 @@ public class FirstPageAdapter extends RecyclerView.Adapter<FirstPageAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(final FirstPageAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(FirstPageAdapter.ViewHolder holder,int position) {
         holder.tvCheckNumber.setText(mainCheckNumbers.get(position));
         holder.tvExp.setText(mainExps.get(position));
         holder.tvBank.setText(mainBanks.get(position));
         holder.tvAccount.setText(mainAccounts.get(position));
-        holder.tvMablagh.setText(mainMablaghs.get(position));
+        holder.tvMablagh.setText(MainActivity.priceFormatter(mainMablaghs.get(position)));
         holder.setIsRecyclable(false);
     }
 

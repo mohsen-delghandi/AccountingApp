@@ -32,7 +32,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:src="@drawable/sorathesab"/>
+                app:srcCompat="@drawable/sorathesab"/>
 
         </LinearLayout>
 
@@ -140,7 +140,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:src="@drawable/shape_arrow_right"/>
+                app:srcCompat="@drawable/shape_arrow_right"/>
 
             <TextView
                 android:paddingRight="@dimen/padding_bit"

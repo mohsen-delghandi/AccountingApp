@@ -163,7 +163,7 @@ public class BuyAndSellActivity extends MainActivity {
 //                            "AND ID_Child_Sanad <= " + cursorBilList.getString(cursorBilList.getColumnIndex("ID_Child_Sanad"))
                             , null);
                     if (cursorVaziatHesab.moveToFirst()) {
-                        if((Long.parseLong(cursorVaziatHesab.getString(cursorVaziatHesab.getColumnIndex("MandeHesab"))) < 0)){
+                        if(((int)Double.parseDouble(cursorVaziatHesab.getString(cursorVaziatHesab.getColumnIndex("MandeHesab"))) < 0)){
                             tvBedehiMablagh2nd.setTextColor(getResources().getColor(R.color.green));
                             tvBedehiVahed2nd.setTextColor(getResources().getColor(R.color.green));
                             tvBedehiDash2nd.setTextColor(getResources().getColor(R.color.green));
@@ -171,7 +171,7 @@ public class BuyAndSellActivity extends MainActivity {
                             tvBedehiText2nd.setText("بستانکار");
                             ivBedehi2nd.setImageResource(R.drawable.shape_arrow_down);
                             ivBedehi2nd.setColorFilter(getResources().getColor(R.color.green));
-                        }else if(Long.parseLong(cursorVaziatHesab.getString(cursorVaziatHesab.getColumnIndex("MandeHesab"))) > 0){
+                        }else if((int)Double.parseDouble(cursorVaziatHesab.getString(cursorVaziatHesab.getColumnIndex("MandeHesab"))) > 0){
                             tvBedehiMablagh2nd.setTextColor(getResources().getColor(R.color.red));
                             tvBedehiVahed2nd.setTextColor(getResources().getColor(R.color.red));
                             tvBedehiDash2nd.setTextColor(getResources().getColor(R.color.red));
@@ -188,9 +188,8 @@ public class BuyAndSellActivity extends MainActivity {
                             tvBedehiText2nd.setText("بی حساب");
                             ivBedehi2nd.setVisibility(View.INVISIBLE);
                         }
-                        tvBedehiMablagh2nd.setText(MainActivity.priceFormatter(Math.abs(Long.parseLong(cursorVaziatHesab.getString(cursorVaziatHesab.getColumnIndex("MandeHesab")))) + ""));
+                        tvBedehiMablagh2nd.setText(MainActivity.priceFormatter(cursorVaziatHesab.getString(cursorVaziatHesab.getColumnIndex("MandeHesab"))) + "");
                     }
-//                }
 
                 llAccountDetails2nd.setVisibility(View.VISIBLE);
                 tvPhone2nd.setText(cursorAccountDetails.getString(0));
@@ -213,7 +212,6 @@ public class BuyAndSellActivity extends MainActivity {
                 tvKharidSelect2nd.setBackground(getResources().getDrawable(R.drawable.shape_circle_dark));
                 tvForoshSelect2nd.setBackground(null);
                 mode = "Buy";
-
             }
         });
 

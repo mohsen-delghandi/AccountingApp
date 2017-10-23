@@ -21,7 +21,7 @@
             android:adjustViewBounds="true"
             android:layout_width="@dimen/dimen_xmedium"
             android:layout_height="@dimen/dimen_xmedium"
-            android:src="@drawable/calendar"
+            app:srcCompat="@drawable/calendar"
             android:layout_marginRight="@dimen/padding_spinner"/>
 
         <TextView
@@ -41,13 +41,8 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView_main"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
     </android.support.v7.widget.RecyclerView>
-
-    <TextView
-        android:visibility="invisible"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_item_height" />
 
 </LinearLayout>

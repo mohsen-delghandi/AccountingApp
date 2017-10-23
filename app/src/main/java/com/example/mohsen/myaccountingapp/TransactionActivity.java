@@ -694,7 +694,13 @@ public class TransactionActivity extends MainActivity {
                     @Override
                     public void onClick(View view) {
                         type = "Pardakht";
-                        openAddLayout(recyclerAdapter);
+                        SQLiteDatabase dbBankList = new MyDatabase(TransactionActivity.this).getReadableDatabase();
+                        Cursor cursorBankTafzilis = dbBankList.query("tblHesabBanki", new String[]{"Tafzili_ID"}, null, null, null, null, null, null);
+                        if (cursorBankTafzilis.moveToFirst()) {
+                            openAddLayout(recyclerAdapter);
+                        }else{
+                            Toast.makeText(TransactionActivity.this, "ابتدا حساب جدید تعریف کنید.", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
             }

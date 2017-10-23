@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
     android:padding="@dimen/padding_box"
     android:background="#E6242E42">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
 
     <LinearLayout
         android:layout_marginBottom="@dimen/padding_large"
@@ -70,7 +82,7 @@
                 android:id="@+id/imageView_add_transaction_help"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/shape_question"
+                app:srcCompat="@drawable/shape_question"
                 android:background="@drawable/shape_circle"
                 android:padding="@dimen/padding_small"
                 android:layout_marginLeft="@dimen/padding_small"
@@ -79,7 +91,7 @@
                 android:id="@+id/imageView_add_transaction_close"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/shape_close"
+                app:srcCompat="@drawable/shape_close"
                 android:background="@drawable/shape_circle"
                 android:padding="@dimen/padding_small"
                 />
@@ -328,5 +340,9 @@
             android:textColor="@color/icons"
             android:textSize="@dimen/font_small" />
     </LinearLayout>
+
+            </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

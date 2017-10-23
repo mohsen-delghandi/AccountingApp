@@ -35,12 +35,22 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="بانک "
+                    android:maxLines="1"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/font_medium" />
+
+                <TextView
                     android:id="@+id/textView_accounts_bankName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:text="بانک کشاورزی"
                     android:maxLines="1"
+                    app:fontPath="fonts/IRANSansWeb_Bold.ttf"
                     android:textColor="@color/primary_text"
                     android:textSize="@dimen/font_medium" />
 
@@ -52,6 +62,14 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:padding="@dimen/padding_bit">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="شعبه "
+                    android:maxLines="1"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/font_small" />
 
                 <TextView
                     android:id="@+id/textView_acounts_shobeName"
@@ -123,7 +141,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/primary_dark"
                 android:padding="@dimen/padding_small"
-                android:src="@drawable/shape_arrow_drop_down" />
+                app:srcCompat="@drawable/shape_arrow_drop_down" />
 
         </LinearLayout>
 

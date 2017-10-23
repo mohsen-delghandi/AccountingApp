@@ -6,6 +6,16 @@
     android:padding="@dimen/padding_box"
     android:background="#E6242E42">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
     <LinearLayout
         android:layout_marginBottom="@dimen/padding_large"
         android:layout_width="match_parent"
@@ -223,5 +233,9 @@
             android:paddingBottom="@dimen/padding_medium"
             android:text="ثبت"/>
     </LinearLayout>
+
+            </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

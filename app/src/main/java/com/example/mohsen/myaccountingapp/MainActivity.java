@@ -336,6 +336,11 @@ public class MainActivity extends BaseActivity {
                 mRecyclerAdapter = new NavigationAdapter(this,width,drawer,navigationMenuItemNames,classes,
                         llTransactionAttached,llBuyAndSellAttached,flAttached);
                 mNavigationRecycler.setAdapter(mRecyclerAdapter);
+
+                if(page == null){
+                    Intent i = new Intent(this,FirstPageActivity.class);
+                    startActivity(i);
+                }
             }
         }
     }

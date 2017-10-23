@@ -60,7 +60,7 @@
                 android:id="@+id/imageView_buy_and_sell_2nd_help"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/shape_question"
+                app:srcCompat="@drawable/shape_question"
                 android:background="@drawable/shape_circle"
                 android:padding="@dimen/padding_small"
                 android:layout_marginLeft="@dimen/padding_small"
@@ -69,7 +69,7 @@
                 android:id="@+id/imageView_buy_and_sell_2nd_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/shape_arrow_left"
+                app:srcCompat="@drawable/shape_arrow_left"
                 android:background="@drawable/shape_circle"
                 android:padding="@dimen/padding_small"
                 />
@@ -131,7 +131,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:src="@drawable/buy_and_sell_image"/>
+            app:srcCompat="@drawable/buy_and_sell_image"/>
 
     </LinearLayout>
 
@@ -222,7 +222,7 @@
                 android:layout_width="@dimen/padding_medium"
                 android:layout_height="@dimen/padding_medium"
                 android:gravity="center_vertical"
-                android:src="@drawable/shape_arrow_down"
+                app:srcCompat="@drawable/shape_arrow_down"
                 android:tint="@color/red"
                 android:layout_marginLeft="@dimen/padding_bit"/>
 
@@ -353,7 +353,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:src="@drawable/shape_arrow_right"/>
+            app:srcCompat="@drawable/shape_arrow_right"/>
 
         <TextView
             android:paddingRight="@dimen/padding_bit"

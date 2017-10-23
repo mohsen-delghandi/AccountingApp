@@ -55,7 +55,7 @@ public class FirstPageActivity extends MainActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        MainActivity.page = "Frist";
+        MainActivity.page = "First";
         super.onCreate(savedInstanceState);
         setInflater(this,R.layout.main_layout);
 
@@ -74,8 +74,6 @@ public class FirstPageActivity extends MainActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerManager = new LinearLayoutManager(this);
-        recyclerManager.setReverseLayout(true);
-        recyclerManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(recyclerManager);
         readChecksFromDatabase();
         recyclerAdapter = new FirstPageAdapter(mainAccounts,mainBanks,mainMablaghs,mainCheckNumbers,mainExps);
@@ -101,7 +99,7 @@ public class FirstPageActivity extends MainActivity {
                 "FROM tblCheckPardakht_Parent " +
                 "INNER JOIN tblCheckPardakht_Child ON tblCheckPardakht_Child.CheckPardakhtParent_ID = tblCheckPardakht_Parent.checkPardakhtParent_ID " +
                 "INNER JOIN tblCheckPardakht ON tblCheckPardakht.CheckPardakht_ID = tblCheckPardakht_Child.CheckPardakht_ID " +
-                "AND tblCheckPardakht.CheckPardakht_DateSarResid = " + persianDateToGeorgianDate(mDate) + " " +
+                "AND tblCheckPardakht.CheckPardakht_DateSarResid = '" + persianDateToGeorgianDate(mDate) + "' " +
                 "INNER JOIN tblContacts ON tblContacts.Tafzili_ID = tblCheckPardakht_Child.Tafzili_ID " +
                 "INNER JOIN tblTafzili ON tblTafzili.Tafzili_ID = tblCheckPardakht_Parent.Tafzili_ID",null);
         if (cursorCheckiPardakht.moveToFirst()) {

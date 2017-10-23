@@ -1,5 +1,4 @@
 package com.example.mohsen.myaccountingapp;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;

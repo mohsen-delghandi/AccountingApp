@@ -20,7 +20,7 @@
         <ImageView
             android:layout_width="@dimen/dimen_xxlarge"
             android:layout_height="@dimen/dimen_xxlarge"
-            android:src="@drawable/crm" />
+            app:srcCompat="@drawable/crm" />
 
         <LinearLayout
             android:orientation="vertical"
@@ -139,7 +139,7 @@
                 android:layout_height="match_parent"
                 android:padding="@dimen/padding_medium"
                 android:scaleType="centerInside"
-                android:src="@drawable/shape_arrow_drop_down"/>
+                app:srcCompat="@drawable/shape_arrow_drop_down"/>
 
         </LinearLayout>
 
@@ -157,7 +157,7 @@
             android:visibility="invisible"
             android:layout_width="@dimen/dimen_xxlarge"
             android:layout_height="@dimen/dimen_xxlarge"
-            android:src="@drawable/crm" />
+            app:srcCompat="@drawable/crm" />
 
 
         <LinearLayout

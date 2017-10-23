@@ -29,6 +29,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -190,7 +191,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
 //                    "AND ID_Child_Sanad <= " + cursorBilList.getString(cursorBilList.getColumnIndex("ID_Child_Sanad"))
                     , null);
             if (cursorVaziatHesab.moveToFirst()) {
-                if((Long.parseLong(cursorVaziatHesab.getString(cursorVaziatHesab.getColumnIndex("MandeHesab"))) < 0)){
+                if(((int)Double.parseDouble(cursorVaziatHesab.getString(cursorVaziatHesab.getColumnIndex("MandeHesab"))) < 0)){
                     holder.tvBedehiMablagh.setTextColor(mContext.getResources().getColor(R.color.green));
                     holder.tvBedehiVahed.setTextColor(mContext.getResources().getColor(R.color.green));
                     holder.tvBedehiDash.setTextColor(mContext.getResources().getColor(R.color.green));
@@ -198,7 +199,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
                     holder.tvBedehiText.setText("بستانکار");
                     holder.ivBedehi.setImageResource(R.drawable.shape_arrow_down);
                     holder.ivBedehi.setColorFilter(mContext.getResources().getColor(R.color.green));
-                }else if(Long.parseLong(cursorVaziatHesab.getString(cursorVaziatHesab.getColumnIndex("MandeHesab"))) > 0){
+                    }else if((int)Double.parseDouble(cursorVaziatHesab.getString(cursorVaziatHesab.getColumnIndex("MandeHesab"))) > 0){
                     holder.tvBedehiMablagh.setTextColor(mContext.getResources().getColor(R.color.red));
                     holder.tvBedehiVahed.setTextColor(mContext.getResources().getColor(R.color.red));
                     holder.tvBedehiDash.setTextColor(mContext.getResources().getColor(R.color.red));
@@ -215,7 +216,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
                     holder.tvBedehiText.setText("بی حساب");
                     holder.ivBedehi.setVisibility(View.INVISIBLE);
                 }
-                holder.tvBedehiMablagh.setText(MainActivity.priceFormatter(Math.abs(Long.parseLong(cursorVaziatHesab.getString(cursorVaziatHesab.getColumnIndex("MandeHesab")))) + ""));
+                holder.tvBedehiMablagh.setText(MainActivity.priceFormatter(cursorVaziatHesab.getString(cursorVaziatHesab.getColumnIndex("MandeHesab")).replace("-","")) + "");
             }
 //        }
 
@@ -680,7 +681,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
 //                    "AND ID_Child_Sanad <= " + cursorBilList.getString(cursorBilList.getColumnIndex("ID_Child_Sanad"))
                                     , null);
                             if (cursorVaziatHesab.moveToFirst()) {
-                                if ((Long.parseLong(cursorVaziatHesab.getString(cursorVaziatHesab.getColumnIndex("MandeHesab"))) < 0)) {
+                                if (((int)Double.parseDouble(cursorVaziatHesab.getString(cursorVaziatHesab.getColumnIndex("MandeHesab"))) < 0)) {
                                     holder.tvBedehiMablagh.setTextColor(mContext.getResources().getColor(R.color.green));
                                     holder.tvBedehiVahed.setTextColor(mContext.getResources().getColor(R.color.green));
                                     holder.tvBedehiDash.setTextColor(mContext.getResources().getColor(R.color.green));
@@ -688,7 +689,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
                                     holder.tvBedehiText.setText("بستانکار");
                                     holder.ivBedehi.setImageResource(R.drawable.shape_arrow_down);
                                     holder.ivBedehi.setColorFilter(mContext.getResources().getColor(R.color.green));
-                                } else if (Long.parseLong(cursorVaziatHesab.getString(cursorVaziatHesab.getColumnIndex("MandeHesab"))) > 0) {
+                                } else if ((int)Double.parseDouble(cursorVaziatHesab.getString(cursorVaziatHesab.getColumnIndex("MandeHesab"))) > 0) {
                                     holder.tvBedehiMablagh.setTextColor(mContext.getResources().getColor(R.color.red));
                                     holder.tvBedehiVahed.setTextColor(mContext.getResources().getColor(R.color.red));
                                     holder.tvBedehiDash.setTextColor(mContext.getResources().getColor(R.color.red));
@@ -705,7 +706,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
                                     holder.tvBedehiText.setText("بی حساب");
                                     holder.ivBedehi.setVisibility(View.INVISIBLE);
                                 }
-                                holder.tvBedehiMablagh.setText(MainActivity.priceFormatter(Math.abs(Long.parseLong(cursorVaziatHesab.getString(cursorVaziatHesab.getColumnIndex("MandeHesab")))) + ""));
+                                holder.tvBedehiMablagh.setText(MainActivity.priceFormatter(cursorVaziatHesab.getString(cursorVaziatHesab.getColumnIndex("MandeHesab")).replace("-","")) + "");
                             }
 
                             mAccountFullName.set(position, (et_fullName).getText().toString().trim());

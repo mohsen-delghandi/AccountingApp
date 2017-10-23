@@ -49,7 +49,7 @@
                 android:id="@+id/imageView_buy_and_sell_label"
                 android:layout_width="@dimen/dimen_xxmedium"
                 android:layout_height="match_parent"
-                android:src="@drawable/buy_image"/>
+                app:srcCompat="@drawable/buy_image"/>
 
         </LinearLayout>
 
@@ -167,7 +167,7 @@
                 android:adjustViewBounds="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/arrow_left_image"
+                app:srcCompat="@drawable/arrow_left_image"
                 android:backgroundTint="@color/primary_dark"
                 android:padding="@dimen/padding_medium"/>
 

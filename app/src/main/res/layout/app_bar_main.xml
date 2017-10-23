@@ -41,7 +41,7 @@
                     android:id="@+id/imageView_navigation_menu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/shape_hamburger"
+                    app:srcCompat="@drawable/shape_hamburger"
                     android:paddingRight="@dimen/padding_medium"
                     android:paddingLeft="@dimen/padding_medium"
                     android:paddingTop="@dimen/padding_small"
@@ -55,7 +55,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/shape_home"
+                    app:srcCompat="@drawable/shape_home"
                     android:paddingRight="@dimen/padding_medium"
                     android:paddingLeft="@dimen/padding_medium"
                     android:paddingTop="@dimen/padding_small"
@@ -115,7 +115,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/shape_question"
+                    app:srcCompat="@drawable/shape_question"
                     android:background="@drawable/shape_circle"
                     android:padding="@dimen/padding_small"
                     android:layout_marginLeft="@dimen/padding_small"
@@ -123,7 +123,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/shape_search"
+                    app:srcCompat="@drawable/shape_search"
                     android:background="@drawable/shape_circle"
                     android:padding="@dimen/padding_small"
                     />
@@ -317,7 +317,7 @@
                 <ImageView
                     android:layout_width="@dimen/dimen_xxmedium"
                     android:layout_height="@dimen/dimen_xxmedium"
-                    android:src="@drawable/shape_cash"
+                    app:srcCompat="@drawable/shape_cash"
                     android:tint="@color/primary_text"/>
                 <TextView
                     android:layout_marginRight="@dimen/padding_medium"

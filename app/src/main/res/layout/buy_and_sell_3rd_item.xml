@@ -24,7 +24,7 @@
             android:id="@+id/imageView_product_image_3rd"
             android:layout_width="@dimen/dimen_xxlarge"
             android:layout_height="@dimen/dimen_xxlarge"
-            android:src="@drawable/crm" />
+            app:srcCompat="@drawable/crm" />
 
         <LinearLayout
             android:orientation="vertical"
@@ -122,7 +122,7 @@
                     android:id="@+id/imageView_product_up_3rd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/arrow_up_image"/>
+                    app:srcCompat="@drawable/arrow_up_image"/>
 
                 <Space
                     android:layout_width="wrap_content"
@@ -132,7 +132,7 @@
                     android:id="@+id/imageView_product_down_3rd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/arrow_down_image"/>
+                    app:srcCompat="@drawable/arrow_down_image"/>
 
             </LinearLayout>
 

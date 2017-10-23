@@ -23,7 +23,7 @@
         <ImageView
             android:layout_width="@dimen/dimen_xxlarge"
             android:layout_height="@dimen/dimen_xxlarge"
-            android:src="@drawable/crm" />
+            app:srcCompat="@drawable/crm" />
 
         <LinearLayout
             android:orientation="vertical"
