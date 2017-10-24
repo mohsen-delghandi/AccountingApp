@@ -18,8 +18,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Mohsen on 2017-09-18.
@@ -163,15 +165,75 @@ public class ProductsActivity extends MainActivity {
                 tvSave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+
                         SQLiteDatabase db = new MyDatabase(ProductsActivity.this).getWritableDatabase();
-                        ContentValues cv = new ContentValues();
-                        cv.put("Name_Kala",etName.getText().toString().trim());
-                        cv.put("Fk_VahedKalaAsli",unitID[0]);
-                        cv.put("GheymatKharidAsli",etBuyPrice.getText().toString().replaceAll(",","").trim());
-                        cv.put("GheymatForoshAsli",etSellPrice.getText().toString().replaceAll(",","").trim());
-                        cv.put("MojodiAvalDore",etMojoodi.getText().toString().trim());
-                        cv.put("MianginFiAvalDovre",etAveragePrice.getText().toString().replaceAll(",","").trim());
-                        long id = db.insert("TblKala",null,cv);
+                        ContentValues cvKala = new ContentValues();
+                        cvKala.put("Name_Kala", etName.getText().toString().trim());
+                        cvKala.put("Fk_VahedKalaAsli", unitID[0]);
+                        cvKala.put("GheymatKharidAsli", etBuyPrice.getText().toString().replaceAll(",", "").trim());
+                        cvKala.put("GheymatForoshAsli", etSellPrice.getText().toString().replaceAll(",", "").trim());
+                        cvKala.put("MojodiAvalDore", etMojoodi.getText().toString().trim());
+                        cvKala.put("MianginFiAvalDovre", etAveragePrice.getText().toString().replaceAll(",", "").trim());
+                        Cursor cursorMaxSrialSand2 = db.query("tblParentSanad", new String[]{"IFNULL(MAX(Serial_Sanad),0)"}, null, null, null, null, null);
+                        if (cursorMaxSrialSand2.moveToFirst()) {
+                            cvKala.put("SerialSanadEftetahiye", (Integer.parseInt(cursorMaxSrialSand2.getString(0)) + 1) + "");
+                        }
+                        long id = db.insert("TblKala", null, cvKala);
+
+                        if(etMojoodi.getText().toString().replaceAll(",","").trim()!="" && etMojoodi.getText().toString().replaceAll(",","").trim()!="0") {
+                            SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                            final String currentDate = format2.format(new java.util.Date());
+
+                            SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.getDefault());
+                            final String currentTime = format.format(new java.util.Date());
+
+
+                            SQLiteDatabase dbKala = new MyDatabase(ProductsActivity.this).getWritableDatabase();
+                            ContentValues cvBedehkar = new ContentValues();
+                            ContentValues cvBestankar = new ContentValues();
+                            ContentValues cvParentSanad = new ContentValues();
+                            Cursor cursorMaxSrialSand = dbKala.query("tblParentSanad", new String[]{"IFNULL(MAX(Serial_Sanad),0)"}, null, null, null, null, null);
+                            if (cursorMaxSrialSand.moveToFirst()) {
+                                cvParentSanad.put("Serial_Sanad", (Integer.parseInt(cursorMaxSrialSand.getString(0)) + 1) + "");
+                                cvBedehkar.put("Serial_Sanad", (Integer.parseInt(cursorMaxSrialSand.getString(0)) + 1) + "");
+                                cvBestankar.put("Serial_Sanad", (Integer.parseInt(cursorMaxSrialSand.getString(0)) + 1) + "");
+                            }
+
+                            Cursor cursorMaxNumberSand = dbKala.query("tblParentSanad", new String[]{"IFNULL(MAX(Number_Sanad),0)"}, null, null, null, null, null);
+                            if (cursorMaxNumberSand.moveToFirst()) {
+                                cvParentSanad.put("Number_Sanad", (Integer.parseInt(cursorMaxNumberSand.getString(0)) + 1) + "");
+                            }
+                            cvParentSanad.put("StatusSanadID", "3");
+                            cvParentSanad.put("TypeSanad_ID", "5");
+                            cvParentSanad.put("Date_Sanad", currentDate);
+                            cvParentSanad.put("Time_Sanad", currentTime);
+                            cvParentSanad.put("Taraz_Sanad", "1");
+                            cvParentSanad.put("Error_Sanad", "0");
+                            cvParentSanad.put("Edited_Sanad", "0");
+                            cvParentSanad.put("Deleted_Sanad", "0");
+
+                            dbKala.insert("tblParentSanad", null, cvParentSanad);
+
+                            cvBedehkar.put("AccountsID", "150");
+                            cvBedehkar.put("Moein_ID", "15003");
+                            cvBedehkar.put("Bedehkar", Integer.parseInt(etMojoodi.getText().toString().replaceAll(",", "").trim()) *
+                                    Integer.parseInt(etAveragePrice.getText().toString().replaceAll(",", "").trim()) + "");
+                            cvBedehkar.put("Bestankar", "0");
+                            cvBedehkar.put("ID_Amaliyat", id + "");
+                            cvBedehkar.put("ID_TypeAmaliyat", "9");
+                            cvBedehkar.put("Sharh_Child_Sanad", "موجودی اول دوره");
+
+                            cvBestankar.put("AccountsID", "930");
+                            cvBestankar.put("Bestankar", Integer.parseInt(etMojoodi.getText().toString().replaceAll(",", "").trim()) *
+                                    Integer.parseInt(etAveragePrice.getText().toString().replaceAll(",", "").trim()) + "");
+                            cvBestankar.put("Bedehkar", "0");
+                            cvBestankar.put("ID_Amaliyat", id + "");
+                            cvBestankar.put("ID_TypeAmaliyat", "9");
+                            cvBestankar.put("Sharh_Child_Sanad", "موجودی اول دوره");
+
+                            dbKala.insert("tblChildeSanad", null, cvBedehkar);
+                            dbKala.insert("tblChildeSanad", null, cvBestankar);
+                        }
 
                         productName.add(etName.getText().toString().trim());
                         productBuyPrice.add(etBuyPrice.getText().toString().replaceAll(",","").trim());
@@ -186,7 +248,7 @@ public class ProductsActivity extends MainActivity {
 //                        recyclerAdapter.notifyItemInserted(productIDs.size()-1);
                         recyclerAdapter.notifyDataSetChanged();
 
-                        db.close();
+                            db.close();
 
                         Toast.makeText(ProductsActivity.this, "با موفقیت ذخیره شد.", Toast.LENGTH_SHORT).show();
                         cleanFrom();

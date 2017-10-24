@@ -29,7 +29,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -241,7 +240,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
             @Override
             public void onClick(View view) {
 
-                final CustomDialogClass cdd = new CustomDialogClass(mContext);
+                final ConfirmDialogClass cdd = new ConfirmDialogClass(mContext);
                 cdd.show();
                 Window window = cdd.getWindow();
                 window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);

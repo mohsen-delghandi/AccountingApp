@@ -1,11 +1,9 @@
 package com.example.mohsen.myaccountingapp;
 
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.preference.EditTextPreference;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
@@ -27,7 +25,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alirezaafkar.sundatepicker.DatePicker;
-import com.alirezaafkar.sundatepicker.components.JDF;
 import com.alirezaafkar.sundatepicker.interfaces.DateSetListener;
 
 import java.util.ArrayList;
@@ -195,7 +192,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
             @Override
             public void onClick(View view) {
 
-                final CustomDialogClass cdd = new CustomDialogClass(mContext);
+                final ConfirmDialogClass cdd = new ConfirmDialogClass(mContext);
                 cdd.show();
                 Window window = cdd.getWindow();
                 window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);

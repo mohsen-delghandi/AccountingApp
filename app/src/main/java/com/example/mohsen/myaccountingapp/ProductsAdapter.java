@@ -140,7 +140,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
             @Override
             public void onClick(View view) {
 
-                final CustomDialogClass cdd = new CustomDialogClass(mContext);
+                final ConfirmDialogClass cdd = new ConfirmDialogClass(mContext);
                 cdd.show();
                 Window window = cdd.getWindow();
                 window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);

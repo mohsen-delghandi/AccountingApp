@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layoutDirection="rtl"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/primary_dark">
+
+    <TableLayout
+        android:id="@+id/tableLayout_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:paddingBottom="@dimen/padding_spinner"
+                android:paddingLeft="@dimen/padding_bit"
+                android:paddingRight="@dimen/padding_bit"
+                android:paddingTop="@dimen/padding_spinner"
+                android:text="قیمت جدید"
+                android:textColor="@color/icons"
+                android:textSize="@dimen/font_medium" />
+
+            <EditText
+                android:id="@+id/editText_dialog"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:background="@drawable/shape_border"
+                android:backgroundTint="@color/icons"
+                android:gravity="center"
+                android:inputType="number"
+                android:padding="@dimen/padding_bit"
+                android:textColor="@color/primary_dark"
+                android:textSize="@dimen/font_medium" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingBottom="@dimen/padding_spinner"
+                android:paddingLeft="@dimen/padding_bit"
+                android:paddingRight="@dimen/padding_bit"
+                android:paddingTop="@dimen/padding_spinner"
+                android:text="ریال"
+                android:textColor="@color/icons"
+                android:textSize="@dimen/font_medium" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_medium"
+            android:gravity="left"
+            android:weightSum="4">
+
+            <TextView
+                android:id="@+id/textView_ok"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="@dimen/padding_medium"
+                android:text="تایید"
+                android:textColor="@color/icons"
+                android:textSize="@dimen/font_small" />
+
+            <TextView
+                android:id="@+id/textView_cancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="@dimen/padding_medium"
+                android:text="انصراف"
+                android:textColor="@color/icons"
+                android:textSize="@dimen/font_small" />
+
+        </TableRow>
+
+    </TableLayout>
+
+</FrameLayout>

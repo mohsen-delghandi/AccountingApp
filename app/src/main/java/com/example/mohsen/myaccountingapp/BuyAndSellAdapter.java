@@ -1,40 +1,20 @@
 package com.example.mohsen.myaccountingapp;
 
-import android.Manifest;
-import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.media.Image;
-import android.net.Uri;
-import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextWatcher;
-import android.transition.ChangeBounds;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -145,7 +125,7 @@ public class BuyAndSellAdapter extends RecyclerView.Adapter<BuyAndSellAdapter.Vi
         holder.tvDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final CustomDialogClass cdd = new CustomDialogClass(mContext);
+                final ConfirmDialogClass cdd = new ConfirmDialogClass(mContext);
                 cdd.show();
                 Window window = cdd.getWindow();
                 window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);

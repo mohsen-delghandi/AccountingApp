@@ -1,42 +1,22 @@
 package com.example.mohsen.myaccountingapp;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
-import android.net.Uri;
-import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.transition.ChangeBounds;
-import android.view.Display;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -143,8 +123,63 @@ public class ProductsListSelectAdapter extends RecyclerView.Adapter<ProductsList
     public void onBindViewHolder(final ProductsListSelectAdapter.ViewHolder holder, final int position) {
         holder.tvName.setText(mProductName.get(position));
         holder.tvUnit.setText(mProductUnit.get(position));
-        holder.tvSellPrice.setText(mProductSellPrice.get(position));
+        holder.tvSellPrice.setText(MainActivity.priceFormatter(mProductSellPrice.get(position)));
         holder.setIsRecyclable(false);
+
+        holder.tvSellPrice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                final EditTextDialogClass cdd = new EditTextDialogClass(mContext);
+                cdd.show();
+                cdd.et.setText(holder.tvSellPrice.getText().toString().trim());
+                Window window = cdd.getWindow();
+                window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                cdd.et.addTextChangedListener(new NumberTextWatcher(cdd.et));
+                cdd.yes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(!cdd.et.getText().toString().trim().equals("")){
+                            holder.tvSellPrice.setText(MainActivity.priceFormatter(cdd.et.getText().toString().replaceAll(",","").trim()));
+                            mProductSellPrice.set(position,cdd.et.getText().toString().replaceAll(",","").trim());
+
+                            final ConfirmDialogClass cdd2 = new ConfirmDialogClass(mContext);
+                            cdd2.show();
+
+                            Window window = cdd2.getWindow();
+                            window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                            cdd2.text.setText("پایگاه داده ویرایش شود؟");
+                            cdd2.yes.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    SQLiteDatabase db = new MyDatabase(mContext).getWritableDatabase();
+                                    ContentValues cv = new ContentValues();
+                                    cv.put("GheymatForoshAsli",holder.tvSellPrice.getText().toString().replaceAll(",","").trim());
+                                    db.update("TblKala",cv,"ID_Kala = ?",new String[]{mProductIDs.get(position)+""});
+
+                                    cdd2.dismiss();
+                                }
+                            });
+                            cdd2.no.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    cdd2.dismiss();
+                                }
+                            });
+                        }
+
+                        cdd.dismiss();
+                    }
+                });
+                cdd.no.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        cdd.dismiss();
+                    }
+                });
+            }
+        });
 
         holder.ivUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,7 +207,7 @@ public class ProductsListSelectAdapter extends RecyclerView.Adapter<ProductsList
                         for (int i = 0; i < mBasketProductMablagh.size(); i++) {
                             jameMablagh += mBasketProductMablagh.get(i) * mBasketProductMeghdar.get(i);
                         }
-                        mTvJameMablagh.setText(jameMablagh + "");
+                        mTvJameMablagh.setText(MainActivity.priceFormatter(jameMablagh+""));
                     } else {
                         Toast.makeText(mContext, "حداکثر موجودی انتخاب شده است.", Toast.LENGTH_SHORT).show();
                     }
@@ -198,7 +233,7 @@ public class ProductsListSelectAdapter extends RecyclerView.Adapter<ProductsList
                     for (int i = 0; i < mBasketProductMablagh.size(); i++) {
                         jameMablagh += mBasketProductMablagh.get(i) * mBasketProductMeghdar.get(i);
                     }
-                    mTvJameMablagh.setText(jameMablagh + "");
+                    mTvJameMablagh.setText(MainActivity.priceFormatter(jameMablagh+""));
                 }
             }
         });
@@ -225,7 +260,7 @@ public class ProductsListSelectAdapter extends RecyclerView.Adapter<ProductsList
                         for (int i = 0; i < mBasketProductMablagh.size(); i++) {
                             jameMablagh += mBasketProductMablagh.get(i) * mBasketProductMeghdar.get(i);
                         }
-                        mTvJameMablagh.setText(jameMablagh + "");
+                        mTvJameMablagh.setText(MainActivity.priceFormatter(jameMablagh+""));
                     }
                 }
             }
@@ -235,7 +270,7 @@ public class ProductsListSelectAdapter extends RecyclerView.Adapter<ProductsList
             @Override
             public void onClick(View view) {
 
-                final CustomDialogClass cdd = new CustomDialogClass(mContext);
+                final ConfirmDialogClass cdd = new ConfirmDialogClass(mContext);
                 cdd.show();
                 Window window = cdd.getWindow();
                 window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
