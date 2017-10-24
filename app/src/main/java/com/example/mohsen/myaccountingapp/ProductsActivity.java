@@ -180,7 +180,8 @@ public class ProductsActivity extends MainActivity {
                         }
                         long id = db.insert("TblKala", null, cvKala);
 
-                        if(etMojoodi.getText().toString().replaceAll(",","").trim()!="" && etMojoodi.getText().toString().replaceAll(",","").trim()!="0") {
+                        if(etMojoodi.getText().toString().replaceAll(",","").trim()!="" && etMojoodi.getText().toString().replaceAll(",","").trim()!="0" &&
+                                etAveragePrice.getText().toString().replaceAll(",","").trim()!="" && etAveragePrice.getText().toString().replaceAll(",","").trim()!="0") {
                             SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                             final String currentDate = format2.format(new java.util.Date());
 
