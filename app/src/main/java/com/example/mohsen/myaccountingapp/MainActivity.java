@@ -67,6 +67,7 @@ public class MainActivity extends BaseActivity {
 
     LayoutInflater inflater;
     NestedScrollView ns;
+    NavigationView navigationView;
 
     RecyclerView mNavigationRecycler;
     LinearLayoutManager mRecyclerManager;
@@ -82,7 +83,7 @@ public class MainActivity extends BaseActivity {
 
     ImageView ivNav;
 
-    NavigationView navigationView;
+
 
 //    ResideMenu resideMenu;
 
@@ -115,7 +116,6 @@ public class MainActivity extends BaseActivity {
             e.printStackTrace();
         }
         DatePersian dp = new DatePersian();
-//        JDF jdf = new JDF(date1.getYear(),date1.getMonth(),date1.getDay());
         Calendar cal = Calendar.getInstance();
         cal.setTime(date1);
         dp.setDate(new JDF(cal));
