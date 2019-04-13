@@ -1,5 +1,5 @@
 package com.example.mohsen.myaccountingapp;
-import android.content.Context;
+
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -7,10 +7,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
@@ -22,7 +20,6 @@ import com.alirezaafkar.sundatepicker.DatePicker;
 import com.alirezaafkar.sundatepicker.components.JDF;
 import com.alirezaafkar.sundatepicker.interfaces.DateSetListener;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -33,19 +30,17 @@ import java.util.List;
 
 public class BillActivity extends MainActivity {
 
-    RecyclerView billRecyclerView,billListRecyclerView;
-    RecyclerView.LayoutManager recyclerManager,recyclerManagerBillList;
-    RecyclerView.Adapter recyclerAdapter,recyclerAdapterBillList;
+    RecyclerView billRecyclerView, billListRecyclerView;
+    RecyclerView.LayoutManager recyclerManager, recyclerManagerBillList;
+    RecyclerView.Adapter recyclerAdapter, recyclerAdapterBillList;
 
     LayoutInflater inflaterInclude;
 
-    TextView tvKharidSelect2nd,tvForoshSelect2nd,tvFactorCode2nd,tvAccountBedehi2nd
-            ,tvPhone2nd,tvMobile2nd,tvAddress2nd
-            ,tvStartDate,tvEndDate;
+    TextView tvKharidSelect2nd, tvForoshSelect2nd, tvFactorCode2nd, tvAccountBedehi2nd, tvPhone2nd, tvMobile2nd, tvAddress2nd, tvStartDate, tvEndDate;
 
-    LinearLayout llBillMain,llBillFilter,llTayidFilter;
+    LinearLayout llBillMain, llBillFilter, llTayidFilter;
     AutoCompleteTextView atvAccounts;
-    ImageView ivHelpFilter,ivBackFilter;
+    ImageView ivHelpFilter, ivBackFilter;
 
     List<String> billTypes;
     List<String> billMablaghs;
@@ -57,18 +52,18 @@ public class BillActivity extends MainActivity {
 
     LinearLayout llTayid3rd;
 
-    String dateStart,dateEnd;
+    String dateStart, dateEnd;
 
-    DatePersian mDateStart,mDateEnd;
+    DatePersian mDateStart, mDateEnd;
 
     int factorCode;
 
     @Override
     public void onBackPressed() {
-        if(llAddLayer.getVisibility()==View.VISIBLE){
+        if (llAddLayer.getVisibility() == View.VISIBLE) {
 //            llAddLayer.setVisibility(View.GONE);
 //            fab.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             super.onBackPressed();
         }
     }
@@ -78,9 +73,9 @@ public class BillActivity extends MainActivity {
         MainActivity.page = "Bill";
         super.onCreate(savedInstanceState);
 
-        setInflater(this,R.layout.bill_show_layout);
+        setInflater(this, R.layout.bill_show_layout);
 
-        final LinearLayout llBillVaziatKol = (LinearLayout)findViewById(R.id.linearLayout_bill_vazia_kol);
+        final LinearLayout llBillVaziatKol = (LinearLayout) findViewById(R.id.linearLayout_bill_vazia_kol);
         final TextView tvBillVaziatKol = (TextView) findViewById(R.id.textView_bill_vaziat_kol);
 
         tvFarsiTitle.setText("صورت حساب");
@@ -89,8 +84,8 @@ public class BillActivity extends MainActivity {
 
         fab.setVisibility(View.GONE);
 
-        llBillFilter = (LinearLayout)findViewById(R.id.linearLayout_bill_filter);
-        llBillMain = (LinearLayout)findViewById(R.id.linearLayout_bill_main);
+        llBillFilter = (LinearLayout) findViewById(R.id.linearLayout_bill_filter);
+        llBillMain = (LinearLayout) findViewById(R.id.linearLayout_bill_main);
 
         llBillFilter.setVisibility(View.VISIBLE);
         llBillMain.setVisibility(View.GONE);
@@ -102,15 +97,15 @@ public class BillActivity extends MainActivity {
             }
         });
 
-        tvStartDate = (TextView)findViewById(R.id.textView_bill_filter_startDate);
-        tvEndDate = (TextView)findViewById(R.id.textView_bill_filter_endDate);
+        tvStartDate = (TextView) findViewById(R.id.textView_bill_filter_startDate);
+        tvEndDate = (TextView) findViewById(R.id.textView_bill_filter_endDate);
 
         mDateStart = new DatePersian();
         dateStart = persianDateToGeorgianDate(mDateStart);
         tvStartDate.setText(dateToText(mDateStart));
 
         Calendar cal = mDateStart.getCalendar();
-        cal.add(Calendar.DAY_OF_MONTH,1);
+        cal.add(Calendar.DAY_OF_MONTH, 1);
         mDateEnd = new DatePersian();
         mDateEnd.setDate(new JDF(cal));
         dateEnd = persianDateToGeorgianDate(mDateEnd);
@@ -132,7 +127,7 @@ public class BillActivity extends MainActivity {
                         dateStart = persianDateToGeorgianDate(mDateStart);
                         tvStartDate.setText(dateToText(mDateStart));
 
-                        if(mDateEnd.getCalendar().compareTo(mDateStart.getCalendar())<=0) {
+                        if (mDateEnd.getCalendar().compareTo(mDateStart.getCalendar()) <= 0) {
                             calendar.add(Calendar.DAY_OF_MONTH, 1);
                             mDateEnd.setDate(new JDF(calendar));
                             dateEnd = persianDateToGeorgianDate(mDateEnd);
@@ -157,9 +152,9 @@ public class BillActivity extends MainActivity {
                     public void onDateSet(int id, @Nullable Calendar calendar, int day, int month, int year) {
                         DatePersian dp = new DatePersian();
                         dp.setDate(day, month, year);
-                        if(dp.getCalendar().compareTo(mDateStart.getCalendar())<=0){
+                        if (dp.getCalendar().compareTo(mDateStart.getCalendar()) <= 0) {
                             Toast.makeText(BillActivity.this, "تاریخ صحیح را وارد کنید.", Toast.LENGTH_SHORT).show();
-                        }else{
+                        } else {
                             mDateEnd.setDate(day, month, year);
                             dateEnd = persianDateToGeorgianDate(mDateEnd);
                             tvEndDate.setText(dateToText(mDateEnd));
@@ -169,33 +164,33 @@ public class BillActivity extends MainActivity {
             }
         });
 
-        llTayidFilter = (LinearLayout)findViewById(R.id.linearLayout_bil_filter_tayid);
+        llTayidFilter = (LinearLayout) findViewById(R.id.linearLayout_bil_filter_tayid);
 
         atvAccounts = (AutoCompleteTextView) findViewById(R.id.autoTextView_bill_filter_account);
 
         SQLiteDatabase dbAccounts = new MyDatabase(BillActivity.this).getReadableDatabase();
-        Cursor cursorAccounts = dbAccounts.query("tblContacts",new String[]{"FullName"},null,null,null,null,null,null);
+        Cursor cursorAccounts = dbAccounts.query("tblContacts", new String[]{"FullName"}, null, null, null, null, null, null);
         List<String> listAccounts = new ArrayList<String>();
-        if(cursorAccounts.moveToFirst()){
-            do{
+        if (cursorAccounts.moveToFirst()) {
+            do {
                 listAccounts.add(cursorAccounts.getString(0));
-            }while (cursorAccounts.moveToNext());
+            } while (cursorAccounts.moveToNext());
         }
         cursorAccounts.close();
 
-        ArrayAdapter<String> adapterAccounts = new ArrayAdapter<String>(BillActivity.this,android.R.layout.simple_list_item_1,listAccounts);
+        ArrayAdapter<String> adapterAccounts = new ArrayAdapter<String>(BillActivity.this, android.R.layout.simple_list_item_1, listAccounts);
         atvAccounts.setAdapter(adapterAccounts);
 
         llTayidFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(atvAccounts.getText().toString().trim().equals("")){
+                if (atvAccounts.getText().toString().trim().equals("")) {
                     Toast.makeText(BillActivity.this, "لطفا طرف حساب را مشخص کنید.", Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
                     SQLiteDatabase dbShowAccount = new MyDatabase(BillActivity.this).getReadableDatabase();
-                    Cursor cursorShowAccount = dbShowAccount.query("tblContacts",new String[]{"Tafzili_ID"},"FullName = ?",new String[]{atvAccounts.getText().toString().trim()+""},null,null,null);
+                    Cursor cursorShowAccount = dbShowAccount.query("tblContacts", new String[]{"Tafzili_ID"}, "FullName = ?", new String[]{atvAccounts.getText().toString().trim() + ""}, null, null, null);
 
-                    if(cursorShowAccount.moveToFirst()){
+                    if (cursorShowAccount.moveToFirst()) {
                         accountTafziliIDs = new ArrayList<Integer>();
                         accountTafziliIDs.add(cursorShowAccount.getInt(0));
                     }
@@ -204,9 +199,9 @@ public class BillActivity extends MainActivity {
                     InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                     inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
 
-                    if(accountTafziliIDs == null){
+                    if (accountTafziliIDs == null) {
                         Toast.makeText(BillActivity.this, "طرف حساب معتبر نیست.", Toast.LENGTH_SHORT).show();
-                    }else{
+                    } else {
                         SQLiteDatabase dbBillList = new MyDatabase(BillActivity.this).getReadableDatabase();
                         Cursor cursorBilList = dbBillList.rawQuery("SELECT " +
                                 "TblActionTypeSanad.OnvanAction, " +
